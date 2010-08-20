@@ -51,18 +51,19 @@
         </init-param>
     </filter>-->
 
-    <filter>
+    <!-- <filter>
         <filter-name>sitemesh</filter-name>
         <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
-    </filter>
+    </filter> -->
 
-    <!-- Context Configuration locations for Spring XML files -->
+    <!-- Context Configuration locations for Spring XML files
+    		classpath:/applicationContext-resources.xml
+            classpath:/applicationContext-dao.xml
+            classpath:/applicationContext-service.xml 
+    -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:/applicationContext-resources.xml
-            classpath:/applicationContext-dao.xml
-            classpath:/applicationContext-service.xml
             /WEB-INF/applicationContext*.xml
         </param-value>
     </context-param>
@@ -84,12 +85,12 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>-->
 
-    <filter-mapping>
+    <!--<filter-mapping>
         <filter-name>sitemesh</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <filter-mapping>
         <filter-name>exportFilter</filter-name>

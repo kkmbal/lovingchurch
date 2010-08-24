@@ -5,8 +5,8 @@
 
     <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern"
-                value="%p - %C{1}.%M(%L) | %m%n"/>
+            <!-- param name="ConversionPattern" value="%p - %C{1}.%M(%L) | %m%n"/ -->
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p [%c] : %m%n" />
         </layout>
     </appender>
 
@@ -41,6 +41,10 @@
     </logger>
    
     <logger name="org.appfuse">
+        <level value="DEBUG"/>
+    </logger>
+    
+    <logger name="lc">
         <level value="DEBUG"/>
     </logger>
 

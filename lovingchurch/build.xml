@@ -95,7 +95,7 @@
         <fail unless="junit.present"
             message="Please copy ~/.m2/repository/junit/junit/4.4/junit-4.4.jar into ${env.ANT_HOME}/lib"/>
 
-        <mkdir dir="${test.dir}/data"/>
+        <!-- mkdir dir="${test.dir}/data"/ -->
         <junit printsummary="no" fork="true" forkmode="once"
             errorProperty="test.failed" failureProperty="test.failed">
             <classpath>

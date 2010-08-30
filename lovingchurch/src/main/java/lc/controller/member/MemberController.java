@@ -18,7 +18,7 @@ public class MemberController extends LcController {
 	@Resource(name="MemberService")
 	public MemberService memberService;
 	
-    @RequestMapping("/users.*")
+    @RequestMapping("/memberList.*")
     public String execute(ModelMap model) throws Exception{
     	Map map = new HashMap();
     	log.debug(memberService);
@@ -26,6 +26,6 @@ public class MemberController extends LcController {
     	List list = memberService.getUsers(map);
         
         model.addAttribute("userList", list);
-        return "userList";
+        return "memberList";
     }
 }

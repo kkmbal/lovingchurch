@@ -19,7 +19,7 @@ public class MemberServiceImpl extends LcService implements MemberService{
 		try{
 			log.debug(lcDAO);
 			log.debug(lcDAO.getSqlMapClient());
-			list = lcDAO.getSqlMapClient().queryForList("selectUsers");
+			list = lcDAO.getSqlMapClient().queryForList("selectUsers", null);
 			log.debug(list);
 		}catch(Exception e){
 			log.error(e.toString(), e);

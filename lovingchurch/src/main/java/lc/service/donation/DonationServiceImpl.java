@@ -11,7 +11,7 @@ import lc.common.LcService;
 
 import org.springframework.stereotype.Service;
 
-@Service("MemberService")
+@Service("DonationService")
 public class DonationServiceImpl extends LcService implements DonationService{
 	
 	public List<Map> getUsers(Map map) throws LcException{

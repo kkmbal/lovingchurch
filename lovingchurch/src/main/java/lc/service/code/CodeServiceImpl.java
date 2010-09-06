@@ -11,7 +11,7 @@ import lc.common.LcService;
 
 import org.springframework.stereotype.Service;
 
-@Service("MemberService")
+@Service("CodeService")
 public class CodeServiceImpl extends LcService implements CodeService{
 	
 	public List<Map> getCodeList(Map map) throws LcException{

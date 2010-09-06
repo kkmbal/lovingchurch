@@ -29,6 +29,6 @@ public class DonationController extends LcController {
     	List list = memberService.getUsers(map);
         
         model.addAttribute("userList", list);
-        return "member/memberList";
+        return "donation/donationList";
     }
 }

@@ -33,7 +33,7 @@ function submitData(n){
 		</td>
 	</tr>
 </table>
-<form name="fm">
+<form name="fm" action="" method="post">
 <table width="90%" border="1" cellspacing="0"  style="border-left : 1px solid #ACA899;">
 	<tr>
 		<td> </td>

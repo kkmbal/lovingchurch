@@ -34,5 +34,6 @@ public class DonationController extends LcController {
         model.addAttribute("donationList", donationService.getDonationList(map));
         model.addAttribute("codeList", codeService.getCodeList(map));
         return "donation/donationList";
+        
     }
 }

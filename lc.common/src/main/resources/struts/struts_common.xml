@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<!--
+<struts>
+  <package name="employee" extends="struts-default" namespace="/employee">
+    <default-interceptor-ref name="crudStack"/>
+
+    <action name="list" method="list"
+      class="org.apache.struts2.showcase.action.EmployeeAction" >
+        <result>/empmanager/listEmployees.jsp</result>
+        <interceptor-ref name="basicStack"/>
+    </action>
+    <action name="edit-*" class="org.apache.struts2.showcase.action.EmployeeAction">
+      <param name="empId">{1}</param>
+      <result>/empmanager/editEmployee.jsp</result>
+        <interceptor-ref name="crudStack">
+          <param name="validation.excludeMethods">execute</param>
+        </interceptor-ref>
+      </action>
+      <action name="save" method="save"
+          class="org.apache.struts2.showcase.action.EmployeeAction" >
+        <result name="input">/empmanager/editEmployee.jsp</result>
+        <result type="redirect">edit-${currentEmployee.empId}.action</result>
+      </action>
+      <action name="delete" method="delete"
+        class="org.apache.struts2.showcase.action.EmployeeAction" >
+        <result name="error">/empmanager/editEmployee.jsp</result>
+        <result type="redirect">edit-${currentEmployee.empId}.action</result>
+      </action>
+  </package>
+</struts>
+
+  
+-->
+
+<struts>
+
+	<package name="mvoip_common" extends="struts-default">
+      <interceptors>
+         <interceptor name="login" class="com.mvoipcenter.common.login.LoginInterceptor"/>
+      </interceptors>
+
+        <global-results>
+            <result name="Exception">/500.jsp</result>
+        </global-results>
+        <global-exception-mappings>
+            <exception-mapping exception="com.mvoipcenter.common.exception.MException" result="Exception"/>
+        </global-exception-mappings> 
+
+		<action name="index">
+			<result>/index.jsp</result>
+		</action>
+		
+		<!--  
+		<action name="*Board" class="faqBoardAction" method="{1}">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <interceptor-ref name="token">
+	        	<param name="excludeMethods">view,input,insert</param>
+    		</interceptor-ref>
+		
+			<result name="input">/500.jsp</result>
+			<result name="success">/WEB-INF/jsp/board/list.jsp</result>
+			<result name="view">/WEB-INF/jsp/board/view.jsp</result>
+			<result name="insert">/WEB-INF/jsp/board/insert.jsp</result>
+			<result name="save" type="redirectAction">listBoard</result>
+			<result name="invalid.token">/500.jsp</result>
+		</action>
+		-->
+		
+		<action name="login">
+			<result>/WEB-INF/jsp/login.jsp</result>
+		</action>
+		<!-- 
+		<action name="*Login" class="loginAction" method="{1}">
+			<result name="input">/500.jsp</result>    The token "input" is returned when validation fails  
+			   result name="success" type="redirectAction">listBoard</result   
+			<result name="success" type="redirectAction">main</result>
+			<result name="logout" type="redirect">/index.jsp</result>
+			<result name="fail" >/index.jsp</result>
+		</action>	
+		-->
+		
+		<action name="download" class="boardDownloadAction">
+			<interceptor-ref name="defaultStack"/>
+			
+	        <exception-mapping exception="java.lang.Exception" result="input"/>
+	        
+	        <result name="input">/500.jsp</result>			
+			
+            <param name="inputPath">/images/tax3.jpg</param>
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>		
+		</action>
+		
+		<action name="exceldownload*" class="excelDownloadAction" method="download{1}">
+			<interceptor-ref name="defaultStack"/>
+			
+	        <exception-mapping exception="java.lang.Exception" result="input"/>
+	        
+	        <result name="input">/500.jsp</result>			
+			
+			<param name="inputPath">/images/tax3.jpg</param>
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>		
+		</action>
+				
+		<action name="*Code" class="commonCodeAction" method="{1}">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+		
+			<result name="input">/500.jsp</result> <!-- The token "input" is returned when validation fails -->
+			<result name="success">/WEB-INF/jsp/code/list.jsp</result>
+			<result name="view">/WEB-INF/jsp/code/view.jsp</result>
+			<result name="insert">/WEB-INF/jsp/code/insert.jsp</result>
+			<result name="save" type="redirectAction">listHighCode</result>
+		</action>
+
+		<action name="*Ajax" class="serviceCallAction" method="{1}">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		<action name="selectCode" class="commonCodeAction" method="select">
+			<result name="success" type="stream">
+				<param name="contentType">plain/text</param>
+				<param name="contentCharSet">utf-8</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		
+	</package>
+
+</struts>

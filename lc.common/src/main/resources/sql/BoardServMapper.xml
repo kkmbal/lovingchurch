@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.mvoipcenter.reqboard.serv.service.BoardServMapper">
+	<select id="listBoard" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ"
+		 resultType="com.mvoipcenter.reqboard.serv.domain.BoardServ" >
+		    <![CDATA[
+			SELECT  A.BOARD_CAT_CD
+			    ,(SELECT CD_NM FROM CODE WHERE HICD_VAL='BOARD_CAT_CD' AND CD_VAL=A.BOARD_CAT_CD) BOARD_CAT_CD_NM
+				,A.BOARD_SEQ
+				,A.LOGIN_ID
+				,A.VALIDKEY
+				,A.REQ_SITE_CD
+				,A.FR_REQ_DT
+				,A.TO_REQ_DT
+				,A.REQ_STAT_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='REQ_STAT_CD' AND CD_VAL=A.REQ_STAT_CD) REQ_STAT_CD_NM
+				,A.ITEM_FILE_SEQ
+				,A.RESULT_FILE_SEQ
+				,A.REQ_NAME1
+				,A.REQ_COMP1
+				,A.REQ_DUTY1
+				,A.REQ_TLE1
+				,A.REQ_NAME2
+				,A.REQ_COMP2
+				,A.REQ_DUTY2
+				,A.REQ_TLE2
+				,A.REQ_NAME3
+				,A.REQ_COMP3
+				,A.REQ_DUTY3
+				,A.REQ_TLE3
+				,A.TITLE
+				-- ,A.CONTENT
+				,A.SRVC_NM
+				,A.CRE_ID
+				,CAST( DATE_FORMAT( A.CRE_DATE,'%Y.%m.%d' ) AS CHAR(10) ) CRE_DATE
+				,A.UPD_ID
+				,CAST( DATE_FORMAT( A.UPD_DATE,'%Y.%m.%d' ) AS CHAR(10) ) UPD_DATE
+				,A.REPLY_STAT_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='REPLY_STAT_CD' AND CD_VAL=A.REPLY_STAT_CD) REPLY_STAT_CD_NM
+				-- ,A.REPLY_CONTENT
+				,A.REPLY_ID
+				,(SELECT ADMIN_NM FROM ADMIN_MEMBER WHERE LOGIN_ID = A.REPLY_ID) REPLY_NM
+				,CAST( DATE_FORMAT( REPLY_DATE,'%Y.%m.%d' ) AS CHAR(10) ) REPLY_DATE	
+				,B.PRD_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='PRD_CD' AND CD_VAL=B.PRD_CD) PRD_NM
+				,B.OUT_OP_CD
+				,B.IN_OP_CD
+				,B.ETC_OP_CD			
+				,A.CAL_SEQ			
+				,A.REQ_TIME			
+			FROM BOARD_SERV A
+			    ,SERVICE B
+			WHERE A.BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   A.LOGIN_ID = B.LOGIN_ID
+			AND   A.VALIDKEY = B.VALIDKEY
+			]]>
+			<if test="SITE == 'CUSTOMER'">
+			AND   	A.LOGIN_ID = #{LOGIN_ID}
+			</if>
+			<if test="searchKeyword == 'TITLE' and searchValue != '' and searchValue != null">
+			AND   	A.TITLE LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'CONTENT' and searchValue != '' and searchValue != null">
+			AND   	A.CONTENT LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'LOGIN_ID' and searchValue != '' and searchValue != null">
+			AND   	A.LOGIN_ID LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="VALIDKEY != '' and VALIDKEY != null">
+			AND   	A.VALIDKEY = #{VALIDKEY}
+			</if>
+			<if test="REQ_STAT_CD != '' and REQ_STAT_CD != null">
+			AND   	INSTR(#{REQ_STAT_CD}, REQ_STAT_CD) > 0
+			</if>
+			<if test="FROM_DT  != '' and FROM_DT != null and TO_DT  != '' and TO_DT != null">
+			    AND A.FR_REQ_DT   BETWEEN #{FROM_DT} AND #{TO_DT}
+			</if>	
+			<if test="REPLY_STAT_CD != '' and REPLY_STAT_CD != null">
+			AND   	INSTR(#{REPLY_STAT_CD}, A.REPLY_STAT_CD) > 0
+			</if>						
+			<if test="PRD_CD != '' and PRD_CD != null">
+			AND   	INSTR(#{PRD_CD}, B.PRD_CD) > 0
+			</if>						
+		    <![CDATA[
+			ORDER BY A.BOARD_SEQ DESC
+			LIMIT #{fromLimit} , #{toLimit}
+			]]>
+	</select>
+	
+	<select id="getRowCount" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ"
+		 resultType="int" >
+		    <![CDATA[
+			SELECT COUNT(*) ROWCOUNT
+			FROM BOARD_SERV  A
+			    ,SERVICE B
+			WHERE A.BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   A.LOGIN_ID = B.LOGIN_ID
+			AND   A.VALIDKEY = B.VALIDKEY
+			]]>
+			<if test="SITE == 'CUSTOMER'">
+			AND   	A.LOGIN_ID = #{LOGIN_ID}
+			</if>
+			<if test="searchKeyword == 'title' and searchValue != '' and searchValue != null">
+			AND   	TITLE LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'content' and searchValue != '' and searchValue != null">
+			AND   	CONTENT LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'LOGIN_ID' and searchValue != '' and searchValue != null">
+			AND   	A.LOGIN_ID LIKE CONCAT('%', #{searchValue} , '%')
+			</if>			
+			<if test="VALIDKEY != '' and VALIDKEY != null">
+			AND   	A.VALIDKEY = #{VALIDKEY}
+			</if>
+			<if test="REQ_STAT_CD != '' and REQ_STAT_CD != null">
+			AND   	INSTR(#{REQ_STAT_CD}, REQ_STAT_CD) > 0
+			</if>
+			<if test="FROM_DT  != '' and FROM_DT != null and TO_DT  != '' and TO_DT != null">
+			    AND A.FR_REQ_DT   BETWEEN #{FROM_DT} AND #{TO_DT}
+			</if>	
+			<if test="REPLY_STAT_CD != '' and REPLY_STAT_CD != null">
+			AND   	INSTR(#{REPLY_STAT_CD}, A.REPLY_STAT_CD) > 0
+			</if>	
+			<if test="PRD_CD != '' and PRD_CD != null">
+			AND   	INSTR(#{PRD_CD}, B.PRD_CD) > 0
+			</if>								
+		    <![CDATA[			
+			]]>
+	</select>
+	
+	<select id="listBoard_admin" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ"
+		 resultType="com.mvoipcenter.reqboard.serv.domain.BoardServ" >
+		    <![CDATA[
+			SELECT  A.BOARD_CAT_CD
+			    ,(SELECT CD_NM FROM CODE WHERE HICD_VAL='BOARD_CAT_CD' AND CD_VAL=A.BOARD_CAT_CD) BOARD_CAT_CD_NM
+				,A.BOARD_SEQ
+				,A.LOGIN_ID
+				,A.VALIDKEY
+				,A.REQ_SITE_CD
+				,A.FR_REQ_DT
+				,A.TO_REQ_DT
+				,A.REQ_STAT_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='REQ_STAT_CD' AND CD_VAL=A.REQ_STAT_CD) REQ_STAT_CD_NM
+				,A.ITEM_FILE_SEQ
+				,A.RESULT_FILE_SEQ
+				,A.REQ_NAME1
+				,A.REQ_COMP1
+				,A.REQ_DUTY1
+				,A.REQ_TLE1
+				,A.REQ_NAME2
+				,A.REQ_COMP2
+				,A.REQ_DUTY2
+				,A.REQ_TLE2
+				,A.REQ_NAME3
+				,A.REQ_COMP3
+				,A.REQ_DUTY3
+				,A.REQ_TLE3
+				,A.TITLE
+				-- ,A.CONTENT
+				,A.SRVC_NM
+				,A.CRE_ID
+				,CAST( DATE_FORMAT( A.CRE_DATE,'%Y.%m.%d' ) AS CHAR(10) ) CRE_DATE
+				,A.UPD_ID
+				,CAST( DATE_FORMAT( A.UPD_DATE,'%Y.%m.%d' ) AS CHAR(10) ) UPD_DATE
+				,A.REPLY_STAT_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='REPLY_STAT_CD' AND CD_VAL=A.REPLY_STAT_CD) REPLY_STAT_CD_NM
+				,A.REPLY_CONTENT
+				,A.REPLY_ID
+				,(SELECT ADMIN_NM FROM ADMIN_MEMBER WHERE LOGIN_ID = A.REPLY_ID) REPLY_NM
+				,CAST( DATE_FORMAT( REPLY_DATE,'%Y.%m.%d' ) AS CHAR(10) ) REPLY_DATE	
+				,B.PRD_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='PRD_CD' AND CD_VAL=B.PRD_CD) PRD_NM
+				,B.OUT_OP_CD
+				,B.IN_OP_CD
+				,B.ETC_OP_CD			
+				,A.CAL_SEQ			
+				,A.REQ_TIME			
+			FROM BOARD_SERV A, SERVICE B 
+			]]>
+			WHERE A.LOGIN_ID = B.LOGIN_ID 
+			AND 	A.VALIDKEY = B.VALIDKEY
+			AND 	A.BOARD_CAT_CD = #{BOARD_CAT_CD}
+			<if test="SITE == 'CUSTOMER'">
+			AND   	A.LOGIN_ID = #{LOGIN_ID}
+			</if>
+			<if test="searchKeyword == 'TITLE' and searchValue != '' and searchValue != null">
+			AND   	A.TITLE LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'CONTENT' and searchValue != '' and searchValue != null">
+			AND   	A.CONTENT LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'LOGIN_ID' and searchValue != '' and searchValue != null">
+			AND   	A.LOGIN_ID LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="VALIDKEY != '' and VALIDKEY != null">
+			AND   	A.VALIDKEY = #{VALIDKEY}
+			</if>
+			<if test="REQ_STAT_CD != '' and REQ_STAT_CD != null">
+			AND   	INSTR(#{REQ_STAT_CD}, REQ_STAT_CD) > 0
+			</if>
+			<if test="FROM_DT  != '' and FROM_DT != null and TO_DT  != '' and TO_DT != null">
+			    AND A.FR_REQ_DT   BETWEEN #{FROM_DT} AND #{TO_DT}
+			</if>	
+			<if test="REPLY_STAT_CD != '' and REPLY_STAT_CD != null">
+			AND   	INSTR(#{REPLY_STAT_CD}, A.REPLY_STAT_CD) > 0
+			</if>		
+			<if test="PRD_CD != '' and PRD_CD != null">
+			AND   	INSTR(#{PRD_CD}, B.PRD_CD) > 0
+			</if>			
+													
+		    <![CDATA[
+			ORDER BY A.BOARD_SEQ DESC
+			LIMIT #{fromLimit} , #{toLimit}
+			]]>
+	</select>
+	
+	<select id="getRowCount_admin" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ"
+		 resultType="int" >
+		    <![CDATA[
+			SELECT COUNT(*) ROWCOUNT
+			FROM BOARD_SERV A, SERVICE B
+			]]>
+			WHERE A.LOGIN_ID = B.LOGIN_ID 
+			AND 	A.VALIDKEY = B.VALIDKEY
+			AND		A.BOARD_CAT_CD = #{BOARD_CAT_CD}
+			<if test="SITE == 'CUSTOMER'">
+			AND   	A.LOGIN_ID = #{LOGIN_ID}
+			</if>
+			<if test="searchKeyword == 'TITLE' and searchValue != '' and searchValue != null">
+			AND   	A.TITLE LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'CONTENT' and searchValue != '' and searchValue != null">
+			AND   	A.CONTENT LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'LOGIN_ID' and searchValue != '' and searchValue != null">
+			AND   	A.LOGIN_ID LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="VALIDKEY != '' and VALIDKEY != null">
+			AND   	A.VALIDKEY = #{VALIDKEY}
+			</if>
+			<if test="REQ_STAT_CD != '' and REQ_STAT_CD != null">
+			AND   	INSTR(#{REQ_STAT_CD}, REQ_STAT_CD) > 0
+			</if>
+			<if test="FROM_DT  != '' and FROM_DT != null and TO_DT  != '' and TO_DT != null">
+			    AND A.FR_REQ_DT   BETWEEN #{FROM_DT} AND #{TO_DT}
+			</if>	
+			<if test="REPLY_STAT_CD != '' and REPLY_STAT_CD != null">
+			AND   	INSTR(#{REPLY_STAT_CD}, A.REPLY_STAT_CD) > 0
+			</if>
+			<if test="PRD_CD != '' and PRD_CD != null">
+			AND   	INSTR(#{PRD_CD}, B.PRD_CD) > 0
+			</if>			
+			
+	</select>	
+	
+	<select id="getBoard" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ"
+		 resultType="com.mvoipcenter.reqboard.serv.domain.BoardServ" >
+		    <![CDATA[
+			SELECT A.BOARD_CAT_CD
+			    ,(SELECT CD_NM FROM CODE WHERE HICD_VAL='BOARD_CAT_CD' AND CD_VAL=A.BOARD_CAT_CD) BOARD_CAT_CD_NM
+				,A.BOARD_SEQ
+				,A.LOGIN_ID
+				,A.VALIDKEY
+				,A.REQ_SITE_CD
+				,A.FR_REQ_DT
+				,SUBSTR(A.FR_REQ_DT, 6, 2) CAL_MON
+				,A.TO_REQ_DT
+				,A.REQ_STAT_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='REQ_STAT_CD' AND CD_VAL=A.REQ_STAT_CD) REQ_STAT_CD_NM
+				,A.ITEM_FILE_SEQ
+				,A.RESULT_FILE_SEQ
+				,A.REQ_NAME1
+				,A.REQ_COMP1
+				,A.REQ_DUTY1
+				,A.REQ_TLE1
+				,A.REQ_NAME2
+				,A.REQ_COMP2
+				,A.REQ_DUTY2
+				,A.REQ_TLE2
+				,A.REQ_NAME3
+				,A.REQ_COMP3
+				,A.REQ_DUTY3
+				,A.REQ_TLE3
+				,A.TITLE
+				,A.CONTENT
+				,A.SRVC_NM
+				,A.REPLY_STAT_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='REPLY_STAT_CD' AND CD_VAL=A.REPLY_STAT_CD) REPLY_STAT_CD_NM
+				,A.REPLY_CONTENT
+				,A.REPLY_ID
+				,(SELECT ADMIN_NM FROM ADMIN_MEMBER WHERE LOGIN_ID = A.REPLY_ID) REPLY_NM
+				,CAST( DATE_FORMAT( A.REPLY_DATE,'%Y.%m.%d' ) AS CHAR(10) ) REPLY_DATE				
+				,A.CRE_ID
+				,CAST( DATE_FORMAT( A.CRE_DATE,'%Y.%m.%d' ) AS CHAR(10) ) CRE_DATE
+				,A.UPD_ID
+				,CAST( DATE_FORMAT( A.UPD_DATE,'%Y.%m.%d' ) AS CHAR(10) ) UPD_DATE
+				,B.PRD_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='PRD_CD' AND CD_VAL=B.PRD_CD) PRD_NM
+				,B.OUT_OP_CD
+				,B.IN_OP_CD
+				,B.ETC_OP_CD	
+				,B.SERVICE_NM
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL = 'PRICEPLAN_CD' AND CD_VAL = B.PRICEPLAN_CD) PRICEPLAN_CD_NM		
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL = 'PROC_STAGE_CD' AND CD_VAL = C.PROC_STAGE_CD) PROC_STAGE_CD_NM
+				,A.CAL_SEQ			
+				,A.REQ_TIME
+			FROM BOARD_SERV A
+			    ,SERVICE B
+			    ,APPLY C
+			WHERE A.BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   A.BOARD_SEQ = #{BOARD_SEQ}
+			AND   A.LOGIN_ID = B.LOGIN_ID
+			AND   A.VALIDKEY = B.VALIDKEY
+			AND   B.LOGIN_ID = C.LOGIN_ID
+			AND   B.ORDERDT = C.ORDERDT
+			]]>
+			<if test="SITE == 'CUSTOMER'">
+			AND   	A.LOGIN_ID = #{LOGIN_ID}
+			</if>			
+	</select>
+	
+	<select id="getBoardValidKey" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ"
+		 resultType="com.mvoipcenter.reqboard.serv.domain.BoardServ" >
+		    <![CDATA[
+			SELECT A.BOARD_CAT_CD
+			    ,(SELECT CD_NM FROM CODE WHERE HICD_VAL='BOARD_CAT_CD' AND CD_VAL=A.BOARD_CAT_CD) BOARD_CAT_CD_NM
+				,A.BOARD_SEQ
+				,B.LOGIN_ID
+				,B.VALIDKEY
+				,A.REQ_SITE_CD
+				,A.FR_REQ_DT
+				,SUBSTR(A.FR_REQ_DT, 6, 2) CAL_MON
+				,A.TO_REQ_DT
+				,A.REQ_STAT_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='REQ_STAT_CD' AND CD_VAL=A.REQ_STAT_CD) REQ_STAT_CD_NM
+				,A.ITEM_FILE_SEQ
+				,A.RESULT_FILE_SEQ
+				,A.REQ_NAME1
+				,A.REQ_COMP1
+				,A.REQ_DUTY1
+				,A.REQ_TLE1
+				,A.REQ_NAME2
+				,A.REQ_COMP2
+				,A.REQ_DUTY2
+				,A.REQ_TLE2
+				,A.REQ_NAME3
+				,A.REQ_COMP3
+				,A.REQ_DUTY3
+				,A.REQ_TLE3
+				,A.TITLE
+				,A.CONTENT
+				,A.SRVC_NM
+				,A.REPLY_STAT_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='REPLY_STAT_CD' AND CD_VAL=A.REPLY_STAT_CD) REPLY_STAT_CD_NM
+				,A.REPLY_CONTENT
+				,A.REPLY_ID
+				,(SELECT ADMIN_NM FROM ADMIN_MEMBER WHERE LOGIN_ID = A.REPLY_ID) REPLY_NM
+				,CAST( DATE_FORMAT( A.REPLY_DATE,'%Y.%m.%d' ) AS CHAR(10) ) REPLY_DATE				
+				,A.CRE_ID
+				,CAST( DATE_FORMAT( A.CRE_DATE,'%Y.%m.%d' ) AS CHAR(10) ) CRE_DATE
+				,A.UPD_ID
+				,CAST( DATE_FORMAT( A.UPD_DATE,'%Y.%m.%d' ) AS CHAR(10) ) UPD_DATE
+				,B.PRD_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='PRD_CD' AND CD_VAL=B.PRD_CD) PRD_NM
+				,B.OUT_OP_CD
+				,B.IN_OP_CD
+				,B.ETC_OP_CD	
+				,B.SERVICE_NM
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL = 'PRICEPLAN_CD' AND CD_VAL = B.PRICEPLAN_CD) PRICEPLAN_CD_NM		
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL = 'PROC_STAGE_CD' AND CD_VAL = C.PROC_STAGE_CD) PROC_STAGE_CD_NM
+				,A.CAL_SEQ			
+				,A.REQ_TIME
+			FROM 
+			    SERVICE B LEFT OUTER JOIN BOARD_SERV A
+			    ON (A.BOARD_CAT_CD = #{BOARD_CAT_CD} AND   B.LOGIN_ID = #{LOGIN_ID} AND   A.VALIDKEY = B.VALIDKEY AND A.LOGIN_ID = B.LOGIN_ID)
+			    ,APPLY C
+			WHERE B.VALIDKEY = #{VALIDKEY}
+			AND   B.LOGIN_ID = #{LOGIN_ID}
+			AND   B.LOGIN_ID = C.LOGIN_ID
+			AND   B.ORDERDT = C.ORDERDT
+			]]>
+	</select>	
+	
+	<select id="getBoard_admin" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ"
+		 resultType="com.mvoipcenter.reqboard.serv.domain.BoardServ" >
+		    <![CDATA[
+			SELECT A.BOARD_CAT_CD
+			    ,(SELECT CD_NM FROM CODE WHERE HICD_VAL='BOARD_CAT_CD' AND CD_VAL=A.BOARD_CAT_CD) BOARD_CAT_CD_NM
+				,A.BOARD_SEQ
+				,A.LOGIN_ID
+				,A.VALIDKEY
+				,A.REQ_SITE_CD
+				,A.FR_REQ_DT
+				,A.TO_REQ_DT
+				,A.REQ_STAT_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='REQ_STAT_CD' AND CD_VAL=A.REQ_STAT_CD) REQ_STAT_CD_NM
+				,A.ITEM_FILE_SEQ
+				,A.RESULT_FILE_SEQ
+				,A.REQ_NAME1
+				,A.REQ_COMP1
+				,A.REQ_DUTY1
+				,A.REQ_TLE1
+				,A.REQ_NAME2
+				,A.REQ_COMP2
+				,A.REQ_DUTY2
+				,A.REQ_TLE2
+				,A.REQ_NAME3
+				,A.REQ_COMP3
+				,A.REQ_DUTY3
+				,A.REQ_TLE3
+				,A.TITLE
+				,A.CONTENT
+				,A.SRVC_NM
+				,A.REPLY_STAT_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='REPLY_STAT_CD' AND CD_VAL=A.REPLY_STAT_CD) REPLY_STAT_CD_NM
+				,A.REPLY_CONTENT
+				,A.REPLY_ID
+				,(SELECT ADMIN_NM FROM ADMIN_MEMBER WHERE LOGIN_ID = A.REPLY_ID) REPLY_NM
+				,CAST( DATE_FORMAT( A.REPLY_DATE,'%Y.%m.%d' ) AS CHAR(10) ) REPLY_DATE				
+				,A.CRE_ID
+				,CAST( DATE_FORMAT( A.CRE_DATE,'%Y.%m.%d' ) AS CHAR(10) ) CRE_DATE
+				,A.UPD_ID
+				,CAST( DATE_FORMAT( A.UPD_DATE,'%Y.%m.%d' ) AS CHAR(10) ) UPD_DATE
+				,B.PRD_CD
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL='PRD_CD' AND CD_VAL=B.PRD_CD) PRD_NM
+				,B.OUT_OP_CD
+				,B.IN_OP_CD
+				,B.ETC_OP_CD	
+				,B.SERVICE_NM
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL = 'PRICEPLAN_CD' AND CD_VAL = B.PRICEPLAN_CD) PRICEPLAN_CD_NM		
+				,(SELECT CD_NM FROM CODE WHERE HICD_VAL = 'PROC_STAGE_CD' AND CD_VAL = B.PROC_STAGE_CD) PROC_STAGE_CD_NM
+				,A.CAL_SEQ			
+				,A.REQ_TIME
+			FROM BOARD_SERV A LEFT OUTER JOIN (
+			                                     SELECT B.LOGIN_ID
+			                                           ,B.VALIDKEY
+			                                           ,B.PRD_CD
+			                                           ,B.OUT_OP_CD
+			                                           ,B.IN_OP_CD
+			                                           ,B.ETC_OP_CD
+			                                           ,B.PRICEPLAN_CD
+			                                           ,C.PROC_STAGE_CD
+			                                           ,B.SERVICE_NM
+			                                     FROM SERVICE B
+			                                         ,APPLY C
+			                                     WHERE   B.LOGIN_ID = C.LOGIN_ID
+			                                       AND   B.ORDERDT = C.ORDERDT
+			                                  ) B
+            ON   (A.LOGIN_ID = B.LOGIN_ID AND A.VALIDKEY = B.VALIDKEY)
+			WHERE A.BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   A.BOARD_SEQ = #{BOARD_SEQ}
+			]]>
+	</select>
+	
+	<select id="getMaxSeq" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ"
+		 resultType="string" >
+		    <![CDATA[
+			SELECT IFNULL(MAX(BOARD_SEQ)+1,1) BOARD_SEQ
+			FROM BOARD_SERV
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			]]>
+			
+	</select>	
+	
+	<insert id="insertBoard" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ" >
+		<![CDATA[
+				INSERT INTO BOARD_SERV (
+						 BOARD_CAT_CD
+						,BOARD_SEQ
+						,LOGIN_ID
+						,VALIDKEY
+						,REQ_SITE_CD
+						,FR_REQ_DT
+						,TO_REQ_DT
+						,REQ_STAT_CD
+						,ITEM_FILE_SEQ
+						,RESULT_FILE_SEQ
+						,REQ_NAME1
+						,REQ_COMP1
+						,REQ_DUTY1
+						,REQ_TLE1
+						,REQ_NAME2
+						,REQ_COMP2
+						,REQ_DUTY2
+						,REQ_TLE2
+						,REQ_NAME3
+						,REQ_COMP3
+						,REQ_DUTY3
+						,REQ_TLE3
+						,TITLE
+						,CONTENT
+						,SRVC_NM
+						,REPLY_STAT_CD 
+						,REPLY_CONTENT 
+						,REPLY_ID 
+						,REPLY_DATE	 
+						,CAL_SEQ			
+						,REQ_TIME											
+						,CRE_ID
+						,CRE_DATE
+						,UPD_ID
+						,UPD_DATE
+				)VALUES(
+						 #{ BOARD_CAT_CD}
+						, #{BOARD_SEQ}
+						, #{LOGIN_ID}
+						, #{VALIDKEY}
+						, #{REQ_SITE_CD}
+						, #{FR_REQ_DT}
+						, #{TO_REQ_DT}
+						, '01'
+						, #{ITEM_FILE_SEQ}
+						, #{RESULT_FILE_SEQ}
+						, #{REQ_NAME1}
+						, #{REQ_COMP1}
+						, #{REQ_DUTY1}
+						, #{REQ_TLE1}
+						, #{REQ_NAME2}
+						, #{REQ_COMP2}
+						, #{REQ_DUTY2}
+						, #{REQ_TLE2}
+						, #{REQ_NAME3}
+						, #{REQ_COMP3}
+						, #{REQ_DUTY3}
+						, #{REQ_TLE3}
+						, #{TITLE}
+						, #{CONTENT}
+						, #{SRVC_NM}
+						,#{REPLY_STAT_CD}
+						,#{REPLY_CONTENT} 
+						,#{REPLY_ID} 
+						,#{REPLY_DATE}
+						,#{CAL_SEQ}			
+						,#{REQ_TIME}							 						
+						, #{CRE_ID}
+						,NOW()
+						, #{UPD_ID}
+						,NOW()				
+				)
+        ]]>
+	</insert>	
+	
+	
+	<update id="updateBoard" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ" >
+		<![CDATA[
+				UPDATE BOARD_SERV
+				SET  UPD_ID = #{UPD_ID}
+				    ,UPD_DATE = NOW()
+        ]]>
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			    AND   BOARD_SEQ = #{BOARD_SEQ}
+	</update>	
+	
+	<update id="replyBoard" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ" >
+		<![CDATA[
+				UPDATE BOARD_SERV
+				SET  UPD_ID = #{UPD_ID}
+				    ,UPD_DATE = NOW()
+        ]]>
+			<if test="BOARD_CAT_CD == '04'"> <!-- 시험 -->
+			        ,FR_REQ_DT = #{FR_REQ_DT}
+			        ,TO_REQ_DT = #{TO_REQ_DT}
+					,REQ_NAME1 = #{REQ_NAME1}
+					,REQ_COMP1 = #{REQ_COMP1}
+					,REQ_DUTY1 = #{REQ_DUTY1}
+					,REQ_TLE1 = #{REQ_TLE1}
+					,REQ_NAME2 = #{REQ_NAME2}
+					,REQ_COMP2 = #{REQ_COMP2}
+					,REQ_DUTY2 = #{REQ_DUTY2}
+					,REQ_TLE2 = #{REQ_TLE2}
+					,REQ_NAME3 = #{REQ_NAME3}
+					,REQ_COMP3 = #{REQ_COMP3}
+					,REQ_DUTY3 = #{REQ_DUTY3}
+					,REQ_TLE3 = #{REQ_TLE3}	
+					,REQ_STAT_CD = #{REQ_STAT_CD}		        
+					,REQ_SITE_CD = #{REQ_SITE_CD}	
+				 	,CAL_SEQ = #{CAL_SEQ}			
+					,REQ_TIME = #{REQ_TIME}
+			</if>        
+			
+			<if test="BOARD_CAT_CD == '04' and ITEM_FILE_SEQ != null and ITEM_FILE_SEQ != ''">
+						,ITEM_FILE_SEQ = #{ITEM_FILE_SEQ}
+			</if>
+			<if test="BOARD_CAT_CD == '04' and RESULT_FILE_SEQ != null and RESULT_FILE_SEQ != ''">
+						, RESULT_FILE_SEQ = #{RESULT_FILE_SEQ}
+			</if>
+			
+			<if test="BOARD_CAT_CD == '05'"> <!-- 장애 -->
+				    ,TITLE = #{TITLE}
+					,CONTENT = #{CONTENT}
+					,SRVC_NM = #{SRVC_NM}
+					,REPLY_STAT_CD = #{REPLY_STAT_CD}
+					,REPLY_CONTENT = #{REPLY_CONTENT}
+					,REPLY_ID = #{REPLY_ID}
+					,REPLY_DATE	 = #{REPLY_DATE}			
+			</if>         
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			     AND   BOARD_SEQ = #{BOARD_SEQ}
+	</update>	
+	
+	<delete id="deleteBoard" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ" >
+		<![CDATA[
+				DELETE FROM BOARD_SERV
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			    AND   BOARD_SEQ = #{BOARD_SEQ}
+        ]]>
+	</delete>	
+	
+	
+	<select id="listBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile"
+		 resultType="com.mvoipcenter.common.board.domain.BoardFile" >
+		    <![CDATA[
+			SELECT BOARD_CAT_CD
+			      ,BOARD_SEQ
+			      ,FILE_SEQ
+			      ,FILE_NAME
+			      ,FILE_PATH
+			      ,FILE_TYPE
+			      ,FILE_SIZE
+			      ,FILE_CONTENT
+			      ,CRE_ID
+			      ,CRE_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+			FROM BOARD_FILE
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   BOARD_SEQ = #{BOARD_SEQ}
+			]]>
+	</select>	
+	
+	<select id="getBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile"
+		 resultType="com.mvoipcenter.common.board.domain.BoardFile" >
+		    <![CDATA[
+			SELECT BOARD_CAT_CD
+			      ,BOARD_SEQ
+			      ,FILE_SEQ
+			      ,FILE_NAME
+			      ,FILE_PATH
+			      ,FILE_TYPE
+			      ,FILE_SIZE
+			      ,FILE_CONTENT
+			      ,CRE_ID
+			      ,CRE_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+			FROM BOARD_FILE
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   BOARD_SEQ = #{BOARD_SEQ}
+			AND   FILE_SEQ = #{FILE_SEQ}
+			]]>
+	</select>	
+	
+	<select id="getMaxFileSeq" parameterType="com.mvoipcenter.common.board.domain.BoardFile"
+		 resultType="string" >
+		    <![CDATA[
+			SELECT IFNULL(MAX(FILE_SEQ)+1,1) FILE_SEQ
+			FROM BOARD_FILE
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   BOARD_SEQ = #{BOARD_SEQ}
+			]]>
+	</select>
+	
+	<insert id="insertBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile" >
+		<![CDATA[
+				INSERT INTO BOARD_FILE 
+				(  BOARD_CAT_CD
+			      ,BOARD_SEQ
+			      ,FILE_SEQ
+			      ,FILE_NAME
+			      ,FILE_PATH
+			      ,FILE_TYPE
+			      ,FILE_SIZE
+			      ,FILE_CONTENT
+			      ,CRE_ID
+			      ,CRE_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+				)VALUES(
+				   #{BOARD_CAT_CD}
+			      ,#{BOARD_SEQ}
+			      ,#{FILE_SEQ}
+			      ,#{FILE_NAME}
+			      ,#{FILE_PATH}
+			      ,#{FILE_TYPE}
+			      ,#{FILE_SIZE}
+			      ,#{FILE_CONTENT}
+			      ,#{CRE_ID}
+			      ,NOW()
+			      ,#{UPD_ID}
+			      ,NOW()
+				)
+        ]]>
+	</insert>	
+	
+	<delete id="deleteBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile" >
+		<![CDATA[
+				DELETE FROM BOARD_FILE 
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+				AND   BOARD_SEQ = #{BOARD_SEQ}
+				AND   FILE_SEQ = #{FILE_SEQ}
+        ]]>
+	</delete>		
+	
+	<select id="getCalendarBoard" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ"
+		 resultType="com.mvoipcenter.reqboard.serv.domain.BoardServ" >
+		    <![CDATA[
+				SELECT A.LOGIN_ID
+					   ,A.VALIDKEY
+					   ,A.REQ_TIME
+					   ,A.REQ_NAME1
+					   ,A.REQ_STAT_CD
+					   ,A.FR_REQ_DT
+					   ,A.TO_REQ_DT
+					   ,A.BOARD_SEQ
+					   ,TO_DAYS(A.TO_REQ_DT) - TO_DAYS(A.FR_REQ_DT) DIFF_DT
+					   ,B.CAL_SEQ
+					   ,B.CAL_YEAR
+					   ,B.CAL_MON
+					   ,B.CAL_DAY
+					   ,B.CAL_LOC
+					   ,C.CUSTOMERNM
+				FROM BOARD_SERV A
+				     ,CAL B
+				     ,MEMBER C
+				WHERE A.CAL_SEQ = B.CAL_SEQ     
+				AND   A.LOGIN_ID = C.LOGIN_ID
+				AND   B.CAL_YEAR = #{CAL_YEAR}
+				AND   B.CAL_MON = #{CAL_MON}
+			]]>
+			<if test="searchKeyword == 'TITLE' and searchValue != '' and searchValue != null">
+			AND   	A.TITLE LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'CONTENT' and searchValue != '' and searchValue != null">
+			AND   	A.CONTENT LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'LOGIN_ID' and searchValue != '' and searchValue != null">
+			AND   	A.LOGIN_ID LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="REQ_STAT_CD != '' and REQ_STAT_CD != null">
+			AND   	INSTR(#{REQ_STAT_CD}, REQ_STAT_CD) > 0
+			</if>
+			<if test="VALIDKEY != '' and VALIDKEY != null">
+			/* AND   	A.VALIDKEY =  VALIDKEY  */
+			</if>			
+			<if test="LOGIN_ID != '' and LOGIN_ID != null">
+				AND   A.LOGIN_ID = #{LOGIN_ID}
+			</if>	
+			<if test="LOGIN_ID != '' and LOGIN_ID != null">
+				/* ORDER BY A.BOARD_SEQ DESC LIMIT 1 */
+			</if>	
+			<if test="LOGIN_ID == '' or LOGIN_ID == null">
+				/* ORDER BY B.CAL_MON, B.CAL_DAY */
+			</if>	
+			    ORDER BY B.CAL_MON, B.CAL_DAY						
+	</select>
+	
+	<select id="checkMonth" parameterType="com.mvoipcenter.reqboard.serv.domain.BoardServ"
+		 resultType="int" >
+		    <![CDATA[
+				SELECT COUNT(*) 
+				FROM BOARD_SERV
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+				AND SUBSTR(REPLACE(FR_REQ_DT, '-', ''),1, 8) - #{TO_REQ_DT} <= 0
+				AND SUBSTR(REPLACE(FR_REQ_DT, '-', ''),1, 8) - #{FR_REQ_DT} > 0
+			]]>
+	</select>		
+</mapper>

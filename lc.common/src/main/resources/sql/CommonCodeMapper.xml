@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.mvoipcenter.common.code.service.CommonCodeMapper">
+	<select id="listHighCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
+		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+		    <![CDATA[
+			SELECT CD_VAL
+			      ,HICD_VAL
+			      ,CD_NM
+			      ,ORD_NO
+			      ,USE_YN
+			      ,ETC1_VAL
+			      ,ETC2_VAL
+			FROM CODE
+			WHERE HICD_VAL = 'ROOT'
+			AND   USE_YN = 'Y'
+			]]>
+			<if test="searchKeyword == 'code' and searchValue != '' and searchValue != null">
+			AND   	HICD_VAL LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'name' and searchValue != '' and searchValue != null">
+			AND   	CD_NM LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+		    <![CDATA[
+			ORDER BY CD_VAL, ORD_NO
+			LIMIT #{fromLimit} , #{toLimit}
+			]]>
+	</select>
+	
+	<select id="listSubCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
+		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+		    <![CDATA[
+			SELECT CD_VAL
+			      ,HICD_VAL
+			      ,CD_NM
+			      ,ORD_NO
+			      ,USE_YN
+			      ,ETC1_VAL
+			      ,ETC2_VAL
+			FROM CODE
+			WHERE HICD_VAL != 'ROOT'
+			AND   USE_YN = 'Y'
+			]]>
+			<if test="searchKeyword == 'code' and searchValue != '' and searchValue != null">
+			AND   	HICD_VAL LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'name' and searchValue != '' and searchValue != null">
+			AND   	CD_NM LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+		    <![CDATA[
+			ORDER BY CD_VAL, ORD_NO
+			LIMIT #{fromLimit} , #{toLimit}
+			]]>
+	</select>
+	
+	<select id="getRowCount" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
+		 resultType="int" >
+		    <![CDATA[
+			SELECT COUNT(*) ROWCOUNT
+			FROM CODE
+			WHERE USE_YN = 'Y'
+			]]>
+			<if test="searchKeyword == 'code' and searchValue != '' and searchValue != null">
+			AND   	HICD_VAL LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'name' and searchValue != '' and searchValue != null">
+			AND   	CD_NM LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="type == 'high'">
+			AND   	CD_VAL = 'ROOT'
+			</if>
+			<if test="type == 'sub'">
+			AND   	CD_VAL != 'ROOT'
+			</if>
+	</select>
+	
+	<select id="getCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
+		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+		    <![CDATA[
+			SELECT CD_VAL
+			      ,HICD_VAL
+			      ,CD_NM
+			      ,ORD_NO
+			      ,USE_YN
+			      ,ETC1_VAL
+			      ,ETC2_VAL
+			FROM CODE
+			WHERE USE_YN = 'Y'
+			AND   CD_VAL = #{CD_VAL}
+			AND   HICD_VAL = #{HICD_VAL}
+			]]>
+	</select>
+	
+	<select id="listCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
+		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+		    <![CDATA[
+			SELECT CD_VAL
+			      ,HICD_VAL
+			      ,CD_NM
+			      ,ORD_NO
+			      ,USE_YN
+			      ,ETC1_VAL
+			      ,ETC2_VAL
+			FROM CODE
+			WHERE USE_YN = 'Y'
+			]]>
+			<if test="HICD_VAL != '' and HICD_VAL != null">
+			AND   HICD_VAL = #{HICD_VAL}
+			</if>			
+			<if test="CD_VAL != '' and CD_VAL != null">
+			AND   CD_VAL = #{CD_VAL}
+			</if>
+			<if test="ETC1_VAL != '' and ETC1_VAL != null">
+			AND   ETC1_VAL = #{ETC1_VAL}
+			</if>
+			<if test="(HICD_VAL == null) and (CD_VAL == null)">
+			AND   1 = 0
+			</if>
+			ORDER BY ORD_NO			
+	</select>
+	
+	<select id="listSubCommonCodeAll" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
+		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+		    <![CDATA[
+			SELECT CD_VAL
+			      ,HICD_VAL
+			      ,CD_NM
+			      ,ORD_NO
+			      ,USE_YN
+			      ,ETC1_VAL
+			      ,ETC2_VAL
+			FROM CODE
+			WHERE HICD_VAL != 'ROOT'
+			AND   USE_YN = 'Y'
+		]]>			
+	</select>
+	
+	<select id="listHighCommonCodeAll" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
+		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+		    <![CDATA[
+			SELECT CD_VAL
+			      ,HICD_VAL
+			      ,CD_NM
+			      ,ORD_NO
+			      ,USE_YN
+			      ,ETC1_VAL
+			      ,ETC2_VAL
+			FROM CODE
+			WHERE HICD_VAL = 'ROOT'
+			AND   USE_YN = 'Y'
+			]]>
+	</select>	
+	
+	<insert id="insertCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode" >
+		<![CDATA[
+				INSERT INTO CODE 
+			     ( CD_VAL
+			      ,HICD_VAL
+			      ,CD_NM
+			      ,ORD_NO
+			      ,USE_YN
+			      ,ETC1_VAL
+			      ,ETC2_VAL
+				)VALUES(
+			      #{CD_VAL}
+			      ,#{HICD_VAL}
+			      ,#{CD_NM}
+			      ,#{ORD_NO}
+			      ,#{USE_YN}
+			      ,#{ETC1_VAL}
+			      ,#{ETC2_VAL}
+				)
+        ]]>
+	</insert>	
+	
+	<update id="updateCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode" >
+		<![CDATA[
+				UPDATE CODE
+				SET CD_NM = #{CD_NM} ,
+				    ORD_NO = #{ORD_NO} ,
+				    USE_YN = #{USE_YN},
+				    ETC1_VAL = #{ETC1_VAL},
+				    ETC2_VAL = #{ETC2_VAL}
+				WHERE CD_VAL = #{CD_VAL}
+				AND   HICD_VAL = #{HICD_VAL}
+        ]]>
+	</update>	
+	
+	<delete id="deleteCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode" >
+		<![CDATA[
+				DELETE FROM CODE
+				WHERE CD_VAL = #{CD_VAL}
+				AND   HICD_VAL = #{HICD_VAL}
+        ]]>
+	</delete>	
+	
+</mapper>

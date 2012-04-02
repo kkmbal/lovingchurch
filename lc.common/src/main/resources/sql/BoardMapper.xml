@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.mvoipcenter.common.board.service.BoardMapper">
+	<select id="listBoard" parameterType="com.mvoipcenter.common.board.domain.Board"
+		 resultType="com.mvoipcenter.common.board.domain.Board" >
+		    <![CDATA[
+			SELECT BOARD_CAT_CD
+			      ,BOARD_PART_CD
+			      ,(SELECT CD_NM FROM CODE WHERE HICD_VAL='BOARD_PART_CD' AND CD_VAL=A.BOARD_PART_CD) BOARD_PART_CD_NM
+			      ,BOARD_SEQ
+			      ,CASE WHEN RELEVEL > 0 THEN CONCAT('[RE] ', TITLE) ELSE TITLE END TITLE
+			      ,CONTENT
+			      ,PASSWORD
+			      ,VIEW_SITE
+			      ,VIEW_LOC
+			      ,HIT_CNT
+			      ,FILE_SEQ
+			      ,CRE_ID
+			      ,CAST( DATE_FORMAT( CRE_DATE,'%Y.%m.%d' ) AS CHAR(10) ) CRE_DATE
+			      ,CRE_DATE CRE_DATE_TIME
+			      ,UPD_ID
+			      ,CAST( DATE_FORMAT( UPD_DATE,'%Y.%m.%d' ) AS CHAR(10) ) UPD_DATE
+			      ,UPD_DATE UPD_DATE_TIME
+			      ,REF
+			      ,RESTEP
+			      ,RELEVEL
+			FROM BOARD A
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			]]>
+			<if test="BOARD_PART_CD != '' and BOARD_PART_CD != null">
+			AND   	BOARD_PART_CD = #{BOARD_PART_CD}
+			</if>
+			<if test="VIEW_SITE != '' and VIEW_SITE != null">
+			AND   	INSTR(VIEW_SITE, LOWER(#{VIEW_SITE})) > 0
+			</if>			
+			<if test="VIEW_SITE1 != '' and VIEW_SITE1 != null">
+			AND   	INSTR(VIEW_SITE, LOWER(#{VIEW_SITE1})) > 0
+			</if>			
+			<if test="VIEW_SITE2 != '' and VIEW_SITE2 != null">
+			AND   	INSTR(VIEW_SITE, LOWER(#{VIEW_SITE2})) > 0
+			</if>			
+			<if test="VIEW_LOC != '' and VIEW_LOC != null">
+			AND   	INSTR(VIEW_LOC, LOWER(#{VIEW_LOC})) > 0
+			</if>			
+			<if test="VIEW_LOC1 != '' and VIEW_LOC1 != null">
+			AND   	INSTR(VIEW_LOC, LOWER(#{VIEW_LOC1})) > 0
+			</if>			
+			<if test="VIEW_LOC2 != '' and VIEW_LOC2 != null">
+			AND   	INSTR(VIEW_LOC, LOWER(#{VIEW_LOC2})) > 0
+			</if>			
+			<if test="searchKeyword == 'TITLE' and searchValue != '' and searchValue != null">
+			AND   	TITLE LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'CONTENT' and searchValue != '' and searchValue != null">
+			AND   	CONTENT LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'TITLE_CONTENT' and searchValue != '' and searchValue != null">
+			AND   	( TITLE LIKE CONCAT('%', #{searchValue} , '%') OR CONTENT LIKE CONCAT('%', #{searchValue} , '%') )
+			</if>
+		    <![CDATA[
+			ORDER BY REF DESC, RESTEP ASC
+			LIMIT #{fromLimit} , #{toLimit}
+			]]>
+	</select>
+	
+	<select id="getRowCount" parameterType="com.mvoipcenter.common.board.domain.Board"
+		 resultType="int" >
+		    <![CDATA[
+			SELECT COUNT(*) ROWCOUNT
+			FROM BOARD
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			]]>
+			<if test="BOARD_PART_CD != '' and BOARD_PART_CD != null">
+			AND   	BOARD_PART_CD = #{BOARD_PART_CD}
+			</if>
+			<if test="VIEW_SITE != '' and VIEW_SITE != null">
+			AND   	INSTR(VIEW_SITE, LOWER(#{VIEW_SITE})) > 0
+			</if>
+			<if test="VIEW_SITE1 != '' and VIEW_SITE1 != null">
+			AND   	INSTR(VIEW_SITE, LOWER(#{VIEW_SITE1})) > 0
+			</if>			
+			<if test="VIEW_SITE2 != '' and VIEW_SITE2 != null">
+			AND   	INSTR(VIEW_SITE, LOWER(#{VIEW_SITE2})) > 0
+			</if>						
+			<if test="VIEW_LOC != '' and VIEW_LOC != null">
+			AND   	INSTR(VIEW_LOC, LOWER(#{VIEW_LOC})) > 0
+			</if>
+			<if test="VIEW_LOC1 != '' and VIEW_LOC1 != null">
+			AND   	INSTR(VIEW_LOC, LOWER(#{VIEW_LOC1})) > 0
+			</if>			
+			<if test="VIEW_LOC2 != '' and VIEW_LOC2 != null">
+			AND   	INSTR(VIEW_LOC, LOWER(#{VIEW_LOC2})) > 0
+			</if>									
+			<if test="searchKeyword == 'TITLE' and searchValue != '' and searchValue != null">
+			AND   	TITLE LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'CONTENT' and searchValue != '' and searchValue != null">
+			AND   	CONTENT LIKE CONCAT('%', #{searchValue} , '%')
+			</if>
+			<if test="searchKeyword == 'TITLE_CONTENT' and searchValue != '' and searchValue != null">
+			AND   	( TITLE LIKE CONCAT('%', #{searchValue} , '%') OR CONTENT LIKE CONCAT('%', #{searchValue} , '%') )
+			</if>			
+		    <![CDATA[			
+			]]>
+	</select>
+	
+	<select id="getBoard" parameterType="com.mvoipcenter.common.board.domain.Board"
+		 resultType="com.mvoipcenter.common.board.domain.Board" >
+		    <![CDATA[
+			SELECT BOARD_CAT_CD
+			      ,BOARD_SEQ
+			      ,BOARD_PART_CD
+			      ,(SELECT CD_NM FROM CODE WHERE HICD_VAL='BOARD_PART_CD' AND CD_VAL=A.BOARD_PART_CD) BOARD_PART_CD_NM
+			      ,TITLE
+			      ,CONTENT
+			      ,PASSWORD
+			      ,VIEW_SITE
+			      ,VIEW_LOC			      
+			      ,HIT_CNT
+			      ,FILE_SEQ
+			      ,CRE_ID
+			      ,CAST( DATE_FORMAT( CRE_DATE,'%Y.%m.%d' ) AS CHAR(10) ) CRE_DATE
+			      ,CRE_DATE CRE_DATE_TIME
+			      ,UPD_ID
+			      ,CAST( DATE_FORMAT( UPD_DATE,'%Y.%m.%d' ) AS CHAR(10) ) UPD_DATE
+			      ,UPD_DATE UPD_DATE_TIME
+			      ,REF
+			      ,RESTEP
+			      ,RELEVEL
+			FROM BOARD A
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   BOARD_SEQ = #{BOARD_SEQ}
+			]]>
+			<if test="VIEW_SITE != '' and VIEW_SITE != null">
+			AND   	INSTR(VIEW_SITE, LOWER(#{VIEW_SITE})) > 0
+			</if>			
+			<if test="VIEW_LOC != '' and VIEW_LOC != null">
+			AND   	INSTR(VIEW_LOC, LOWER(#{VIEW_LOC})) > 0
+			</if>			
+	</select>
+	
+	<select id="getBoardPrev" parameterType="com.mvoipcenter.common.board.domain.Board"
+		 resultType="com.mvoipcenter.common.board.domain.Board" >
+		    <![CDATA[
+			SELECT BOARD_CAT_CD
+			      ,BOARD_SEQ
+			      ,BOARD_PART_CD
+			      ,(SELECT CD_NM FROM CODE WHERE HICD_VAL='BOARD_PART_CD' AND CD_VAL=A.BOARD_PART_CD) BOARD_PART_CD_NM
+			      ,TITLE
+			      ,CONTENT
+			      ,PASSWORD
+			      ,VIEW_SITE
+			      ,VIEW_LOC			      
+			      ,HIT_CNT
+			      ,FILE_SEQ
+			      ,CRE_ID
+			      ,CRE_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+			      ,REF
+			      ,RESTEP
+			      ,RELEVEL
+			FROM BOARD A
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   BOARD_SEQ < #{BOARD_SEQ}
+			]]>
+			<if test="BOARD_PART_CD != '' and BOARD_PART_CD != null">
+			AND   	BOARD_PART_CD = #{BOARD_PART_CD}
+			</if>	
+			<if test="VIEW_SITE != '' and VIEW_SITE != null">
+			AND   	INSTR(VIEW_SITE, LOWER(#{VIEW_SITE})) > 0
+			</if>			
+			ORDER BY BOARD_SEQ DESC
+			LIMIT 1
+	</select>
+	
+	<select id="getBoardNext" parameterType="com.mvoipcenter.common.board.domain.Board"
+		 resultType="com.mvoipcenter.common.board.domain.Board" >
+		    <![CDATA[
+			SELECT BOARD_CAT_CD
+			      ,BOARD_SEQ
+			      ,BOARD_PART_CD
+			      ,(SELECT CD_NM FROM CODE WHERE HICD_VAL='BOARD_PART_CD' AND CD_VAL=A.BOARD_PART_CD) BOARD_PART_CD_NM
+			      ,TITLE
+			      ,CONTENT
+			      ,PASSWORD
+			      ,VIEW_SITE
+			      ,VIEW_LOC			      
+			      ,HIT_CNT
+			      ,FILE_SEQ
+			      ,CRE_ID
+			      ,CRE_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+			      ,REF
+			      ,RESTEP
+			      ,RELEVEL
+			FROM BOARD A
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   BOARD_SEQ > #{BOARD_SEQ}
+			]]>
+			<if test="BOARD_PART_CD != '' and BOARD_PART_CD != null">
+			AND   	BOARD_PART_CD = #{BOARD_PART_CD}
+			</if>
+			<if test="VIEW_SITE != '' and VIEW_SITE != null">
+			AND   	INSTR(VIEW_SITE, LOWER(#{VIEW_SITE})) > 0
+			</if>			
+			ORDER BY BOARD_SEQ ASC
+			LIMIT 1
+	</select>
+	
+	<select id="listMainBoard" parameterType="com.mvoipcenter.common.board.domain.Board"
+		 resultType="com.mvoipcenter.common.board.domain.Board" >
+		    <![CDATA[
+			SELECT BOARD_CAT_CD
+			      ,BOARD_PART_CD
+			      ,(SELECT CD_NM FROM CODE WHERE HICD_VAL='BOARD_PART_CD' AND CD_VAL=A.BOARD_PART_CD) BOARD_PART_CD_NM
+			      ,BOARD_SEQ
+			      ,CASE WHEN RELEVEL > 0 THEN CONCAT('[RE] ', TITLE) ELSE TITLE END TITLE
+			      ,CONTENT
+			      ,PASSWORD
+			      ,VIEW_SITE
+			      ,VIEW_LOC
+			      ,HIT_CNT
+			      ,FILE_SEQ
+			      ,CRE_ID
+			      ,CAST( DATE_FORMAT( CRE_DATE,'%Y.%m.%d' ) AS CHAR(10) ) CRE_DATE
+			      ,UPD_ID
+			      ,CAST( DATE_FORMAT( UPD_DATE,'%Y.%m.%d' ) AS CHAR(10) ) UPD_DATE
+			      ,REF
+			      ,RESTEP
+			      ,RELEVEL
+			FROM BOARD A
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			]]>
+			<if test="BOARD_PART_CD != '' and BOARD_PART_CD != null">
+			AND   	BOARD_PART_CD = #{BOARD_PART_CD}
+			</if>			
+			<if test="VIEW_SITE != '' and VIEW_SITE != null">
+			AND   	INSTR(VIEW_SITE, LOWER(#{VIEW_SITE})) > 0
+			</if>			
+			<if test="VIEW_LOC != '' and VIEW_LOC != null">
+			AND   	INSTR(VIEW_LOC, LOWER(#{VIEW_LOC})) > 0
+			</if>			
+			ORDER BY REF DESC, RESTEP ASC
+			LIMIT #{toLimit}
+	</select>	
+	
+	<select id="getMaxSeq" parameterType="com.mvoipcenter.common.board.domain.Board"
+		 resultType="string" >
+		    <![CDATA[
+			SELECT IFNULL(MAX(BOARD_SEQ)+1,1) BOARD_SEQ
+			FROM BOARD
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			]]>
+			<if test="BOARD_PART_CD != '' and BOARD_PART_CD != null and BOARD_PART_CD == 'go'">
+			AND   	BOARD_PART_CD = #{BOARD_PART_CD}
+			</if>			
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.mvoipcenter.common.board.domain.Board" >
+		<![CDATA[
+				INSERT INTO BOARD 
+				(  BOARD_CAT_CD
+			      ,BOARD_SEQ
+			      ,BOARD_PART_CD
+			      ,TITLE
+			      ,CONTENT
+			      ,PASSWORD
+			      ,HIT_CNT
+			      ,FILE_SEQ
+			      ,REF
+			      ,RESTEP
+			      ,RELEVEL
+			      ,CRE_ID
+			      ,CRE_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+			      ,VIEW_SITE
+			      ,VIEW_LOC
+				)VALUES(
+				   #{BOARD_CAT_CD}
+			      ,#{BOARD_SEQ}
+				  ,#{BOARD_PART_CD}
+			      ,#{TITLE}
+			      ,#{CONTENT}
+			      ,#{PASSWORD}
+			      ,0
+			      ,0
+			      ,#{REF}
+			      ,#{RESTEP}
+			      ,#{RELEVEL}
+			      ,#{CRE_ID}
+			      ,NOW()
+			      ,#{UPD_ID}
+			      ,NOW()
+			      ,#{VIEW_SITE}
+			      ,#{VIEW_LOC}			      
+				)
+        ]]>
+	</insert>	
+	
+	<update id="updateHitCnt" parameterType="com.mvoipcenter.common.board.domain.Board" >
+		<![CDATA[
+				UPDATE BOARD
+				SET HIT_CNT = HIT_CNT + 1
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+				AND   BOARD_SEQ = #{BOARD_SEQ}
+        ]]>
+	</update>	
+	
+	<update id="updateBoard" parameterType="com.mvoipcenter.common.board.domain.Board" >
+		<![CDATA[
+				UPDATE BOARD
+				SET TITLE = #{TITLE} ,
+				    CONTENT = #{CONTENT} ,
+			        VIEW_SITE = #{VIEW_SITE},
+			        VIEW_LOC = #{VIEW_LOC},	
+			        PASSWORD = #{PASSWORD},			    
+				    UPD_ID = #{UPD_ID},
+				    UPD_DATE = NOW()
+        ]]>
+			<if test="BOARD_PART_CD != '' and BOARD_PART_CD != null">
+			        ,BOARD_PART_CD = #{BOARD_PART_CD}
+			</if>				    
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+				AND   BOARD_SEQ = #{BOARD_SEQ}
+	</update>	
+	
+	<update id="updateForReplyBoard" parameterType="com.mvoipcenter.common.board.domain.Board" >
+		<![CDATA[
+				UPDATE BOARD
+				SET RESTEP = RESTEP + 1
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+				AND   REF = #{REF}
+				AND   RESTEP > #{RESTEP}
+        ]]>
+	</update>	
+	
+	<delete id="deleteBoard" parameterType="com.mvoipcenter.common.board.domain.Board" >
+		<![CDATA[
+				DELETE FROM BOARD
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+				AND   BOARD_SEQ = #{BOARD_SEQ}
+        ]]>
+	</delete>	
+	
+	<select id="listBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile"
+		 resultType="com.mvoipcenter.common.board.domain.BoardFile" >
+		    <![CDATA[
+			SELECT BOARD_CAT_CD
+			      ,BOARD_SEQ
+			      ,FILE_SEQ
+			      ,FILE_NAME
+			      ,FILE_PATH
+			      ,FILE_TYPE
+			      ,FILE_SIZE
+			      -- ,FILE_CONTENT
+			      ,CRE_ID
+			      ,CRE_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+			FROM BOARD_FILE
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   BOARD_SEQ = #{BOARD_SEQ}
+			]]>
+	</select>	
+	
+	<select id="getBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile"
+		 resultType="com.mvoipcenter.common.board.domain.BoardFile" >
+		    <![CDATA[
+			SELECT BOARD_CAT_CD
+			      ,BOARD_SEQ
+			      ,FILE_SEQ
+			      ,FILE_NAME
+			      ,FILE_PATH
+			      ,FILE_TYPE
+			      ,FILE_SIZE
+			      ,FILE_CONTENT
+			      ,CRE_ID
+			      ,CRE_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+			FROM BOARD_FILE
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   BOARD_SEQ = #{BOARD_SEQ}
+			AND   FILE_SEQ = #{FILE_SEQ}
+			]]>
+	</select>	
+	
+	<select id="getMaxFileSeq" parameterType="com.mvoipcenter.common.board.domain.BoardFile"
+		 resultType="string" >
+		    <![CDATA[
+			SELECT IFNULL(MAX(FILE_SEQ)+1,1) FILE_SEQ
+			FROM BOARD_FILE
+			WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+			AND   BOARD_SEQ = #{BOARD_SEQ}
+			]]>
+	</select>
+	
+	<insert id="insertBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile" >
+		<![CDATA[
+				INSERT INTO BOARD_FILE 
+				(  BOARD_CAT_CD
+			      ,BOARD_SEQ
+			      ,FILE_SEQ
+			      ,FILE_NAME
+			      ,FILE_PATH
+			      ,FILE_TYPE
+			      ,FILE_SIZE
+			      ,FILE_CONTENT
+			      ,CRE_ID
+			      ,CRE_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+				)VALUES(
+				   #{BOARD_CAT_CD}
+			      ,#{BOARD_SEQ}
+			      ,#{FILE_SEQ}
+			      ,#{FILE_NAME}
+			      ,#{FILE_PATH}
+			      ,#{FILE_TYPE}
+			      ,#{FILE_SIZE}
+			      ,#{FILE_CONTENT}
+			      ,#{CRE_ID}
+			      ,NOW()
+			      ,#{UPD_ID}
+			      ,NOW()
+				)
+        ]]>
+	</insert>	
+	
+	<update id="updateBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile" >
+		<![CDATA[
+				UPDATE BOARD_FILE 
+				SET FILE_NAME = #{FILE_NAME}
+				   ,FILE_PATH = #{FILE_PATH}
+				   ,FILE_TYPE = #{FILE_TYPE}
+				   ,FILE_SIZE = #{FILE_SIZE}
+				   ,FILE_CONTENT = #{FILE_CONTENT}
+				   ,UPD_ID = #{UPD_ID}
+				   ,UPD_DATE = NOW()
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+				AND   BOARD_SEQ = #{BOARD_SEQ}
+				AND   FILE_SEQ = #{FILE_SEQ}
+        ]]>
+	</update>	
+	
+	<delete id="deleteBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile" >
+		<![CDATA[
+				DELETE FROM BOARD_FILE 
+				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
+				AND   BOARD_SEQ = #{BOARD_SEQ}
+				AND   FILE_SEQ = #{FILE_SEQ}
+        ]]>
+	</delete>	
+</mapper>

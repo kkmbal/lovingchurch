@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.mvoipcenter.common.post.service.PostMapper">
+	<select id="listZip" parameterType="com.mvoipcenter.common.post.domain.Post"
+		 resultType="com.mvoipcenter.common.post.domain.Post" >
+		    <![CDATA[
+			SELECT SEQ
+			      ,ZIP1
+			      ,ZIP2
+			      ,CONCAT(ZIP1, '-', ZIP2) ZIP
+			      ,ADDR
+			      ,NEW_ADDR
+			      ,KEYWORD
+			      ,UPD_DT
+			FROM POST
+			WHERE KEYWORD LIKE CONCAT(TRIM(#{KEYWORD}) ,'%')
+			]]>
+	</select>
+
+</mapper>

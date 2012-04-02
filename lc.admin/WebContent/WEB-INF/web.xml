@@ -1,12 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>lc.admin</display-name>
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
-	</welcome-file-list>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+	<display-name>Smart</display-name>
+
+	<context-param>
+    	<param-name>webAppRootKey</param-name>
+    	<param-value>smart.root</param-value>
+  	</context-param>
+
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+	  	<param-value>/WEB-INF/smart/config/log4j.xml</param-value>
+	</context-param>
+	<context-param>
+	  	<param-name>log4jRefreshInterval</param-name>
+	  	<param-value>2000</param-value>
+	</context-param>
+
+    <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/smart/config/main-context.xml</param-value>
+	</context-param>
+
+  	<listener>
+    	<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+  	</listener>
+  	
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    <!--  session scope bean -->
+	<listener>
+    	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  	</listener>
+
+
+    
+
+    <servlet>
+        <servlet-name>smartController</servlet-name>
+        <servlet-class>smart.ide.server.controller.SmartController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>smartController</servlet-name>
+        <url-pattern>/smartController</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+		<servlet-name>longProcessController</servlet-name>
+		<servlet-class>smart.ide.server.controller.LongProcessController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>longProcessController</servlet-name>
+		<url-pattern>/longProcessController</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>commandController</servlet-name>
+		<servlet-class>smart.ide.server.controller.CommandController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>commandController</servlet-name>
+		<url-pattern>/commandController</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>jsonController</servlet-name>
+		<servlet-class>smart.ide.server.controller.JsonController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>jsonController</servlet-name>
+		<url-pattern>*.json</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+			    /WEB-INF/smart/config/springmvc/**/*-servlet.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>	
+
 </web-app>

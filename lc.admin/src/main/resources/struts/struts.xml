@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.action.extension" value="do" />
+	<constant name="struts.multipart.saveDir" value="/home/mvoipcenter/tmp" />
+	<constant name="struts.multipart.maxSize" value="32212254720" />
+	
+	<include file="struts_common.xml"/>
+	
+
+	<package name="default" extends="struts-default">
+      <interceptors>
+         <interceptor name="login" class="com.mvoipcenter.common.login.LoginInterceptor"/>
+      </interceptors>
+      
+        <global-results>
+            <result name="Exception">/500.jsp</result>
+        </global-results>
+        <global-exception-mappings>
+            <exception-mapping exception="com.mvoipcenter.common.exception.MException" result="Exception"/>
+        </global-exception-mappings>       
+      
+		<action name="*Login" class="loginAction" method="{1}">
+			<result name="input">/500.jsp</result> <!-- The token "input" is returned when validation fails -->
+			<!-- result name="success" type="redirectAction">listBoard</result -->
+			<result name="success" type="redirectAction">main</result>
+			<result name="logout" type="redirect">/index.html</result>
+			<result name="fail" >/index.jsp</result>
+		</action>      
+      
+		<action name="main" class="mainAction" method="login">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+			<result name="input" type="redirect">/index.html</result> <!-- The token "input" is returned when validation fails -->
+			
+			<!-- result name="success" type="redirectAction">listBoard</result -->
+			<result name="success">/WEB-INF/jsp/main.jsp</result>
+			<result name="logout" type="redirect">/index.html</result>
+			<result name="fail" type="redirect">/index.html</result>
+		</action>			
+		
+		<action name="*_client" class="clientAction" method="{1}">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>		
+	        <result name="input" type="redirect">/index.html</result>
+	        
+			<result name="affiliateMember">/WEB-INF/jsp/affiliateMember.jsp</result>
+			<result name="useInfo_tab01">/WEB-INF/jsp/useInfo_tab01.jsp</result>
+			<result name="useInfo_tab02">/WEB-INF/jsp/useInfo_tab02.jsp</result>
+			<result name="orderdt" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>			
+			<result name="changePswd" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>			
+		</action>
+		
+		<action name="*_appl" class="applicationAction" method="{1}">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>		
+	        <result name="input" type="redirect">/index.html</result>
+	        
+	        <result name="serviceCode" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="saveServiceName" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="saveLimitValue" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="saveManagerContact" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="saveInvoiceAccountType" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="saveLogoImage" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			
+			<result name="saveCalledNum" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="saveBlackList" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="saveCallbackUrl" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="createSecretkey" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="saveSecretkeyTemp" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="savePnsUseType" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="saveCertTemp" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="saveMediaInfo" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+			<result name="getServiceStatus">/WEB-INF/jsp/serviceStatus.jsp</result>
+			<result name="setting_tabcall01">/WEB-INF/jsp/setting_tabcall01.jsp</result>
+			<result name="getServiceSetting">/WEB-INF/jsp/setting_tabcall01.jsp</result>
+			<result name="setting_tabcall02">/WEB-INF/jsp/setting_tabcall02.jsp</result>
+			<result name="setting_tabcall02_frame">/WEB-INF/jsp/setting_tabcall02_frame.jsp</result>
+			<result name="uploadLogoImage">/WEB-INF/jsp/setting_tabcall02_frame.jsp</result>
+			<!-- 
+			<result name="getServiceUseSetting">/WEB-INF/jsp/setting_tabcall02.jsp</result> 
+			<result name="getServiceInterSetting">/WEB-INF/jsp/setting_tabcall03.jsp</result>
+			<result name="getServiceAddSetting">/WEB-INF/jsp/setting_tabcall04.jsp</result>
+			-->
+			<result name="setting_tabcall03">/WEB-INF/jsp/setting_tabcall03.jsp</result>
+			<result name="setting_tabcall03_frame">/WEB-INF/jsp/setting_tabcall03_frame.jsp</result>
+			<result name="uploadCertTemp">/WEB-INF/jsp/setting_tabcall03_frame.jsp</result>
+			<result name="setting_tabcall04">/WEB-INF/jsp/setting_tabcall04.jsp</result>
+		</action>
+		<action name="serviceStatus_appl">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        	
+			<result>/WEB-INF/jsp/serviceStatus.jsp</result>
+		</action>
+		
+		<action name="*_using" class="usingAction" method="{1}">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>	
+	        
+	        <exception-mapping exception="com.mvoipcenter.common.exception.MException" result="{1}"/>
+	        	
+	        <result name="input" type="redirect">/index.html</result>
+	        
+			<result name="useHistory">/WEB-INF/jsp/useHistory.jsp</result>
+			<result name="appHistory">/WEB-INF/jsp/appHistory.jsp</result>
+		</action>
+		
+		<action name="*_charge" class="chargeAction" method="{1}">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>		
+	        <result name="input" type="redirect">/index.html</result>
+	        
+			<result name="payCharge">/WEB-INF/jsp/payCharge.jsp</result>
+			<result name="payCharge_none">/WEB-INF/jsp/payCharge_none.jsp</result>
+			<result name="payCharge_pop01">/WEB-INF/jsp/payCharge_pop01.jsp</result>
+			<result name="payDemad">/WEB-INF/jsp/payDemad.jsp</result>
+			<result name="payDemad_pop01">/WEB-INF/jsp/payDemad_pop01.jsp</result>
+			<result name="payDemad_pop02">/WEB-INF/jsp/payDemad_pop02.jsp</result>
+			<result name="paySubmit">/WEB-INF/jsp/paySubmit.jsp</result>
+			<result name="paySubmit_pg_ok">/WEB-INF/jsp/paySubmit_pg_ok.jsp</result>
+			<result name="paySubmit_ok">/WEB-INF/jsp/paySubmit_ok.jsp</result>
+			<result name="paySubmit_result">/lgUplus/payreq.jsp</result>
+			<result name="paySubmit_pop01">/WEB-INF/jsp/paySubmit_pop01.jsp</result>
+			<result name="paySubmit02">/WEB-INF/jsp/paySubmit02.jsp</result>
+			<result name="paySubmit02_pg_ok">/WEB-INF/jsp/paySubmit02_pg_ok.jsp</result>
+			<result name="paySubmit02_ok">/WEB-INF/jsp/paySubmit02_ok.jsp</result>
+			<result name="payHistory">/WEB-INF/jsp/payHistory.jsp</result>
+		</action>
+		
+		<action name="*_support" class="supportAction" method="{1}">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>		
+	        <result name="input" type="redirect">/index.html</result>
+		</action>
+		
+		<action name="noticeList" class="noticeBoardAction" method="list">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+			<result name="input" type="redirect">/index.html</result>
+			
+			<result name="list">/WEB-INF/jsp/noticeList.jsp</result>
+		</action>
+		<action name="noticeView" class="noticeBoardAction" method="view">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+			<result name="input" type="redirect">/index.html</result>
+			
+			<result name="view">/WEB-INF/jsp/noticeView.jsp</result>
+		</action>
+		<action name="faqList"  class="faqBoardAction" method="list">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        
+			<result name="list">/WEB-INF/jsp/faqList.jsp</result>
+		</action>
+		<action name="faqView"  class="faqBoardAction" method="view">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        
+			<result name="view">/WEB-INF/jsp/faqView.jsp</result>
+		</action>
+		<action name="dataList01" class="docBoardAction" method="list">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        
+			<result name="list">/WEB-INF/jsp/dataList01.jsp</result>
+		</action>		
+		
+		<action name="qnaInsert" class="subBoardOnlineAction" method="insert">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        
+			<result name="save" type="redirectAction">qnaList</result>
+		</action>		
+		<action name="qna" class="subBoardOnlineAction" method="viewInsert">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        		
+			<result name="viewInsert">/WEB-INF/jsp/qna.jsp</result>
+		</action>
+		<action name="qnaList" class="subBoardOnlineAction" method="list">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        		
+			<result name="list">/WEB-INF/jsp/qnaList.jsp</result>
+		</action>
+		<action name="qnaView" class="subBoardOnlineAction" method="view_nochk">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        		
+			<result name="view_nochk">/WEB-INF/jsp/qnaView.jsp</result>
+		</action>
+		<action name="checkPswdQuestion" class="subBoardOnlineAction" method="chkPswd">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="contentCharSet">utf-8</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>		
+				
+		<action name="contact">
+			<result>/WEB-INF/jsp/contact.jsp</result>
+		</action>		
+		<action name="downSample">
+			<result>/WEB-INF/jsp/popup/sample.jsp</result>
+		</action>	
+		
+		
+		<action name="tech_submitInsert" class="serviceExamBoardAction" method="insert">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        
+			<result name="save" type="redirectAction">tech_submit?saveResult=${saveResult}</result>
+		</action>		
+		<action name="tech_submit" class="serviceExamBoardAction" method="list">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        		
+			<result name="list">/WEB-INF/jsp/tech_submit.jsp</result>
+		</action>
+		<action name="tech_submit02" class="serviceExamBoardAction" method="view">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        		
+			<result name="view">/WEB-INF/jsp/tech_submit02.jsp</result>
+		</action>
+		<action name="tech_submit03" class="serviceExamBoardAction" method="viewInsert">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        		
+			<result name="viewInsert">/WEB-INF/jsp/tech_submit03.jsp</result>
+		</action>
+		
+		<action name="calendarBoard" class="serviceExamBoardAction" method="getAjaxCalendarBoard">
+			<result name="success" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="contentCharSet">utf-8</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>		
+		
+		<action name="tech_submit04" class="serviceErrorBoardAction" method="errorViewInsert">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        		
+			<result name="errorViewInsert">/WEB-INF/jsp/tech_submit04.jsp</result>
+		</action>
+		<action name="tech_submit04Insert" class="serviceErrorBoardAction" method="errorInsert">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+	        <result name="input" type="redirect">/index.html</result>
+	        		
+			<!-- <result name="save" type="redirectAction">tech_submit04!success</result> -->
+			<result name="save" type="redirectAction">tech_submit04?saveResult=${saveResult}</result>
+		</action>
+	
+		
+		
+		
+		
+		
+		<action name="useHistory">
+			<result>/WEB-INF/jsp/useHistory.jsp</result>
+		</action>
+		<action name="payCharge" class="chargeAction" method="payCharge_none">		
+			<result name="payCharge_none">/WEB-INF/jsp/payCharge.jsp</result>
+		</action>		
+		<action name="payDemad">
+			<result>/WEB-INF/jsp/payDemad.jsp</result>
+		</action>		
+		<action name="paySubmit">
+			<result type="redirect">/WEB-INF/jsp/paySubmit.jsp</result>
+		</action>		
+		<action name="payHistory">
+			<result>/WEB-INF/jsp/payHistory.jsp</result>
+		</action>		
+
+		<action name="submitPrint">
+			<result>/WEB-INF/jsp/submitPrint.jsp</result>
+		</action>		
+		<action name="appData_appuser01">
+			<result>/WEB-INF/jsp/appData_appuser01.jsp</result>
+		</action>		
+		<action name="appData_appuser02">
+			<result>/WEB-INF/jsp/appData_appuser02.jsp</result>
+		</action>		
+		<action name="appData_appuser03">
+			<result>/WEB-INF/jsp/appData_appuser03.jsp</result>
+		</action>		
+		<action name="appData_appuser04">
+			<result>/WEB-INF/jsp/appData_appuser04.jsp</result>
+		</action>		
+		<action name="appData_inner01">
+			<result>/WEB-INF/jsp/appData_inner01.jsp</result>
+		</action>		
+		<action name="appData_inner02">
+			<result>/WEB-INF/jsp/appData_inner02.jsp</result>
+		</action>		
+		<action name="appData_inner03">
+			<result>/WEB-INF/jsp/appData_inner03.jsp</result>
+		</action>		
+		<action name="appData_inner04">
+			<result>/WEB-INF/jsp/appData_inner04.jsp</result>
+		</action>		
+		<action name="appData_outer01">
+			<result>/WEB-INF/jsp/appData_outer01.jsp</result>
+		</action>		
+		<action name="appData_outer02">
+			<result>/WEB-INF/jsp/appData_outer02.jsp</result>
+		</action>		
+		<action name="appData_outer03">
+			<result>/WEB-INF/jsp/appData_outer03.jsp</result>
+		</action>		
+		<action name="appData_outer04">
+			<result>/WEB-INF/jsp/appData_outer04.jsp</result>
+		</action>		
+		<action name="appData_sms01">
+			<result>/WEB-INF/jsp/appData_sms01.jsp</result>
+		</action>		
+		<action name="appData_sms02">
+			<result>/WEB-INF/jsp/appData_sms02.jsp</result>
+		</action>		
+		<action name="appData_sms03">
+			<result>/WEB-INF/jsp/appData_sms03.jsp</result>
+		</action>		
+		<action name="appData_sms04">
+			<result>/WEB-INF/jsp/appData_sms04.jsp</result>
+		</action>		
+		<action name="tabData_none">
+			<result>/WEB-INF/jsp/tabData_none.jsp</result>
+		</action>		
+		<action name="tabData_outer01">
+			<result>/WEB-INF/jsp/tabData_outer01.jsp</result>
+		</action>		
+		<action name="tabData_outer02">
+			<result>/WEB-INF/jsp/tabData_outer02.jsp</result>
+		</action>		
+		<action name="tabData_outer03">
+			<result>/WEB-INF/jsp/tabData_outer03.jsp</result>
+		</action>		
+		<action name="tabData_outer04">
+			<result>/WEB-INF/jsp/tabData_outer04.jsp</result>
+		</action>	
+		<action name="postSearch" class="postAction" method="listZip">
+			<result name="success">/WEB-INF/jsp/popup/postSearch.jsp</result>
+		</action>
+		
+		<!-- skin download -->
+		<action name="skinDownload*" class="skinDownloadAction" method="download{1}">
+			<interceptor-ref name="login"/>
+	        <interceptor-ref name="defaultStack"/>
+			<result name="input" type="redirect">/index.html</result>
+			
+			<param name="inputPath">/images/tax3.jpg</param>
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">4096</param>
+            </result>		
+		</action>			
+	</package>
+
+</struts>

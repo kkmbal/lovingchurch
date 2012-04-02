@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.mvoipcenter.customer.application.service.ApplicationMapper">
+	<select id="getCustomerInfo" parameterType="com.mvoipcenter.customer.application.domain.Apply"
+		 resultType="com.mvoipcenter.customer.application.domain.Apply" >
+		    <![CDATA[
+			SELECT LOGIN_ID
+			      ,CUSTOMERID
+			      ,CUSTOMERNM
+			FROM MEMBER
+			WHERE LOGIN_ID = #{LOGIN_ID}
+			]]>			
+	</select>
+	
+	<select id="listServiceCode" parameterType="com.mvoipcenter.customer.application.domain.Apply"
+		 resultType="com.mvoipcenter.customer.application.domain.Apply" >
+		    <![CDATA[
+			SELECT A.LOGIN_ID
+			      ,A.ORDERDT
+			      ,A.ORDERNO
+			      ,A.VALIDKEY
+			      ,A.SERVICE_NM			      
+			FROM SERVICE A
+			WHERE A.LOGIN_ID = #{LOGIN_ID}
+			AND A.SRVC_ISSU_CD = #{SRVC_ISSU_CD}
+			]]>
+			<if test="PRD_CD != '' and PRD_CD != null">
+			AND A.PRD_CD = #{PRD_CD}
+			</if>
+			ORDER BY ORDERNO DESC			
+	</select>
+	
+	<select id="getManagerContact" parameterType="com.mvoipcenter.customer.application.domain.Apply"
+		 resultType="com.mvoipcenter.customer.application.domain.Apply" >
+		    <![CDATA[
+			SELECT A.MNG_NAME, A.MNG_HP, A.MNG_TEL, A.MNG_FAX, A.MNG_EMAIL
+			      ,A.DEV_NAME, A.DEV_HP, A.DEV_TEL, A.DEV_FAX, A.DEV_EMAIL
+			      ,A.ADJ_NAME, A.ADJ_HP, A.ADJ_TEL, A.ADJ_FAX, A.ADJ_EMAIL
+			      ,A.RESP_ZIP1, A.RESP_ZIP2, A.RESP_ADDR	
+			      ,B.REQ_NAME, B.REQ_HP, B.REQ_TEL, B.REQ_FAX, B.REQ_EMAIL		      
+			FROM SERVICE A, APPLY B
+			WHERE A.LOGIN_ID = B.LOGIN_ID
+			AND A.ORDERDT = B.ORDERDT
+			AND A.LOGIN_ID = #{LOGIN_ID}
+			AND A.VALIDKEY = #{VALIDKEY}
+			]]>	
+	</select>
+	
+	<update id="updateManagerContact" parameterType="com.mvoipcenter.customer.application.domain.Apply" >
+		<![CDATA[
+				UPDATE SERVICE
+				SET 
+					MNG_NAME		= #{MNG_NAME}
+					, MNG_HP		= #{MNG_HP}
+					, MNG_TEL		= #{MNG_TEL}
+					, MNG_FAX		= #{MNG_FAX}
+					, MNG_EMAIL		= #{MNG_EMAIL}
+					, DEV_NAME		= #{DEV_NAME}
+					, DEV_HP		= #{DEV_HP}
+					, DEV_TEL		= #{DEV_TEL}
+					, DEV_FAX		= #{DEV_FAX}
+					, DEV_EMAIL		= #{DEV_EMAIL}
+					, ADJ_NAME		= #{ADJ_NAME}
+					, ADJ_HP		= #{ADJ_HP}
+					, ADJ_TEL		= #{ADJ_TEL}
+					, ADJ_FAX		= #{ADJ_FAX}
+					, ADJ_EMAIL		= #{ADJ_EMAIL}
+					, RESP_ZIP1		= #{RESP_ZIP1}
+					, RESP_ZIP2		= #{RESP_ZIP2}
+					, RESP_ADDR		= #{RESP_ADDR}
+					,UPD_ID         =  #{LOGIN_ID}        
+					,UPD_DATE       =  NOW()         
+				WHERE LOGIN_ID = #{LOGIN_ID}
+				AND VALIDKEY = #{VALIDKEY}
+        ]]>
+	</update>
+	<update id="updateRequesterContact" parameterType="com.mvoipcenter.customer.application.domain.Apply" >
+		<![CDATA[
+				UPDATE APPLY
+				SET 
+					REQ_NAME		= #{REQ_NAME}
+					, REQ_HP		= #{REQ_HP}
+					, REQ_TEL		= #{REQ_TEL}
+					, REQ_FAX		= #{REQ_FAX}
+					, REQ_EMAIL		= #{REQ_EMAIL}
+					,UPD_ID         =  #{LOGIN_ID}        
+					,UPD_DATE       =  NOW()         
+				WHERE LOGIN_ID = #{LOGIN_ID}
+				AND ORDERDT = #{ORDERDT}
+        ]]>
+	</update>
+	<update id="updateServiceName" parameterType="com.mvoipcenter.customer.application.domain.Apply" >
+		<![CDATA[
+				UPDATE SERVICE
+				SET 
+					SERVICE_NM      =  #{SERVICE_NM  ,jdbcType=VARCHAR} 
+					,UPD_ID         =  #{LOGIN_ID}        
+					,UPD_DATE       =  NOW()         
+				WHERE LOGIN_ID = #{LOGIN_ID}
+				AND VALIDKEY = #{VALIDKEY}
+        ]]>
+	</update>
+	
+	<update id="updateService" parameterType="com.mvoipcenter.customer.application.domain.Apply" >
+			UPDATE SERVICE
+			SET 
+				UPD_ID         =  #{LOGIN_ID}        
+				,UPD_DATE       =  NOW() 
+				<if test="SERVICE_NM != '' and SERVICE_NM != null"> 
+				,SERVICE_NM      =  #{SERVICE_NM}
+				</if>
+				<if test="SRVC_STAT_CD != '' and SRVC_STAT_CD != null">
+				,SRVC_STAT_CD      =  #{SRVC_STAT_CD}
+				</if>  
+				<if test="SPE_AMT != '' and SPE_AMT != null">
+				,SPE_AMT      =  #{SPE_AMT}
+				</if> 
+				<if test="INSU_AMT != '' and INSU_AMT != null">
+				,INSU_AMT      =  #{INSU_AMT}
+				</if> 
+				<if test="INSU_AMT_FEE != '' and INSU_AMT_FEE != null">
+				,INSU_AMT_FEE      =  #{INSU_AMT_FEE}
+				</if> 
+				<if test="EMAIL_YN != '' and EMAIL_YN != null">
+				,EMAIL_YN      =  #{EMAIL_YN}
+				</if> 
+				<if test="SMS_YN != '' and SMS_YN != null">
+				,SMS_YN      =  #{SMS_YN}
+				</if> 
+				<if test="EMAIL_TXT != '' and EMAIL_TXT != null">
+				,EMAIL_TXT      =  #{EMAIL_TXT}
+				</if> 
+				<if test="SMS_TXT != '' and SMS_TXT != null">
+				,SMS_TXT      =  #{SMS_TXT}
+				</if> 
+				,LIMIT_VALUE      =  #{LIMIT_VALUE}
+				<if test="UNIT_VALUE != '' and UNIT_VALUE != null">
+				,FEE_LIMIT_CD      =  #{UNIT_VALUE}
+				</if> 
+			WHERE LOGIN_ID = #{LOGIN_ID}
+			AND VALIDKEY = #{VALIDKEY}
+	</update>
+	
+	
+	<select id="getServiceInfo" parameterType="com.mvoipcenter.customer.application.domain.Apply"
+		 resultType="com.mvoipcenter.customer.application.domain.Apply" >
+		    <![CDATA[
+			SELECT ORDERDT, ORDERNO, LOGIN_ID
+				, REQ_COST_CD, INSU_JOIN_CD, DELAY_CONT_CD, SRVC_ISSU_CD
+				, DOCU_OFFER_CD, USE_CONT_CD, MEMB_AGREE_CD
+				, (SELECT CUST_ST_CD FROM MEMBER WHERE LOGIN_ID = A.LOGIN_ID) CUST_ST_CD
+				, SPE_AMT, INSU_AMT, INSU_AMT_FEE, FEE_LIMIT_CD, (SELECT CD_NM FROM CODE WHERE HICD_VAL = 'FEE_LIMIT_CD' AND CD_VAL = A.FEE_LIMIT_CD) FEE_LIMIT_CD_NM
+				, LIMIT_VALUE, EMAIL_YN, SMS_YN, EMAIL_TXT, SMS_TXT      
+			FROM SERVICE A
+			WHERE LOGIN_ID = #{LOGIN_ID}
+			AND VALIDKEY = #{VALIDKEY}
+			]]>	
+	</select>
+	
+	<select id="getServiceEtcInfo" parameterType="com.mvoipcenter.customer.application.domain.Apply"
+		 resultType="com.mvoipcenter.customer.application.domain.Apply" >
+		    <![CDATA[
+			SELECT MEDIA_CD, PAY_FREE_CD, DETAIL_INFO, ETC_SEQ	      
+			FROM SERVICE_ETC
+			WHERE LOGIN_ID = #{LOGIN_ID}
+			AND ORDERDT = #{ORDERDT}
+			AND ORDERNO = #{ORDERNO}
+			ORDER BY ETC_SEQ
+			]]>	
+	</select>
+	
+	<select id="getMaxEtcSeq" parameterType="com.mvoipcenter.customer.application.domain.Apply"
+		 resultType="string" >
+		    <![CDATA[
+			SELECT IFNULL(MAX(ETC_SEQ)+1,1) ETC_SEQ	      
+			FROM SERVICE_ETC
+			WHERE LOGIN_ID = #{LOGIN_ID}
+			AND ORDERDT = #{ORDERDT}
+			AND ORDERNO = #{ORDERNO}
+			]]>	
+	</select>
+	
+	<insert id="insertServiceEtc" parameterType="com.mvoipcenter.customer.application.domain.Apply" >
+		<![CDATA[
+				INSERT INTO SERVICE_ETC 
+				(  LOGIN_ID
+			      ,ORDERDT
+			      ,ORDERNO
+			      ,MEDIA_CD
+			      ,PAY_FREE_CD
+			      ,DETAIL_INFO
+			      ,ETC_SEQ
+			      ,CRE_ID
+			      ,CRE_DATE
+			      ,UPD_ID
+			      ,UPD_DATE
+				)VALUES(
+				   #{LOGIN_ID}
+				  ,#{ORDERDT}
+			      ,#{ORDERNO}
+				  ,#{MEDIA_CD}
+			      ,#{PAY_FREE_CD}
+			      ,#{DETAIL_INFO}
+			      ,#{ETC_SEQ}
+			      ,#{LOGIN_ID}
+			      ,NOW()
+			      ,#{LOGIN_ID}
+			      ,NOW()
+				)
+        ]]>
+	</insert>
+	
+	<update id="updateServiceEtc" parameterType="com.mvoipcenter.customer.application.domain.Apply" >
+		<![CDATA[
+			UPDATE SERVICE_ETC 
+			SET  MEDIA_CD = #{MEDIA_CD},
+				 PAY_FREE_CD = #{PAY_FREE_CD},
+				 DETAIL_INFO = #{DETAIL_INFO},
+				 UPD_ID = #{LOGIN_ID},
+				 UPD_DATE = NOW()
+			WHERE LOGIN_ID = #{LOGIN_ID}
+			AND   ORDERDT = #{ORDERDT}
+			AND   ORDERNO = #{ORDERNO}	
+			AND   ETC_SEQ = #{ETC_SEQ} 
+
+        ]]>
+	</update>
+	
+	<delete id="deleteServiceEtc" parameterType="map" >
+			DELETE FROM SERVICE_ETC
+			WHERE LOGIN_ID = #{LOGIN_ID}
+			AND   ORDERDT = #{ORDERDT}
+			AND   ORDERNO = #{ORDERNO}	
+			AND   ETC_SEQ IN 
+			<foreach item="LIST_DEL_ETC_SEQ" index="index" collection="LIST_DEL_ETC_SEQ"
+			open="(" separator="," close=")">
+			#{LIST_DEL_ETC_SEQ}
+			</foreach>	
+	</delete>
+	
+</mapper>

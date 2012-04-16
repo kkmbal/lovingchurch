@@ -3,6 +3,7 @@
 	<name>lc.admin</name>
 	<comment></comment>
 	<projects>
+		<project>lc.common</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

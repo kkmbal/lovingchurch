@@ -5,12 +5,12 @@
 	<tlibversion>1.0</tlibversion>
 	<jspversion>1.1</jspversion>
 	<shortname>GMBAL Tag Library</shortname>
-	<uri>http://gmbal.com/gmbal-taglib1.0</uri>
+	<uri>http://kmbal.com/kmbal-taglib1.0</uri>
 
 
 	<tag>
 		<name>paging</name>
-		<tagclass>com.mvoipcenter.common.tags.page.PagingTag</tagclass>
+		<tagclass>lc.common.tags.page.PagingTag</tagclass>
 		<attribute>
 			<name>name</name>
 			<required>true</required>
@@ -24,7 +24,7 @@
 	</tag>
 	<tag>
 		<name>get</name>
-		<tagclass>com.mvoipcenter.common.tags.page.PagingNavigatorTag</tagclass>
+		<tagclass>lc.common.tags.page.PagingNavigatorTag</tagclass>
 		<bodycontent>empty</bodycontent>
 		<attribute>
 			<name>property</name>

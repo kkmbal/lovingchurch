@@ -2,7 +2,8 @@
 <!DOCTYPE mapper
     PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.mvoipcenter.customer.application.service.ApplicationMapper">
+<mapper namespace="lc.admin.ApplicationMapper">
+<!-- 
 	<select id="getCustomerInfo" parameterType="com.mvoipcenter.customer.application.domain.Apply"
 		 resultType="com.mvoipcenter.customer.application.domain.Apply" >
 		    <![CDATA[
@@ -239,5 +240,5 @@
 			#{LIST_DEL_ETC_SEQ}
 			</foreach>	
 	</delete>
-	
+ -->	
 </mapper>

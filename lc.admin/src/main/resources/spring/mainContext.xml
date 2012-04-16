@@ -18,13 +18,14 @@
 
 	<!-- ========================= GENERAL DEFINITIONS ========================= -->
 
-	<context:component-scan base-package="com.mvoipcenter" />
-    <context:property-placeholder location="classpath:dev_jdbc.properties"/>
+	<context:component-scan base-package="lc.common" />
+	<context:component-scan base-package="lc.church" />
+    <context:property-placeholder location="classpath:jdbc.properties"/>
 
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">	
 		<property name="basenames">
 			<list>
-				<value>dev_jdbc</value>
+				<value>jdbc</value>
 			</list>
 		</property>
 	</bean>
@@ -53,22 +54,10 @@
 		<property name="mapperLocations" value="classpath*:sql/**/*.xml" />
 	</bean>
 
-	<!--
-	  - JPetStore primary business object (default implementation).
-		- Transaction advice gets applied through the AOP configuration below.
-	<bean id="petStore" class="org.springframework.samples.jpetstore.domain.logic.PetStoreImpl">
-		<property name="accountDao" ref="accountDao"/>
-		<property name="categoryDao" ref="categoryDao"/>
-		<property name="productDao" ref="productDao"/>
-		<property name="itemDao" ref="itemDao"/>
-		<property name="orderDao" ref="orderDao"/>
-	</bean>
-		-->
-
-
 	<!-- ========================= ASPECT CONFIGURATION ======================== -->
 	<aop:config>
-		<aop:advisor pointcut="execution(* com.mvoipcenter..*Service.*(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(* lc.common..*Service.*(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(* lc.church..*Service.*(..))" advice-ref="txAdvice"/>
 	</aop:config>
 	<!-- 
     <aop:config>

@@ -1,0 +1,314 @@
+* {
+	font-family: '돋움',dotum,Helvetica,sans-serif;
+	font-size:12px;
+}
+
+body {
+	width: 100%;
+	margin: 0px auto;
+}
+
+/* Top Frame -------------------------------- */
+#txtLogin {
+	color: #F2EACD;
+	text-decoration: none;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#btnLogout {
+	padding: 0px 20px 0px 10px;
+}
+
+/* Top 메뉴 -------------------------------- */
+nav ul {
+	padding-left: 4px;
+}
+
+nav ul li {
+	display: inline;
+	padding: 0px 20px 0px 10px;
+	border-right: 1px solid #3e4545;
+}
+
+nav ul li a {
+	color: #3e4545;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+nav ul li a:hover {
+	color: #c96000;
+}
+
+/* Footer Frame -------------------------------- */
+footer p {
+	text-align: center;
+	font-size: 12px;
+	color: #888;
+	margin-top: 24px;
+}
+
+/* Main-layout -------------------------------- */
+.main-layout {
+	width: 100%;
+}
+
+.main-layout td {
+	vertical-align: top;
+}
+
+.main-layout #sliding {
+	background-color: #e1e1e1;
+	text-align: center;
+	vertical-align: middle;
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+}
+
+.main-layout td.content {
+	padding: 0px 10px;
+}
+
+/* form-layout -------------------------------- */
+.form-layout {
+	width: 100%;
+	background-color: #f1f1f1 !important; /* #f1f1f1 */
+}
+
+/* Sub 메뉴 -------------------------------- */
+.sub-nav, .sub-nav dt, .sub-nav dd, .sub-nav ul, .sub-nav li {
+	margin: 0;
+	padding: 0;
+}
+
+.sub-nav {
+	float: left;
+	width: 164px;
+	font-size: 1.3em;
+}
+
+.sub-nav dt {
+	margin-top: 1.5em;
+	margin-bottom: 0;
+	padding-left: 8px;
+	padding-bottom:5px;
+	line-height: 1.2em;
+	border-bottom: 1px solid #F4F4F4;
+	font: normal 1em "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+	color: #e87b10;
+	font-weight: bold;
+}
+
+.sub-nav dd a,
+.sub-nav li a {
+	border-bottom: 1px solid #F4F4F4;
+	display:block;
+	padding: 4px 3px 4px 8px;
+	font-size: 90%;
+	text-decoration: none;
+	color: #555 ;
+	margin:2px 0;
+	height:13px;
+}
+
+.sub-nav dd a:hover,
+.sub-nav dd a:focus,
+.sub-nav dd a:hover,
+.sub-nav dd a:focus {
+	background: #f3f3f3;
+	color:#000;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+.sub-nav dd a.selected {
+	background: #555;
+	color:#ffffff;
+	-moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+
+/* Content -------------------------------- */
+.content h1 {
+	font-size:18px;
+	padding: 5px 0px 0px 80px;
+	border-bottom:1px solid #eee; 
+	background-image: url(../images/title_bg.gif);
+	background-repeat: no-repeat;
+}
+.content h2 {
+	font-size:12px; 
+	padding: 20px 0px 5px 5px;
+	text-transform: uppercase; 
+	color:#999; 
+	border:0; 
+	margin:0; 
+}
+.content a:link,
+.content a:visited { color:#1b75bb; text-decoration:none; }
+.content a:hover,
+.content a:active { color:#0b559b; }
+
+/* 검색 박스 -------------------------------- */
+.searchHline {
+	height:1px;
+	background-color: #cccccc;
+}
+
+.searchSline {
+	height:1px;
+	background-color: #e5e5e5;
+}
+
+.searchBody {
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	font-size: 12px;
+	vertical-align: middle !important;
+}
+
+/* 상세 박스 -------------------------------- */
+.boardHline {
+	height:1px;
+	background-color: #CFC7C0;
+}
+
+.boardSline {
+	height:1px;
+	background-color: #dddce2;
+}
+
+.boardHead {
+	padding-top: 7px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 3px;
+	font-size: 12px;
+	color: #776C62;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle !important;
+	background-color: #F3F1EF;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #CFC7C0;
+	word-break:nowrap;
+	white-space:nowrap;
+}
+
+.boardBody {
+	padding-top: 2px;
+	padding-left: 2px;
+	padding-right: 7px;
+	padding-bottom: 2px;
+	font-size: 12px;
+	vertical-align: middle !important;
+}
+
+/* Treeview -------------------------------- */
+.content ul {
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin:0;
+	padding:0;	
+}
+
+.content li {
+	 background-position:0 -176px;
+	 padding:3px 0px 2px 16px;
+}
+
+.content span.folder { 
+	background: url(../images/folder.gif) no-repeat; 
+	padding: 0px 0px 0px 20px; 
+}
+
+.content span.file { 
+	background: url(../images/file.gif) no-repeat;
+	padding: 0px 0px 0px 20px;  
+}
+
+.content .treeview, .treeview ul { 
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.content .treeview ul {
+	background-color: white;
+	margin-top: 4px;
+}
+
+.content .expandable-hitarea{
+	background: url(../images/icon_folder_plus.gif)  no-repeat;
+}
+
+.content .collapsable-hitarea{
+	background: url(../images/icon_folder_minus.gif)  no-repeat;
+}
+
+.content .treeview .hitarea {			
+	height: 16px;
+	width: 16px;
+	margin-left: -16px;
+	float: left;
+	cursor: pointer;
+}
+
+.content .treeview li { 
+	margin: 0;
+	padding: 3px 0pt 3px 16px;
+}
+
+.content .treeview a.selected {
+	background-color: #eee;
+}
+
+.content #treecontrol { margin: 1em 0; display: none; }
+
+/* Control 관련 -------------------------------- */
+.must {
+	/*background: url(../images/must.gif)  no-repeat;*/
+	background-color: #ffff66;
+}
+
+.readonly {
+	background-color: #ebebe4;
+	border: 1px solid #abadb3;
+}
+
+
+
+/* ------------------------------------------------------------------------ */
+/*bodyArea*/
+.bodyArea{width:980px; display:block;   padding-top:12px; float:none;}
+.bodyArea:after{ content:" ";
+				 display:block; 
+				 clear:both;  /* height:0; visibility:hidden; */}
+				 
+.clear11{ clear:both; padding:10px; border:10px dashed #000; /* height:0; overflow:hidden; */}				 
+				 
+/*leftMenu */
+.leftMenu {width:176px; float:left;}
+
+/*contentArea*/
+.content{width:770px; float:left; padding-left:20px}
+
+/*Footer*/
+.footerArea{clear:both; display:block; width:100%; padding-top:17px; margin:0 auto;}
+
+#sliding{
+	/* background-color: #e1e1e1;
+	text-align: center;
+	vertical-align: middle;
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+	*/
+	width:10px;
+	height:100px; 
+	float:left;
+	background-image: url(../images/btn_move2.png);
+	background-repeat: no-repeat;
+}
+

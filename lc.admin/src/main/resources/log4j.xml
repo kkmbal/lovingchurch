@@ -61,15 +61,15 @@
         <level value="WARN"/>
     </logger>
    
-    <logger name="com.mvoipcenter">
+    <logger name="lc">
         <level value="WARN"/>
     </logger>
    
-    <logger name="com.mvoipcenter.common.call">
+    <logger name="lc.common.call">
         <level value="DEBUG"/>
     </logger>
    
-    <logger name="com.mvoipcenter.common.util.ServiceConnector">
+    <logger name="lc.common.util.ServiceConnector">
         <level value="DEBUG"/>
     </logger>
 
@@ -96,7 +96,7 @@
     <root>
         <level value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
+<!--        <appender-ref ref="FILE"/>-->
     </root>
 
 </log4j:configuration>

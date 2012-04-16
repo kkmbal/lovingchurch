@@ -10,6 +10,9 @@ var WINDOW_RESIZE_YN = "N";
 //탭 index
 var tab_counter = 2;
 
+//탭 index와 id 를 저장하고 있는 맵
+var tab_map = {};
+
 
 //***************************************************************************
 // Window JavaScript 관련 공통 함수
@@ -65,7 +68,7 @@ function fnPopupModal(url, width, height, args){
  *            alert(result.name);
  *            alert(result.id);
  */
-ModalResult = function(){
+var ModalResult = function(){
 	this.result = {};
 	
 	this.set = function(id, value){
@@ -111,6 +114,22 @@ function fnGetCookie(sName)
 }
 
 /**
+ * Yes/No Select Box 생성용 함수
+ * 
+ * id : select id(jquery형식)
+ * title : 선택 title[option]
+ */
+function fnMakeYnSelect(id, title){
+	var tr = "";
+	if(title != undefined){
+		tr = tr + "<option value=''>"+title+"</option>";
+	}
+	tr = tr + "<option value='Y'>Y</option>";
+	tr = tr + "<option value='N'>N</option>";
+	$(id+"").html(tr);	
+}
+
+/**
  * 업무대분류 SELECT BOX 생성 함수.(Sync용)
  * 
  * id : select id(jquery형식)
@@ -119,7 +138,7 @@ function fnGetCookie(sName)
  * select_val : 리스트 생성 후 default 선택 값[option]
  */
 function fnMakeSelectBiz(id, hicd, title, select_val){
-	fnMakeSelect('getBiz', hicd, id, title, 'KEY', false, select_val);
+	fnMakeSelect('commSelectService.getBiz.json', hicd, id, title, 'KEY', false, select_val);
 }
 
 /**
@@ -131,7 +150,7 @@ function fnMakeSelectBiz(id, hicd, title, select_val){
  * select_val : 리스트 생성 후 default 선택 값[option]
  */
 function fnMakeSelectBizAsync(id, hicd, title, select_val){
-	fnMakeSelect('getBiz', hicd, id, title, 'KEY', true, select_val);
+	fnMakeSelect('commSelectService.getBiz.json', hicd, id, title, 'KEY', true, select_val);
 }
 
 /**
@@ -143,7 +162,7 @@ function fnMakeSelectBizAsync(id, hicd, title, select_val){
  * select_val : 리스트 생성 후 default 선택 값[option]
  */
 function fnMakeSelectSystem(id, hicd ,title, select_val){
-	fnMakeSelect('getSystem', hicd, id, title, 'KEY', false, select_val);
+	fnMakeSelect('commSelectService.getSystem.json', hicd, id, title, 'KEY', false, select_val);
 }
 
 /**
@@ -155,7 +174,7 @@ function fnMakeSelectSystem(id, hicd ,title, select_val){
  * select_val : 리스트 생성 후 default 선택 값[option]
  */
 function fnMakeSelectSystemAsync(id, hicd ,title, select_val){
-	fnMakeSelect('getSystem', hicd, id, title, 'KEY', true, select_val);
+	fnMakeSelect('commSelectService.getSystem.json', hicd, id, title, 'KEY', true, select_val);
 }
 
 /**
@@ -167,7 +186,7 @@ function fnMakeSelectSystemAsync(id, hicd ,title, select_val){
  * select_val : 리스트 생성 후 default 선택 값[option]
  */
 function fnMakeSelectHost(id, hicd, title, select_val){
-	fnMakeSelect('getHost', hicd, id, title, 'KEY', false, select_val);
+	fnMakeSelect('commSelectService.getHost.json', hicd, id, title, 'KEY', false, select_val);
 }
 
 /**
@@ -178,7 +197,7 @@ function fnMakeSelectHost(id, hicd, title, select_val){
  * title : 선택 title[option]
  */
 function fnMakeSelectHostAsync(id, hicd, title, select_val){
-	fnMakeSelect('getHost', hicd, id, title, 'KEY', true, select_val);
+	fnMakeSelect('commSelectService.getHost.json', hicd, id, title, 'KEY', true, select_val);
 }
 
 /**
@@ -194,7 +213,7 @@ function fnMakeSelectComm(id, hicd, title, select_val){
 		alert('공통코드 호출시는 그룹코드를 입력해야 합니다.');
 		return;
 	}
-	fnMakeSelect('getCommSubCd', hicd, id, title, 'CD', false, select_val);
+	fnMakeSelect('commSelectService.getCommSubCd.json', hicd, id, title, 'CD', false, select_val);
 }
 
 /**
@@ -210,7 +229,7 @@ function fnMakeSelectCommAsync(id, hicd, title, select_val){
 		alert('공통코드 호출시는 그룹코드를 입력해야 합니다.');
 		return;
 	}
-	fnMakeSelect('getCommSubCd', hicd, id, title, 'CD', true, select_val);
+	fnMakeSelect('commSelectService.getCommSubCd.json', hicd, id, title, 'CD', true, select_val);
 }
 
 /**
@@ -284,9 +303,9 @@ function fnGetGridSelect(url, key_name, val_name){
 }
 
 /**
- * 공통코드 SELECT BOX 생성 함수.
+ * SELECT BOX 생성 함수.
  * 
- * method : 호출 method명
+ * method : 호출 url명
  * hicd : 상위코드값
  * id : select id (jquery형식)
  * title : 선택 title ( null : [선택], "" : not display, text : text )
@@ -294,9 +313,9 @@ function fnGetGridSelect(url, key_name, val_name){
  * sync : sync 여부(true,false)
  * select_val : 리스트 생성 후 default 선택 값
  */
-function fnMakeSelect(method, hicd, id, title, key_name, sync, select_val){
+function fnMakeSelect(url, hicd, id, title, key_name, sync, select_val){
 	if(arguments.length < 7){
-		alert("파라미터 갯수가 부족합니다. \n usage:fnMakeSelect(method, hicd, id, title, key_name, sync, select_val)");
+		alert("파라미터 갯수가 부족합니다. \n usage:fnMakeSelect(url, hicd, id, title, key_name, sync, select_val)");
 		return;
 	}
 	var datas = "";
@@ -334,7 +353,7 @@ function fnMakeSelect(method, hicd, id, title, key_name, sync, select_val){
 		async: sync,
 		cache : false,
 		dataType: "json",
-		url: "${pageContext.request.contextPath}/commSelectService."+method+".json", 
+		url: "${pageContext.request.contextPath}/"+url, 
 		data: datas,
 		error: function(request, status, error){
 			alert(request.responseText);
@@ -457,7 +476,7 @@ function fnSubmitAjax(url, form_id, callback, success_msg) {
 	}
 	
 	form_id = JSON.stringify(form2js(form_id, null, false));
-	return goAjax(url, form_id, callback, success_msg);
+	return fnServerConnector(url, form_id, callback, success_msg);
 }
 
 /**
@@ -467,12 +486,17 @@ function fnSubmitAjax(url, form_id, callback, success_msg) {
  *  param : 전송 data 객체 또는 string
  *  callback : callback 함수명[option]
  */	
-function goAjax(url, param, callback, success_msg){
+function fnServerConnector(url, param, callback, success_msg){
 	if(param){
 		if (typeof param != "string") {
-			param = JSON.stringify(form2js(param, null, false));
+			if($.contains(param, 'userdata')){
+				param = JSON.stringify(param);
+			}else{
+				param = JSON.stringify(form2js(param, null, false));
+			}
 		}
 	}
+
 	var options = {
 		url:  url,
 		data: param,
@@ -496,7 +520,79 @@ function goAjax(url, param, callback, success_msg){
 	return jQuery.ajax(options);
 }
 
+//************************************************************************************
+// 배치서버호출
+var BatAdminDelegator = {
+	init : {
+		 START_BATCH_JOB_URL : "/jobs/launch/",
+         REMOTE_START_BATCH_JOB_URL : "/jobs/remoteaunch/",
+         START_BATCH_JOB_RUN_KEY_URL : "/jobs/jobrun/",
+         STOP_BATCH_JOB_URL : "/jobs/executions/stop/",
+         RESTART_BATCH_JOB_PREFIX_URL : "/jobs/",
+         RESTART_BATCH_JOB_URL : "/executions/restart/",
+         REMOTE_RESTART_BATCH_JOB_URL : "/executions/remoterestart/",
+         ABANDON_BATCH_JOB_URL : "/jobs/executions/abandon/",
+         batchServerUrl : "http://10.91.11.52:17201/smart.run.batch.admin.web"
+         //batchServerUrl : "http://127.0.0.1:8089/smart.run.batch.admin.web"
+	},
+	
+	//시작
+	startBatchJob : function(batJobMap, batchServerUrl){
+		batchServerUrl = batchServerUrl || this.init.batchServerUrl;
+		var url = batchServerUrl + this.init.REMOTE_START_BATCH_JOB_URL + batJobMap.JOB_NM + "/" + batJobMap.BAT_JOB_RUN_KEY + "?practiceType=" + batJobMap.PRCT_TP;
+		return this.BatchServerConnector.callService(url, batJobMap);
+	},
+	
+	//  중지
+	//	var batJobMap = {JOB_NM:$("#JOB_NM").val(), JOB_EXECUTION_ID:$("#JOB_EXECUTION_ID").val()};
+	//	BatAdminDelegator.stopBatchJob(batJobMap);
+	stopBatchJob : function(batJobMap, batchServerUrl){
+		batchServerUrl = batchServerUrl || this.init.batchServerUrl;
+		var url = batchServerUrl + this.init.STOP_BATCH_JOB_URL + batJobMap.JOB_NM + "/" + batJobMap.JOB_EXECUTION_ID;
+		return this.BatchServerConnector.callService(url, batJobMap);
+	},
+	
+	//재시작
+	restartBatchJob : function(batJobMap, batchServerUrl){
+		batchServerUrl = batchServerUrl || this.init.batchServerUrl;
+		var url = batchServerUrl + this.init.RESTART_BATCH_JOB_PREFIX_URL + batJobMap.JOB_NM + "/" + this.init.REMOTE_RESTART_BATCH_JOB_URL + batJobMap.BAT_JOB_RUN_KEY;
+		return this.BatchServerConnector.callService(url, batJobMap);
+	},
+	
+	//파기
+	abandonBatchJob : function(batJobMap, batchServerUrl){
+		batchServerUrl = batchServerUrl || this.init.batchServerUrl;
+		var url = batchServerUrl + this.init.ABANDON_BATCH_JOB_URL + batJobMap.JOB_NM + "/" + batJobMap.JOB_EXECUTION_ID;
+		return this.BatchServerConnector.callService(url, batJobMap);
+	},
+	
+	BatchServerConnector : {
+		callService : function(urls, batJobMap){
+			var param = '{"serviceUrl":"'+urls+'"}';
+			var options = {
+					url:  "batServCallService.callBatchJob.json",
+					data: param,
+					type: "POST",
+					dataType: "json",
+					timeout: 300000,
+			    	async: true,
+			    	cache : false,
+			    	success: function(data){
+						alert(data.resultMsg);
+					},
+					error: function(request, status, error){
+						alert(request.responseText);
+					}
+				};
+			return jQuery.ajax(options);		
+		}
+	}
+};
+//************************************************************************************
 
+/**
+ *  탭방식으로 화면을 띄울때 contentArea만 남기고 나머지 부분은 hide 시키는 함수
+ */
 function fnTabSetting(){
 	if(TAB_USE_YN === "Y"){
 		try{
@@ -521,6 +617,9 @@ function fnTabSetting(){
 	}
 }
 
+/**
+ *  window resize 이벤트 발생시 화면 refresh 시키는 함수
+ */
 function fnWinResizing(){
 	if(WINDOW_RESIZE_YN === "Y"){
 		//화면 resize 처리
@@ -542,22 +641,45 @@ function fnWinResizing(){
 }
 
 
-
+/**
+ *  탭 생성 함수
+ *  
+ *  urls: 탭의 iframe으로 불러올 url
+ *  title : 탭 제목
+ */
 function fnAddTab(urls, title){
 	var st = "#tabs-" + tab_counter;
 	var ifr = "ifr"+tab_counter;
-	if($(st).html() != null ) {
-		$("#contentArea").tabs('select',st);
+	
+	var ret = null;
+	$(".ui-tabs span").each(function(){
+		var text = $(this).text();
+		if(text == title){
+			ret = text;
+			return;
+		}
+	})
+	
+	//if($(st).html() != null ) {
+	if(ret != null) {
+		//$("#contentArea").tabs('select',st);
+		$("#contentArea").tabs('select', tab_map["'"+ret+"'"]);
 	}else{
 		$("#contentArea").tabs("add", st, title);
 		tab_counter++;
 		
 		var fs = '<iframe src="'+urls+'" id="'+ifr+'" style="width:100%; height:auto; margin:0px" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"/>';
 		$(st,"#contentArea").append(fs);
+		
+		tab_map["'"+title+"'"] = st;
 	}
 }
 
+/**
+ *  탭 레이아웃을 초기화하는 함수
+ */
 function fnTabInit(){
+	tab_map = {};
 	var insert_html = '		<ul> '+
 	  				  '			<li><a href="#tabs-1">Main</a> </li> '+
 	  				  '		</ul>';
@@ -741,6 +863,9 @@ var addidx = 0;
 
 var errorMsg = '';
 
+// 초기 grid 생성시 지정했던 url
+var init_default_url = {};
+
 // jqgrid 기본 설정
 $.extend($.jgrid.defaults, { 
 	 autowidth:true,
@@ -763,6 +888,8 @@ $.extend($.jgrid.defaults, {
 	 ajaxGridOptions:{timeout: 300000} ,
 	 emptyrecords: "조회된 데이터가 없습니다.",
 	 loadtext: "조회 중 입니다...",
+	 treeGridModel : 'adjacency', //tree 관련설정
+	 ExpandColClick : false, //tree 관련설정
 	 beforeRequest : function(){
 	  		var data = jQuery(this).jqGrid('getGridParam','postData');
 	  		if(data == null || data.userdata == null){
@@ -787,6 +914,11 @@ $.extend($.jgrid.defaults, {
 		   leaf_field: "ISLEAF",
 		   expanded_field: "expanded"
 		},
+	 treeIcons : {
+			plus:'ui-icon-folder-collapsed',
+			minus:'ui-icon-folder-open',
+			leaf:'ui-icon-document'			
+	 },
      loadError:function(xhr, status, error){
 	     //alert(xhr.responseText);
 		 errorMsg = error;
@@ -796,6 +928,9 @@ $.extend($.jgrid.defaults, {
 		 //if(data != null && data.resultMsg != null){
 		//	 alert(data.resultMsg);
 		 //}
+	 },
+	 gridComplete:function(){
+		 init_default_url[$(this).attr("id")] = $(this).jqGrid('getGridParam', 'url');
 	 },
     //afterEditCell: function () {
 	//	 var e = jQuery.Event("keydown");                             
@@ -907,6 +1042,21 @@ function checkCheck(rowid, gid){
 		$(this).jqGrid('addRow',{rowID:rowIdx,initdata:data, position:'last', addRowParams : {keys:true, url:'clientArray'}    });
 		addidx++;
 		
+		//required 항목 css 처리
+		var cm = $(this).jqGrid('getGridParam','colModel');
+		for(var i =0, len=cm.length;i<len; i++){
+			if(cm[i].editrules) {
+				if(cm[i].editrules.required){
+					//alert(cm[i].name);
+					var id = "#" + rowIdx + "_" + cm[i].name;
+					if($(id).attr("class") == "editable"){
+						$(id).addClass("must");
+					}
+				}
+			}
+		}
+		
+		
 		return rowIdx;
 	};
 	
@@ -1002,6 +1152,15 @@ function checkCheck(rowid, gid){
 		}, 300);		
 		
 		delarr = [];
+		
+		//url 이 계속 delete로 남아 있을 경우 페이징처리시 에러발생하는 경우를 막기위함.
+		var init_url = init_default_url[$(this).attr("id")];
+		if(init_url){
+			$(this).jqGrid('setGridParam',{
+				url:init_url
+			});
+		}
+		
 		return false;
 	};
 	
@@ -1072,6 +1231,15 @@ function checkCheck(rowid, gid){
 
 		
 		delarr = [];
+		
+		//url 이 계속 save로 남아 있을 경우 페이징처리시 에러발생하는 경우를 막기위함.
+		var init_url = init_default_url[$(this).attr("id")];
+		if(init_url){
+			$(this).jqGrid('setGridParam',{
+				url:init_url
+			});
+		}
+		
 		return false;
 	};
 	
@@ -1126,9 +1294,14 @@ function checkCheck(rowid, gid){
 				}else{
 					$(this).jqGrid('saveRow', eid[i], false, 'clientArray'); //add row
 				}
+				//validation alert창 생성여부 확인
+				if($("div").is("#info_dialog")){
+					return false;
+				}
 			}
 		}catch(e){
 			alert(e);
+			//throw e;
 			return false;
 		}
 		return true;
@@ -1198,72 +1371,105 @@ function checkCheck(rowid, gid){
 			}, 300);
 		
 		delarr = [];
+		
+		//url 이 계속 save로 남아 있을 경우 페이징처리시 에러발생하는 경우를 막기위함.
+		var init_url = init_default_url[$(this).attr("id")];
+		if(init_url){
+			$(this).jqGrid('setGridParam',{
+				url:init_url
+			});
+		}
+		
 		return false;
 	};	
 	
 	/**
-	 *  Grid 칼럼수정이나 행추가 한 후 강제로 Enter효과를 내는 함수
 	 *  Grid 칼럼에서 더블클릭하여 팝업창을 띄운후 리턴받은 값을 그리드내 컬럼에 세팅할때 사용함. 
 	 *  
-	 *  예)
-	 *  var result = fnPopupModal("<c:url value='/fms/common/servicesearchpopup.do'/>", 800, 480);
-	 *	$("#list").jqGrid('setRowData',rowId,{SETUP_BASE_VAL:result.svcid});
-	 *	$("#list").jqGrid('setRowData',rowId,{SETUP_BASE_DESC:result.svcnm}); 
-     *
-	 *	//enter 효과(칼럼수정시)
-	 *	$("#list").fnForceEnterGrid(iRow);
-	 *  
-	 *  -------------------------------------------------
-	 *  
-	 *	var rowIdx = $("#list").fnAddGrid(initdata);
-	 *	//enter 효과(행추가시)
-	 *	$("#list").fnForceEnterGrid(rowIdx);
+	 *  rowId : rowid
+     *  iRow : row index
+	 *	iCol : column index
+	 *	data : json 형식의 데이터. {A:'value1', B:'value2',...}
+	 *
+	 * [사용예]
+  	 *	var data = {BAT_JOB_RUN_KEY:result.BAT_JOB_RUN_KEY,
+	 *			    JOB_NM:result.JOB_NM,
+	 *				BAT_JOB_NM:result.BAT_JOB_NM,
+	 *				APSVR_ID:result.APSVR_ID};
+	 *	$("#list").fnSetGridPopData(rowId, iRow, iCol, data);
+	 *
 	 *
 	 */		
-	$.fn.fnForceEnterGrid = function(rowIdx){
-		if(new String(rowIdx).indexOf('new') == -1){
+	$.fn.fnSetGridPopData = function(rowId, iRow, iCol, data){
+		if(new String(rowId).indexOf('new') == -1){
 			//컬럼수정
-			$(this).jqGrid("saveCell", rowIdx, 0);
+			$(this).jqGrid('setRowData',rowId, data);
+			
+			$(this).jqGrid("restoreRow", rowId);
+			//$(this).jqGrid("saveCell", iRow, 1);
+			
+			//checkbox control
+			var val = $(this).jqGrid('getCell',rowId, 1);
+	  		var cid = $(val).attr("id");
+	  		if($("[id="+cid+"]").is(":checked")){
+				  ;
+			}else{
+				$(this).jqGrid('setSelection', rowId, false);
+			}			
 		}else{
-			//Row추가
-			$(this).jqGrid('saveRow', rowIdx, false, 'clientArray');
+			//row추가
+			var id, t = this;
+			$.each(data, function(name, value){
+				id = "#"+rowId+"_"+name;
+				if($(id).length > 0){
+					$(id).val(value);
+				}else{
+					$(t).jqGrid('setCell', rowId, name, value);
+				}
+			});
+			//var ind = $(this).jqGrid("getInd",rowId,true);
+			//var e = $.Event("keydown", { keyCode: 13 }); //Enter
+			//$(ind).trigger(e);
 		}
+	};
+	
+	//--
+	$.fn.fnForceEnterGrid = function(rowIdx){
+		alert('deprecated function');
 	};
 })(jQuery);
 
 
 
 /* datepicker */
-$.datepicker.setDefaults({
-	   showOn: 'both',
-	   buttonImageOnly: true,
-	   buttonImage: '/smartnew/fms/images/icoCal.gif',
-	   buttonText: 'Calendar',
-	   changeMonth: true,
-	   changeYear: true,
-	   dateFormat: "yy-mm-dd" });
-
-
-//$(function() {
-//	$( "#datepicker" ).datepicker();
-//});
-
-
-
-//(function($){
-//$(function() {
-//$(document).ready(function(){
-//	$( "#datepicker" ).datepicker({
-//		showOn: "button",
-//		buttonImage: "/smartnew/fms/images/icoCal.gif",
-//		buttonImageOnly: true,			
-//		changeMonth: true,
-//		changeYear: true
-//	});
-//	$( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+jQuery(function($){
+	$.datepicker.setDefaults({
+		showOn: 'both',
+		buttonImageOnly: true,
+		buttonImage: '/smartnew/fms/images/icoCal.gif',
+		buttonText: 'Calendar',
+		changeMonth: true,
+		changeYear: true,
+		dateFormat: "yy-mm-dd" });
 	
+	$.datepicker.regional['ko'] = {
+		closeText: '닫기',
+		prevText: '이전달',
+		nextText: '다음달',
+		currentText: '오늘',
+		monthNames: ['1월','2월','3월','4월','5월','6월',
+		'7월','8월','9월','10월','11월','12월'],
+		monthNamesShort: ['1월','2월','3월','4월','5월','6월',
+		'7월','8월','9월','10월','11월','12월'],
+		dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'],
+		dayNamesShort: ['일','월','화','수','목','금','토'],
+		dayNamesMin: ['일','월','화','수','목','금','토'],
+		weekHeader: 'Wk',
+		dateFormat: 'yy-mm-dd',
+		firstDay: 0,
+		isRTL: false,
+		showMonthAfterYear: true};
+	$.datepicker.setDefaults($.datepicker.regional['ko']);
+});
 
-//});
-//})(jQuery);
-//});
 

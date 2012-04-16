@@ -19,6 +19,7 @@
 	<!-- ========================= GENERAL DEFINITIONS ========================= -->
 
 	<context:component-scan base-package="lc.common" />
+	<context:component-scan base-package="lc.admin" />
 	<context:component-scan base-package="lc.church" />
     <context:property-placeholder location="classpath:jdbc.properties"/>
 
@@ -57,6 +58,7 @@
 	<!-- ========================= ASPECT CONFIGURATION ======================== -->
 	<aop:config>
 		<aop:advisor pointcut="execution(* lc.common..*Service.*(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(* lc.admin..*Service.*(..))" advice-ref="txAdvice"/>
 		<aop:advisor pointcut="execution(* lc.church..*Service.*(..))" advice-ref="txAdvice"/>
 	</aop:config>
 	<!-- 

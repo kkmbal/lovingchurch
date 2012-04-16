@@ -34,45 +34,6 @@
     	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   	</listener>
 
-
-    
-
-    <servlet>
-        <servlet-name>smartController</servlet-name>
-        <servlet-class>smart.ide.server.controller.SmartController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>smartController</servlet-name>
-        <url-pattern>/smartController</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-		<servlet-name>longProcessController</servlet-name>
-		<servlet-class>smart.ide.server.controller.LongProcessController</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>longProcessController</servlet-name>
-		<url-pattern>/longProcessController</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>commandController</servlet-name>
-		<servlet-class>smart.ide.server.controller.CommandController</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>commandController</servlet-name>
-		<url-pattern>/commandController</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>jsonController</servlet-name>
-		<servlet-class>smart.ide.server.controller.JsonController</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>jsonController</servlet-name>
-		<url-pattern>*.json</url-pattern>
-	</servlet-mapping>
-	
 	<servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>

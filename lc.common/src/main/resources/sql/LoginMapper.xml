@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
     PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.mvoipcenter.common.login.service.LoginMapper">
-	<select id="login" parameterType="com.mvoipcenter.common.login.domain.UserInfo"
-		 resultType="com.mvoipcenter.common.login.domain.UserInfo" >
+<mapper namespace="lc.common.login.service.LoginMapper">
+	<select id="login" parameterType="lc.common.login.domain.UserInfo"
+		 resultType="lc.common.login.domain.UserInfo" >
 		    <![CDATA[
 			SELECT LOGIN_ID
 			      ,CUSTOMERID

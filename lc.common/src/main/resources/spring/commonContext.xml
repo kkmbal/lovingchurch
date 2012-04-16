@@ -19,27 +19,23 @@
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"> 
   	<bean id="boardMapper"
     	class="org.mybatis.spring.mapper.MapperFactoryBean"
-    	p:mapperInterface="com.mvoipcenter.common.board.service.BoardMapper"
+    	p:mapperInterface="lc.common.board.service.BoardMapper"
     	p:sqlSessionFactory-ref="sqlSessionFactory"/>
  
   	<bean id="commonCodeMapper"
     	class="org.mybatis.spring.mapper.MapperFactoryBean"
-    	p:mapperInterface="com.mvoipcenter.common.code.service.CommonCodeMapper"
+    	p:mapperInterface="lc.common.code.service.CommonCodeMapper"
     	p:sqlSessionFactory-ref="sqlSessionFactory"/>
  
   	<bean id="postMapper"
     	class="org.mybatis.spring.mapper.MapperFactoryBean"
-    	p:mapperInterface="com.mvoipcenter.common.post.service.PostMapper"
+    	p:mapperInterface="lc.common.post.service.PostMapper"
     	p:sqlSessionFactory-ref="sqlSessionFactory"/>
  
   	<bean id="loginMapper"
     	class="org.mybatis.spring.mapper.MapperFactoryBean"
-    	p:mapperInterface="com.mvoipcenter.common.login.service.LoginMapper"
+    	p:mapperInterface="lc.common.login.service.LoginMapper"
     	p:sqlSessionFactory-ref="sqlSessionFactory"/>
     	
-  	<bean id="calMapper"
-    	class="org.mybatis.spring.mapper.MapperFactoryBean"
-    	p:mapperInterface="com.mvoipcenter.common.cal.service.CalMapper"
-    	p:sqlSessionFactory-ref="sqlSessionFactory"/>
    	
 </beans>

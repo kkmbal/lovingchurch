@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
     PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.mvoipcenter.common.board.service.BoardMapper">
-	<select id="listBoard" parameterType="com.mvoipcenter.common.board.domain.Board"
-		 resultType="com.mvoipcenter.common.board.domain.Board" >
+<mapper namespace="lc.common.board.service.BoardMapper">
+	<select id="listBoard" parameterType="lc.common.board.domain.Board"
+		 resultType="lc.common.board.domain.Board" >
 		    <![CDATA[
 			SELECT BOARD_CAT_CD
 			      ,BOARD_PART_CD
@@ -65,7 +65,7 @@
 			]]>
 	</select>
 	
-	<select id="getRowCount" parameterType="com.mvoipcenter.common.board.domain.Board"
+	<select id="getRowCount" parameterType="lc.common.board.domain.Board"
 		 resultType="int" >
 		    <![CDATA[
 			SELECT COUNT(*) ROWCOUNT
@@ -106,8 +106,8 @@
 			]]>
 	</select>
 	
-	<select id="getBoard" parameterType="com.mvoipcenter.common.board.domain.Board"
-		 resultType="com.mvoipcenter.common.board.domain.Board" >
+	<select id="getBoard" parameterType="lc.common.board.domain.Board"
+		 resultType="lc.common.board.domain.Board" >
 		    <![CDATA[
 			SELECT BOARD_CAT_CD
 			      ,BOARD_SEQ
@@ -141,8 +141,8 @@
 			</if>			
 	</select>
 	
-	<select id="getBoardPrev" parameterType="com.mvoipcenter.common.board.domain.Board"
-		 resultType="com.mvoipcenter.common.board.domain.Board" >
+	<select id="getBoardPrev" parameterType="lc.common.board.domain.Board"
+		 resultType="lc.common.board.domain.Board" >
 		    <![CDATA[
 			SELECT BOARD_CAT_CD
 			      ,BOARD_SEQ
@@ -176,8 +176,8 @@
 			LIMIT 1
 	</select>
 	
-	<select id="getBoardNext" parameterType="com.mvoipcenter.common.board.domain.Board"
-		 resultType="com.mvoipcenter.common.board.domain.Board" >
+	<select id="getBoardNext" parameterType="lc.common.board.domain.Board"
+		 resultType="lc.common.board.domain.Board" >
 		    <![CDATA[
 			SELECT BOARD_CAT_CD
 			      ,BOARD_SEQ
@@ -211,8 +211,8 @@
 			LIMIT 1
 	</select>
 	
-	<select id="listMainBoard" parameterType="com.mvoipcenter.common.board.domain.Board"
-		 resultType="com.mvoipcenter.common.board.domain.Board" >
+	<select id="listMainBoard" parameterType="lc.common.board.domain.Board"
+		 resultType="lc.common.board.domain.Board" >
 		    <![CDATA[
 			SELECT BOARD_CAT_CD
 			      ,BOARD_PART_CD
@@ -248,7 +248,7 @@
 			LIMIT #{toLimit}
 	</select>	
 	
-	<select id="getMaxSeq" parameterType="com.mvoipcenter.common.board.domain.Board"
+	<select id="getMaxSeq" parameterType="lc.common.board.domain.Board"
 		 resultType="string" >
 		    <![CDATA[
 			SELECT IFNULL(MAX(BOARD_SEQ)+1,1) BOARD_SEQ
@@ -260,7 +260,7 @@
 			</if>			
 	</select>
 	
-	<insert id="insertBoard" parameterType="com.mvoipcenter.common.board.domain.Board" >
+	<insert id="insertBoard" parameterType="lc.common.board.domain.Board" >
 		<![CDATA[
 				INSERT INTO BOARD 
 				(  BOARD_CAT_CD
@@ -302,7 +302,7 @@
         ]]>
 	</insert>	
 	
-	<update id="updateHitCnt" parameterType="com.mvoipcenter.common.board.domain.Board" >
+	<update id="updateHitCnt" parameterType="lc.common.board.domain.Board" >
 		<![CDATA[
 				UPDATE BOARD
 				SET HIT_CNT = HIT_CNT + 1
@@ -311,7 +311,7 @@
         ]]>
 	</update>	
 	
-	<update id="updateBoard" parameterType="com.mvoipcenter.common.board.domain.Board" >
+	<update id="updateBoard" parameterType="lc.common.board.domain.Board" >
 		<![CDATA[
 				UPDATE BOARD
 				SET TITLE = #{TITLE} ,
@@ -329,7 +329,7 @@
 				AND   BOARD_SEQ = #{BOARD_SEQ}
 	</update>	
 	
-	<update id="updateForReplyBoard" parameterType="com.mvoipcenter.common.board.domain.Board" >
+	<update id="updateForReplyBoard" parameterType="lc.common.board.domain.Board" >
 		<![CDATA[
 				UPDATE BOARD
 				SET RESTEP = RESTEP + 1
@@ -339,7 +339,7 @@
         ]]>
 	</update>	
 	
-	<delete id="deleteBoard" parameterType="com.mvoipcenter.common.board.domain.Board" >
+	<delete id="deleteBoard" parameterType="lc.common.board.domain.Board" >
 		<![CDATA[
 				DELETE FROM BOARD
 				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}
@@ -347,8 +347,8 @@
         ]]>
 	</delete>	
 	
-	<select id="listBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile"
-		 resultType="com.mvoipcenter.common.board.domain.BoardFile" >
+	<select id="listBoardFile" parameterType="lc.common.board.domain.BoardFile"
+		 resultType="lc.common.board.domain.BoardFile" >
 		    <![CDATA[
 			SELECT BOARD_CAT_CD
 			      ,BOARD_SEQ
@@ -368,8 +368,8 @@
 			]]>
 	</select>	
 	
-	<select id="getBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile"
-		 resultType="com.mvoipcenter.common.board.domain.BoardFile" >
+	<select id="getBoardFile" parameterType="lc.common.board.domain.BoardFile"
+		 resultType="lc.common.board.domain.BoardFile" >
 		    <![CDATA[
 			SELECT BOARD_CAT_CD
 			      ,BOARD_SEQ
@@ -390,7 +390,7 @@
 			]]>
 	</select>	
 	
-	<select id="getMaxFileSeq" parameterType="com.mvoipcenter.common.board.domain.BoardFile"
+	<select id="getMaxFileSeq" parameterType="lc.common.board.domain.BoardFile"
 		 resultType="string" >
 		    <![CDATA[
 			SELECT IFNULL(MAX(FILE_SEQ)+1,1) FILE_SEQ
@@ -400,7 +400,7 @@
 			]]>
 	</select>
 	
-	<insert id="insertBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile" >
+	<insert id="insertBoardFile" parameterType="lc.common.board.domain.BoardFile" >
 		<![CDATA[
 				INSERT INTO BOARD_FILE 
 				(  BOARD_CAT_CD
@@ -432,7 +432,7 @@
         ]]>
 	</insert>	
 	
-	<update id="updateBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile" >
+	<update id="updateBoardFile" parameterType="lc.common.board.domain.BoardFile" >
 		<![CDATA[
 				UPDATE BOARD_FILE 
 				SET FILE_NAME = #{FILE_NAME}
@@ -448,7 +448,7 @@
         ]]>
 	</update>	
 	
-	<delete id="deleteBoardFile" parameterType="com.mvoipcenter.common.board.domain.BoardFile" >
+	<delete id="deleteBoardFile" parameterType="lc.common.board.domain.BoardFile" >
 		<![CDATA[
 				DELETE FROM BOARD_FILE 
 				WHERE BOARD_CAT_CD = #{BOARD_CAT_CD}

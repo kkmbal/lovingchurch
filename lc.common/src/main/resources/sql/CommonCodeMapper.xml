@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
     PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="com.mvoipcenter.common.code.service.CommonCodeMapper">
-	<select id="listHighCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
-		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+<mapper namespace="lc.common.code.service.CommonCodeMapper">
+	<select id="listHighCommonCode" parameterType="lc.common.code.domain.CommonCode"
+		 resultType="lc.common.code.domain.CommonCode" >
 		    <![CDATA[
 			SELECT CD_VAL
 			      ,HICD_VAL
@@ -29,8 +29,8 @@
 			]]>
 	</select>
 	
-	<select id="listSubCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
-		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+	<select id="listSubCommonCode" parameterType="lc.common.code.domain.CommonCode"
+		 resultType="lc.common.code.domain.CommonCode" >
 		    <![CDATA[
 			SELECT CD_VAL
 			      ,HICD_VAL
@@ -55,7 +55,7 @@
 			]]>
 	</select>
 	
-	<select id="getRowCount" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
+	<select id="getRowCount" parameterType="lc.common.code.domain.CommonCode"
 		 resultType="int" >
 		    <![CDATA[
 			SELECT COUNT(*) ROWCOUNT
@@ -76,8 +76,8 @@
 			</if>
 	</select>
 	
-	<select id="getCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
-		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+	<select id="getCommonCode" parameterType="lc.common.code.domain.CommonCode"
+		 resultType="lc.common.code.domain.CommonCode" >
 		    <![CDATA[
 			SELECT CD_VAL
 			      ,HICD_VAL
@@ -93,8 +93,8 @@
 			]]>
 	</select>
 	
-	<select id="listCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
-		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+	<select id="listCommonCode" parameterType="lc.common.code.domain.CommonCode"
+		 resultType="lc.common.code.domain.CommonCode" >
 		    <![CDATA[
 			SELECT CD_VAL
 			      ,HICD_VAL
@@ -121,8 +121,8 @@
 			ORDER BY ORD_NO			
 	</select>
 	
-	<select id="listSubCommonCodeAll" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
-		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+	<select id="listSubCommonCodeAll" parameterType="lc.common.code.domain.CommonCode"
+		 resultType="lc.common.code.domain.CommonCode" >
 		    <![CDATA[
 			SELECT CD_VAL
 			      ,HICD_VAL
@@ -137,8 +137,8 @@
 		]]>			
 	</select>
 	
-	<select id="listHighCommonCodeAll" parameterType="com.mvoipcenter.common.code.domain.CommonCode"
-		 resultType="com.mvoipcenter.common.code.domain.CommonCode" >
+	<select id="listHighCommonCodeAll" parameterType="lc.common.code.domain.CommonCode"
+		 resultType="lc.common.code.domain.CommonCode" >
 		    <![CDATA[
 			SELECT CD_VAL
 			      ,HICD_VAL
@@ -153,7 +153,7 @@
 			]]>
 	</select>	
 	
-	<insert id="insertCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode" >
+	<insert id="insertCommonCode" parameterType="lc.common.code.domain.CommonCode" >
 		<![CDATA[
 				INSERT INTO CODE 
 			     ( CD_VAL
@@ -175,7 +175,7 @@
         ]]>
 	</insert>	
 	
-	<update id="updateCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode" >
+	<update id="updateCommonCode" parameterType="lc.common.code.domain.CommonCode" >
 		<![CDATA[
 				UPDATE CODE
 				SET CD_NM = #{CD_NM} ,
@@ -188,7 +188,7 @@
         ]]>
 	</update>	
 	
-	<delete id="deleteCommonCode" parameterType="com.mvoipcenter.common.code.domain.CommonCode" >
+	<delete id="deleteCommonCode" parameterType="lc.common.code.domain.CommonCode" >
 		<![CDATA[
 				DELETE FROM CODE
 				WHERE CD_VAL = #{CD_VAL}

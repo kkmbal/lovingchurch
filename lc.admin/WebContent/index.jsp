@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <head>
 	<%@include file="/WEB-INF/jsp/inc/header.jsp" %>
+	<link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet" type="text/css" charset="utf-8" />
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/js/jquery.cookie.js"></script>	
 	<script type="text/javascript" >
 		window.onload = function(){

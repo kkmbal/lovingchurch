@@ -16,13 +16,14 @@
 			
 			 $("#list1").jqGrid({
 			    url:"systemProjectService.listDetailCode.json",
-			    colNames:['성명', '주일헌금','십일조','감사헌금','선교헌금','건축헌금','생일헌금','부활절감사헌금','구제헌금'],
+			    colNames:['성명', '주일헌금','십일조','감사헌금','선교헌금','건축헌금','생일헌금','부활절헌금','구제헌금','비고'],
 			    colModel :[ 
 			      {name:'GRP_CD', index:'GRP_CD', width:90, align:'left', editable:false},
 			      {name:'CD', index:'CD', width:80, align:'left', editable:true, editrules:{required:true}}, 
 			      {name:'CD_NM', index:'CD_NM', width:80, align:'left', editable:true, editrules:{required:true}}, 
 			      {name:'CD_DESCR', index:'CD_DESCR', width:80, align:'left', editable:true, editrules:{required:true}},
 			      {name:'HIRNK_COMN_CD_KEY', index:'HIRNK_COMN_CD_KEY', width:80, align:'center', editable:true},
+			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}},
 			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}},
 			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}},
 			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}},

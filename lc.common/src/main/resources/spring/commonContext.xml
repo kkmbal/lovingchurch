@@ -26,6 +26,11 @@
     	class="org.mybatis.spring.mapper.MapperFactoryBean"
     	p:mapperInterface="lc.common.code.service.CommonCodeMapper"
     	p:sqlSessionFactory-ref="sqlSessionFactory"/>
+    	
+  	<bean id="gridCommonCodeMapper"
+    	class="org.mybatis.spring.mapper.MapperFactoryBean"
+    	p:mapperInterface="lc.common.code.service.grid.GridCommonCodeMapper"
+    	p:sqlSessionFactory-ref="sqlSessionFactory"/>    	
  
   	<bean id="postMapper"
     	class="org.mybatis.spring.mapper.MapperFactoryBean"

@@ -1,66 +1,188 @@
 <%@page contentType="text/html;charset=utf-8"%>
-<div class="globalArea" id="globalArea">
-	<ul>
-		<li class="logo"><a href="<s:url action='client01_list_client'/>"><img src="${pageContext.request.contextPath}/img/logo02.gif"></a> <b>mVoIPCenter Management Site</b><li>
-		<li>
-			<a href="<s:url action='logoutLoginMng'/>">로그아웃</a> │ <!-- <a href="#">사이트맵</a> │ --><a href="http://www.mvoipcenter.com" target="_blank">서비스 사이트</a> │ <a href="http://cp.mvoipcenter.com" target="_blank">가맹점 사이트</a>
-		</li>
-	</ul>
-</div>
-<div class="menuArea">
-	<ul>
-		<li><a href="#" id="topmenu0" onmouseover="Topmenu(0)">HOME</a></li>
-		<li><a href="<s:url action='client01_list_client'/>" id="topmenu1" onmouseover="Topmenu(1)">Client</a></li>
-		<li><a href="<s:url action='application01_list_application'/>" id="topmenu2" onmouseover="Topmenu(2)">Application</a></li>
-		<li><a href="<s:url action='service01_list_service'/>" id="topmenu3" onmouseover="Topmenu(3)">Service</a></li>
-		<li><a href="<s:url action='charge01'/>" id="topmenu4" onmouseover="Topmenu(4)">Charge</a></li>
-		<li><a href="<s:url action='payment05_charge'/>" id="topmenu5" onmouseover="Topmenu(5)">Payment</a></li>
-		<li><a href="#" id="topmenu6" onmouseover="Topmenu(6)">Report</a></li>
-		<li><a href="<s:url action='noticeList'/>" id="topmenu7" onmouseover="Topmenu(7)">C/S</a></li>
-		<li class="end"><img src="${pageContext.request.contextPath}/img/menuEnd.gif"></li>
-	</ul>
-</div>
-<div class="subArea">
-	<ul id="subArea1" class="submenu">
-		<li class="first" style="width:72px;"></li>
-		<li><a href="<s:url action='client01_list_client'/>" id="submenu11">고객관리</a></li>
-		<li class="end"><a href="<s:url action='client02_list_client'/>" id="submenu12">고객현황</a></li>
-	</ul>
-	<ul id="subArea2" class="submenu">
-		<li class="first" style="width:195px;"></li>
-		<li><a href="<s:url action='application01_list_application'/>" id="submenu21">신청 정보 관리</a></li>
-		<li class="end"><a href="<s:url action='application02_list_application'/>" id="submenu22">신청 현황 관리</a></li>
-	</ul>
-	<ul id="subArea3" class="submenu">
-		<li class="first" style="width:205px;"></li>
-		<li><a href="<s:url action='service01_list_service'/>" id="submenu31">서비스 현황 관리</a></li>
-		<li><a href="<s:url action='service02_list_service'/>" id="submenu32">한도 변경 내역</a></li>
-		<li><a href="<s:url action='service03_list_service'/>" id="submenu33">통화 내역 조회</a></li>
-		<li class="end"><a href="<s:url action='service04_list_service'/>" id="submenu34">앱콜 유저 조회</a></li>
-	</ul>
-	<ul id="subArea4" class="submenu">
-		<li class="first" style="width:330px;"></li>
-		<li><a href="<s:url action='charge01_charge'/>" id="submenu41">충전요금관리</a></li>
-		<li><a href="<s:url action='charge02_charge'/>" id="submenu42">충전요금현황</a></li>
-		<li><a href="<s:url action='charge05_charge'/>" id="submenu43">청구요금관리</a></li>
-		<li class="end"><a href="<s:url action='charge06_charge'/>" id="submenu44">청구요금현황</a></li>
-	</ul>
-	<ul id="subArea5" class="submenu">
-		<li class="first" style="width:560px;"></li>
-		<li><a href="<s:url action='payment05_charge'/>" id="submenu53">대기 내역 관리</a></li>
-		<li><a href="<s:url action='payment01_charge'/>" id="submenu51">결제 내역 관리</a></li>
-		<li class="end"><a href="<s:url action='payment02_charge'/>" id="submenu52">결제 내역 현황</a></li>
-	</ul>
-	<ul id="subArea6" class="submenu">
-		<li class="first" style="width:100px;"></li>
-	</ul>
-	<ul id="subArea7" class="submenu">
-		<li class="first" style="width:320px;"></li>
-		<li><a href="<s:url action='noticeList'/>" id="submenu71">공지 사항 관리</a></li>
-		<li><a href="<s:url action='dataList'/>" id="submenu72">자료실 관리</a></li>
-		<li><a href="<s:url action='faqList'/>" id="submenu73">자주묻는 질문 관리</a></li>
-		<li><a href="<s:url action='qnaList'/>" id="submenu74">온라인 문의 관리</a></li>
-		<li><a href="<s:url action='testList'/>" id="submenu75">시험 신청 관리</a></li>
-		<li class="end"><a href="<s:url action='submit01List'/>" id="submenu76">장애 신고 관리</a></li>
-	</ul>
-</div>
+<%@ taglib prefix="c"   uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib uri="/WEB-INF/tlds/kmbal.tld" prefix="k" %>
+<%
+	response.setHeader("Cache-Control","no-store"); 
+	response.setHeader("Pragma","no-cache"); 
+	response.setDateHeader("Expires",0); 
+	if (request.getProtocol().equals("HTTP/1.1")) 
+	response.setHeader("Cache-Control", "no-cache");  
+%>
+
+<title>:::   :::</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+
+    <link href="${pageContext.request.contextPath}/css/design.css" rel="stylesheet" type="text/css" charset="utf-8" />
+
+	<!-- 공통 CSS -->
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css" />
+	
+	<!-- jquery ui themes -->
+<!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/smoothness/jquery-ui-1.8.18.custom.css" />-->
+<!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/redmond/jquery-ui-1.8.18.custom.css" />-->
+<!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/humanity/jquery-ui-1.8.18.custom.css" />-->
+<!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/pepper-grinder/jquery-ui-1.8.18.custom.css" />-->
+<!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/sunny/jquery-ui-1.8.18.custom.css" />-->
+	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/flick/jquery-ui-1.8.18.custom.css" />
+<!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/cupertino/jquery-ui-1.8.18.custom.css" />-->
+	
+	<!-- jqgrid CSS -->
+	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery.jqGrid-4.3.1/css/ui.jqgrid.css" />
+	
+	<!-- jquery -->
+	<script src="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/js/jquery-1.7.1.js"></script>
+	
+	<!-- jquery ui -->
+	<script src="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/js/jquery-ui-1.8.18.custom.js"></script>
+	
+	<!-- jqGrid -->
+	<script src="${pageContext.request.contextPath}/js/jquery.jqGrid-4.3.1/js/i18n/grid.locale-en.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.jqGrid-4.3.1/js/jquery.jqGrid.src.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.jqGrid-4.3.1/plugins/grid.postext.js" type="text/javascript"></script>
+
+	<script src="${pageContext.request.contextPath}/js/jquery.treeview.js"></script>
+	
+	<!-- jquery plugin -->
+	<script src="${pageContext.request.contextPath}/js/json2.js"></script> 
+	<script src="${pageContext.request.contextPath}/js/form2js.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.blockUI.js"></script>
+	
+	<!-- fms 공통 js -->
+	<script src="${pageContext.request.contextPath}/js/js_common.js"></script>	
+	<script src="${pageContext.request.contextPath}/js/dateFormat.js"></script>	
+	
+<script type="text/javascript" >
+//상단 1뎁스메뉴
+function Topmenu(value){
+	if(value=='0'){	
+		disable1D();
+	}
+	else if(value=='1'){				
+		if (document.getElementById("topmenu1")==null){	 Tmessage();	}		
+		disable1D();
+		document.getElementById("topmenu1").className="onOver";
+		document.getElementById("subArea1").style.display="block";
+	}
+	else if(value=='2'){				
+		if (document.getElementById("topmenu2")==null){	 Tmessage();	}		
+		disable1D();
+		document.getElementById("topmenu2").className="onOver";
+		document.getElementById("subArea2").style.display="block";
+	}
+	else if(value=='3'){				
+		if (document.getElementById("topmenu3")==null){	 Tmessage();	}		
+		disable1D();
+		document.getElementById("topmenu3").className="onOver";
+		document.getElementById("subArea3").style.display="block";
+	}	
+	else{	 Tmessage();	}		
+	function Tmessage(){alert("해당되는 1뎁스메뉴가 없습니다");	 return;}
+}
+
+function disable1D(){
+	document.getElementById("subArea1").style.display="none";
+	document.getElementById("subArea2").style.display="none";
+	document.getElementById("subArea3").style.display="none";
+	document.getElementById("topmenu1").className="onOut";
+	document.getElementById("topmenu2").className="onOut";
+	document.getElementById("topmenu3").className="onOut";
+}
+
+function Submenu(value){
+	if(value=='0'){	
+	}
+	else if(value=='11'){				
+		if (document.getElementById("submenu11")==null){	 Tmessage();	}		
+		document.getElementById("submenu11").className="onSub";
+	}
+	else if(value=='12'){				
+		if (document.getElementById("submenu12")==null){	 Tmessage();	}		
+		document.getElementById("submenu12").className="onSub";
+	}
+	else if(value=='21'){				
+		if (document.getElementById("submenu21")==null){	 Tmessage();	}		
+		document.getElementById("submenu21").className="onSub";
+	}
+	else if(value=='22'){				
+		if (document.getElementById("submenu22")==null){	 Tmessage();	}		
+		document.getElementById("submenu22").className="onSub";
+	}
+	else if(value=='31'){				
+		if (document.getElementById("submenu31")==null){	 Tmessage();	}		
+		document.getElementById("submenu31").className="onSub";
+	}
+	else if(value=='32'){				
+		if (document.getElementById("submenu32")==null){	 Tmessage();	}		
+		document.getElementById("submenu32").className="onSub";
+	}
+	else if(value=='33'){				
+		if (document.getElementById("submenu33")==null){	 Tmessage();	}		
+		document.getElementById("submenu33").className="onSub";
+	}
+	else if(value=='34'){				
+		if (document.getElementById("submenu34")==null){	 Tmessage();	}		
+		document.getElementById("submenu34").className="onSub";
+	}
+	else if(value=='41'){				
+		if (document.getElementById("submenu41")==null){	 Tmessage();	}		
+		document.getElementById("submenu41").className="onSub";
+	}
+	else if(value=='42'){				
+		if (document.getElementById("submenu42")==null){	 Tmessage();	}		
+		document.getElementById("submenu42").className="onSub";
+	}
+	else if(value=='43'){				
+		if (document.getElementById("submenu43")==null){	 Tmessage();	}		
+		document.getElementById("submenu43").className="onSub";
+	}
+	else if(value=='44'){				
+		if (document.getElementById("submenu44")==null){	 Tmessage();	}		
+		document.getElementById("submenu44").className="onSub";
+	}
+	else if(value=='51'){				
+		if (document.getElementById("submenu51")==null){	 Tmessage();	}		
+		document.getElementById("submenu51").className="onSub";
+	}
+	else if(value=='52'){				
+		if (document.getElementById("submenu52")==null){	 Tmessage();	}		
+		document.getElementById("submenu52").className="onSub";
+	}
+	else if(value=='53'){				
+		if (document.getElementById("submenu53")==null){	 Tmessage();	}		
+		document.getElementById("submenu53").className="onSub";
+	}
+
+	else if(value=='71'){				
+		if (document.getElementById("submenu71")==null){	 Tmessage();	}		
+		document.getElementById("submenu71").className="onSub";
+	}
+	else if(value=='72'){				
+		if (document.getElementById("submenu72")==null){	 Tmessage();	}		
+		document.getElementById("submenu72").className="onSub";
+	}
+	else if(value=='73'){				
+		if (document.getElementById("submenu73")==null){	 Tmessage();	}		
+		document.getElementById("submenu73").className="onSub";
+	}
+	else if(value=='74'){				
+		if (document.getElementById("submenu74")==null){	 Tmessage();	}		
+		document.getElementById("submenu74").className="onSub";
+	}
+	else if(value=='75'){				
+		if (document.getElementById("submenu75")==null){	 Tmessage();	}		
+		document.getElementById("submenu75").className="onSub";
+	}
+	else if(value=='76'){				
+		if (document.getElementById("submenu76")==null){	 Tmessage();	}		
+		document.getElementById("submenu76").className="onSub";
+	}
+	else{	 Tmessage();	}		
+	function Tmessage(){alert("해당되는 2뎁스메뉴가 없습니다");	 return;}
+}
+</script>
+	

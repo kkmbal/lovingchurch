@@ -282,7 +282,7 @@ footer p {
 
 /* ------------------------------------------------------------------------ */
 /*bodyArea*/
-.bodyArea{width:980px; display:block;   padding-top:12px; float:none;}
+.bodyArea{width:980px; display:block;   padding-top:5px; float:none;}
 .bodyArea:after{ content:" ";
 				 display:block; 
 				 clear:both;  /* height:0; visibility:hidden; */}
@@ -293,7 +293,7 @@ footer p {
 .leftMenu {width:176px; float:left;}
 
 /*contentArea*/
-.content{width:770px; float:left; padding-left:20px}
+.content{width:970px; float:left; padding-left:20px}
 
 /*Footer*/
 .footerArea{clear:both; display:block; width:100%; padding-top:17px; margin:0 auto;}

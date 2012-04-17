@@ -5,6 +5,10 @@
 	<%@ include file="/WEB-INF/jsp/inc/header.jsp" %>
 	<script type="text/javascript" >
 		$(document).ready(function () {
+			//실행일자
+			$("#DT").datepicker();		
+			$("#DT").val(formatDate(new Date(), "yyyy-MM-dd"));	
+			
 			 $("#list").jqGrid({
 			    url:"systemProjectService.listDetailCode.json",
 			    colNames:['아이디', '성명','생년월일','가입일자','직분','권한'],
@@ -17,7 +21,7 @@
 			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}}
 			    ],
 			    pager: '#pager',
-			    caption: '회원관리',
+			    caption: '헌금관리',
 			    height:400
 			});		
 		});
@@ -31,8 +35,8 @@
 <!--title-->
 <div class="titleArea">
 	<ul>
-		<li class="title">회원 관리</li>
-		<li class="directory"><img src="${pageContext.request.contextPath}/img/etc/icn_home.gif">	>	회원관리</li>
+		<li class="title">년간결산 관리</li>
+		<li class="directory"><img src="${pageContext.request.contextPath}/img/etc/icn_home.gif">	결산    >	년간결산관리</li>
 	</ul>
 </div>
 <!--title-->
@@ -55,8 +59,8 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="searchBody">성명</td>
-						<td class="searchBody"><input name="USER_NM" id="USER_NM"></td>
+						<td class="searchBody">날짜</td>
+						<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT" id="DT"></td>
 						<td class="searchBody" align="center"><button id="search">검색</button></td>
 					</tr>
 				</tbody>

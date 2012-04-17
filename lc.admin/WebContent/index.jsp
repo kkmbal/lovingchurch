@@ -7,8 +7,8 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/js/jquery.cookie.js"></script>	
 	<script type="text/javascript" >
 		window.onload = function(){
-			var id = $.cookie('m_mvoip_id');
-			var chk = $.cookie('m_chk_mvoip_id');
+			var id = $.cookie('lc_id');
+			var chk = $.cookie('chk_lc_id');
 			if(chk != null && chk == 'chk_true'){
 				$("[id=saveCookie]").attr("checked","checked");
 				if(id != null){
@@ -35,8 +35,8 @@
 			}	
 			//------------------------------------
 			if($("[id=saveCookie]").is(":checked")){
-				$.cookie('m_mvoip_id', $('#LOGIN_ID').val());
-				$.cookie('m_chk_mvoip_id', "chk_true");
+				$.cookie('lc_id', $('#LOGIN_ID').val());
+				$.cookie('chk_lc_id', "chk_true");
 			}			
 			//------------------------------------	
 			$('form').submit();			

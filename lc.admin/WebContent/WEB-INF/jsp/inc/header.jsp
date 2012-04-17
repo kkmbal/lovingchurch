@@ -27,8 +27,8 @@
 <!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/humanity/jquery-ui-1.8.18.custom.css" />-->
 <!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/pepper-grinder/jquery-ui-1.8.18.custom.css" />-->
 <!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/sunny/jquery-ui-1.8.18.custom.css" />-->
-	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/flick/jquery-ui-1.8.18.custom.css" />
-<!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/cupertino/jquery-ui-1.8.18.custom.css" />-->
+<!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/flick/jquery-ui-1.8.18.custom.css" />-->
+	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/cupertino/jquery-ui-1.8.18.custom.css" />
 	
 	<!-- jqgrid CSS -->
 	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery.jqGrid-4.3.1/css/ui.jqgrid.css" />

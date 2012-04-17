@@ -11,17 +11,14 @@
 			
 			 $("#list").jqGrid({
 			    url:"systemProjectService.listDetailCode.json",
-			    colNames:['아이디', '성명','생년월일','가입일자','직분','권한'],
+			    colNames:['지출항목', '금액','기타'],
 			    colModel :[ 
 			      {name:'GRP_CD', index:'GRP_CD', width:90, align:'left', editable:false},
 			      {name:'CD', index:'CD', width:80, align:'left', editable:true, editrules:{required:true}}, 
-			      {name:'CD_NM', index:'CD_NM', width:80, align:'left', editable:true, editrules:{required:true}}, 
-			      {name:'CD_DESCR', index:'CD_DESCR', width:80, align:'left', editable:true, editrules:{required:true}},
-			      {name:'HIRNK_COMN_CD_KEY', index:'HIRNK_COMN_CD_KEY', width:80, align:'center', editable:true},
-			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}}
+			      {name:'CD_NM', index:'CD_NM', width:80, align:'left', editable:true, editrules:{required:true}} 
 			    ],
 			    pager: '#pager',
-			    caption: '헌금관리',
+			    caption: '지출관리',
 			    height:400
 			});		
 		});

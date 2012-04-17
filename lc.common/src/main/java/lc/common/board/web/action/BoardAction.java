@@ -141,7 +141,7 @@ public abstract class BoardAction  extends BasicActionSupport implements ModelDr
 			
 			Map session = ActionContext.getContext().getSession();
 			UserInfo userInfo = (UserInfo)MapUtils.getObject(session, "userInfo", new UserInfo());
-			board.setUPD_ID(userInfo.getLOGIN_ID());
+			board.setUPD_ID(userInfo.getUSER_ID());
 			
 			boardPrev = new Board();
 			boardNext = new Board();
@@ -217,8 +217,8 @@ public abstract class BoardAction  extends BasicActionSupport implements ModelDr
 			board.setVIEW_SITE(parameterMap.get("VIEW_SITE"));
 			board.setVIEW_LOC(parameterMap.get("VIEW_LOC"));
 			
-			board.setCRE_ID(userInfo.getLOGIN_ID());
-			board.setUPD_ID(userInfo.getLOGIN_ID());
+			board.setCRE_ID(userInfo.getUSER_ID());
+			board.setUPD_ID(userInfo.getUSER_ID());
 			
 			fileHandle();
 			
@@ -243,8 +243,8 @@ public abstract class BoardAction  extends BasicActionSupport implements ModelDr
 			board.setVIEW_LOC(parameterMap.get("VIEW_LOC"));
 			
 			
-			board.setCRE_ID(userInfo.getLOGIN_ID());
-			board.setUPD_ID(userInfo.getLOGIN_ID());
+			board.setCRE_ID(userInfo.getUSER_ID());
+			board.setUPD_ID(userInfo.getUSER_ID());
 			
 			fileHandle();
 			
@@ -264,8 +264,8 @@ public abstract class BoardAction  extends BasicActionSupport implements ModelDr
 			Map session = ActionContext.getContext().getSession();
 			UserInfo userInfo = (UserInfo)MapUtils.getObject(session, "userInfo", new UserInfo());
 			
-			board.setCRE_ID(userInfo.getLOGIN_ID());
-			board.setUPD_ID(userInfo.getLOGIN_ID());
+			board.setCRE_ID(userInfo.getUSER_ID());
+			board.setUPD_ID(userInfo.getUSER_ID());
 			
 			fileHandle();
 			
@@ -285,8 +285,8 @@ public abstract class BoardAction  extends BasicActionSupport implements ModelDr
 			Map session = ActionContext.getContext().getSession();
 			UserInfo userInfo = (UserInfo)MapUtils.getObject(session, "userInfo", new UserInfo());
 			
-			board.setCRE_ID(userInfo.getLOGIN_ID());
-			board.setUPD_ID(userInfo.getLOGIN_ID());
+			board.setCRE_ID(userInfo.getUSER_ID());
+			board.setUPD_ID(userInfo.getUSER_ID());
 			
 			fileHandle();
 			
@@ -306,8 +306,8 @@ public abstract class BoardAction  extends BasicActionSupport implements ModelDr
 			Map session = ActionContext.getContext().getSession();
 			UserInfo userInfo = (UserInfo)MapUtils.getObject(session, "userInfo", new UserInfo());
 			
-			board.setCRE_ID(userInfo.getLOGIN_ID());
-			board.setUPD_ID(userInfo.getLOGIN_ID());
+			board.setCRE_ID(userInfo.getUSER_ID());
+			board.setUPD_ID(userInfo.getUSER_ID());
 			
 			fileHandle();
 			

@@ -18,7 +18,7 @@ public class LoginInterceptor extends AbstractInterceptor {
 		
 		Map session = invocation.getInvocationContext().getSession();//.put("Greeting", "");
 		UserInfo userInfo = (UserInfo)MapUtils.getObject(session, "userInfo", new UserInfo());
-		String id = userInfo.getLOGIN_ID();
+		String id = userInfo.getUSER_ID();
 		
 		//System.out.println("0●●●●●●●●●●●●●●●●----------------------->>>id:"+id);
 		if(StringUtils.isEmpty(id)){

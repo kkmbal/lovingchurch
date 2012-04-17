@@ -48,7 +48,7 @@
 		p:prefix="/" />	
 	
 	<!-- 	
-	<bean id="loginInterceptor"	class="smart.ide.server.manage.common.interceptor.FmsLoginInterceptor" >
+	<bean id="loginInterceptor"	class="lc.common.login.web.controller.SpringLoginInterceptor" >
 		<property name="exceptLogin">
 			<list>
 				<value>/login.do</value>

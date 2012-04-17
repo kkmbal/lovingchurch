@@ -52,7 +52,7 @@
 	<script src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
 	<script src="${pageContext.request.contextPath}/js/jquery.blockUI.js"></script>
 	
-	<!-- fms 공통 js -->
+	<!-- LC 공통 js -->
 	<script src="${pageContext.request.contextPath}/js/js_common.js"></script>	
 	<script src="${pageContext.request.contextPath}/js/dateFormat.js"></script>	
 	

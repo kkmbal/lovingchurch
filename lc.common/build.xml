@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<project name="mvoip_common" basedir="." default="all" xmlns:artifact="urn:maven-artifact-ant">
+    <property name="src.dir" value="src"/>
+    <property name="resources.dir" value="resources"/>
+    <property name="web.dir" value="WebContent"/>
+    <property name="build.dir" value="target"/>
+    
+	<property name="app.name" value="mvoip_common"/>
+
+	<path id="compile.classpath">
+		<fileset dir="lib">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="D:/util/java/apache-tomcat-6.0.29/lib">
+		<!-- fileset dir="D:/apache-tomcat-6.0.29/lib" -->
+			<include name="**/*.jar" />
+		</fileset> 
+	</path>
+		
+    <target name="compile" description="Compile main source tree java files">
+        <mkdir dir="${build.dir}/classes"/>
+        <javac destdir="${build.dir}/classes" encoding="UTF-8" debug="true" optimize="false"
+            deprecation="false" failonerror="true" source="1.6" target="1.6">
+            <src path="${src.dir}"/>
+            <classpath>
+                <path refid="compile.classpath"/>
+                <!-- fileset dir="${web.dir}/WEB-INF/lib" includes="*.jar"/ -->
+            </classpath>
+        </javac>
+        <!-- Copy XML files to ${build.dir}/classes -->
+        <copy todir="${build.dir}/classes">
+            <fileset dir="${src.dir}" includes="**/*.xml"/>
+            <fileset dir="${src.dir}" includes="**/*.properties"/>
+        </copy>
+    </target>
+
+	<target name="package">
+		<jar jarfile="${build.dir}/${app.name}.jar">
+			<fileset dir="${build.dir}/classes"/>
+			<fileset dir="${resources.dir}"/>
+		</jar>
+	</target>
+
+    <target name="copy-jars" description="Copies JARs from local repository">
+        <mkdir dir="${build.dir}/jars"/>
+        <copy todir="${build.dir}/jars">
+            <fileset refid="compile.fileset"/>
+            <fileset refid="runtime.fileset"/>
+            <mapper type="flatten"/>
+        </copy>
+        <delete>
+            <fileset dir="${build.dir}/jars" includes="servlet-api*"/>
+        </delete>
+    </target>
+    
+    <!-- target name="war" depends="compile,copy-jars" description="Packages app as WAR" -->
+    <target name="war" depends="clean,compile" description="Packages app as WAR">
+        <!-- mkdir dir="${build.dir}"/ -->
+        <war destfile="${build.dir}/${webapp.name}.war"
+            webxml="${web.dir}/WEB-INF/web.xml" compress="true">
+            <classes dir="${build.dir}/classes"/>
+            <classes dir="${resources.dir}"/>
+            <fileset dir="${web.dir}">
+            	<include name="**/*.*" />
+            	<exclude name="**/classes/**" />
+            	<exclude name="classes/**" />
+            </fileset>
+            <!-- zipfileset prefix="WEB-INF/lib" dir="${build.dir}/jars"/ -->
+        </war>
+    </target>
+
+    <target name="deploy" depends="compile,copy-jars" description="Deploy application">
+        <copy todir="${deploy.dir}/${webapp.name}" preservelastmodified="true">
+            <fileset dir="${web.dir}"/>
+        </copy>
+        <copy todir="${deploy.dir}/${webapp.name}/WEB-INF/classes" preservelastmodified="true">
+            <fileset dir="${build.dir}/classes"/>
+            <fileset dir="${resources.dir}"/>
+        </copy>
+        <copy todir="${deploy.dir}/${webapp.name}/WEB-INF/lib">
+            <fileset dir="${build.dir}/jars"/>
+        </copy>
+    </target>
+
+    <target name="undeploy" description="Deletes application from server">
+        <delete dir="${deploy.dir}/${webapp.name}"/>
+    </target>
+    
+    <target name="deploywar" depends="war" description="Deploy application as a WAR file">
+        <copy todir="${deploy.dir}" preservelastmodified="true"
+            file="${build.dir}/${webapp.name}.war"/>
+    </target>
+
+    <target name="clean" description="Clean output directories">
+        <delete dir="${build.dir}"/>
+    </target>
+    
+	<target name="all" depends="clean, compile, package" />
+</project>

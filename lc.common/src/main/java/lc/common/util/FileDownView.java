@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lc.common.excel.domain.JExcelInfo;
+import lc.common.excel.domain.JExcelExportInfo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,7 +44,7 @@ public class FileDownView extends AbstractView{
 //    		logger.debug(file);
 //    		logger.debug(filePath);
 //    	}
-    	List<JExcelInfo> listData = (List<JExcelInfo>)model.get("data");
+    	JExcelExportInfo listData = (JExcelExportInfo)model.get("export");
     	byte[] fileByte = JExcelUtil.excelDown("Book1", listData);
     	
 		//byte[] fileByte = file.getCts(); //파일내용(BLOB type)

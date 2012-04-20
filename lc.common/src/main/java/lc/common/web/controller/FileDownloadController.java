@@ -8,7 +8,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lc.common.excel.domain.JExcelExportInfo;
 import lc.common.excel.domain.JExcelInfo;
+import lc.common.excel.domain.JExcelListInfo;
 import lc.common.util.FileDownView;
 
 import org.apache.commons.logging.Log;
@@ -38,40 +40,39 @@ public class FileDownloadController {
     public ModelAndView process(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
     	
-    	List<JExcelInfo> listData = new ArrayList<JExcelInfo>();
-    	JExcelInfo info = new JExcelInfo();
+    	JExcelExportInfo export = new JExcelExportInfo();
+    	export.setData(new JExcelInfo(4, 1, "00시 ~ 01시"));
+    	export.setData(new JExcelInfo(3, 2, "9"));
+    	export.setData(new JExcelInfo(4, 2, "20"));
+    	export.setData(new JExcelInfo(2, 2, "22222"));
+    	export.setData(new JExcelInfo(3, 3, "11111"));
     	
-    	info.setRowIdx(6);
-    	info.setColIdx(1);
-    	info.setContent("00시 ~ 01시");
-    	listData.add(info);
-
-    	info = new JExcelInfo();
-    	info.setRowIdx(6);
-    	info.setColIdx(2);
-    	info.setContent("100");
-    	listData.add(info);
+    	List<List<JExcelInfo>> iiList = new ArrayList<List<JExcelInfo>>();
+    	List<JExcelInfo> iList = null;
     	
-    	info = new JExcelInfo();
-    	info.setRowIdx(6);
-    	info.setColIdx(3);
-    	info.setContent("9");
-    	listData.add(info);
+    	iList = new ArrayList<JExcelInfo>();
+    	iList.add(new JExcelInfo("1"));
+    	iList.add(new JExcelInfo("22222"));
+    	iList.add(new JExcelInfo("aaaaa"));
+    	iiList.add(iList);
     	
-    	info = new JExcelInfo();
-    	info.setRowIdx(6);
-    	info.setColIdx(4);
-    	info.setContent("20");
-    	listData.add(info);
+    	iList = new ArrayList<JExcelInfo>();
+    	iList.add(new JExcelInfo("2"));
+    	iList.add(new JExcelInfo("44444"));
+    	iList.add(new JExcelInfo("bbbbb"));
+    	iiList.add(iList);
     	
-    	info = new JExcelInfo();
-    	info.setRowIdx(6);
-    	info.setColIdx(5);
-    	info.setContent("5");
-    	listData.add(info);
+    	iList = new ArrayList<JExcelInfo>();
+    	iList.add(new JExcelInfo("3"));
+    	iList.add(new JExcelInfo("66666"));
+    	iList.add(new JExcelInfo("ccccc"));
+    	iiList.add(iList);
+    	
+    	export.setList(new JExcelListInfo(2, 4, iiList));
+    	
     	
     	Map modelMap = new HashMap();
-    	modelMap.put("data", listData);
+    	modelMap.put("export", export);
     	return new ModelAndView(new FileDownView(), modelMap);
     }    
 }

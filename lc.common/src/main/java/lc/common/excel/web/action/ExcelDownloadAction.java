@@ -83,7 +83,7 @@ public class ExcelDownloadAction  extends BasicActionSupport implements ServletC
     	info.setContent("5");
     	listData.add(info);
     	
-    	setOutFileByte(JExcelUtil.excelDown(fileName, listData));
+    	//setOutFileByte(JExcelUtil.excelDown(fileName, listData));
     	
         return SUCCESS;
     }

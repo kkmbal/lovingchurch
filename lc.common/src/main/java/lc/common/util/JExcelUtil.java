@@ -66,6 +66,7 @@ public class JExcelUtil {
 //			}
 		    
 			if(sheet.getRows() > 0){
+				// #DATA 타입
 				List<JExcelInfo> data = listData.getData();
 				for(JExcelInfo info : data){
 					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()); // (column, row)
@@ -77,22 +78,9 @@ public class JExcelUtil {
 			    	}
 				}
 				
-				//남아있는 #DATA 삭제
-				for(int i=0;i<sheet.getRows();i++){
-					Cell[] cells = sheet.getRow(i);
-					for(int j=0;j<cells.length;j++){
-						if("#DATA".equals(cells[j].getContents())){
-							cell = sheet.getWritableCell(j, i);
-							if (cell.getType() == CellType.LABEL){ 
-				    			l = (Label) cell; 
-				    			l.setString(""); 
-				    		}
-						}
-					}
-				}
+
 				
-				
-				
+				// #LIST 타입
 				List<JExcelListInfo> list = listData.getList();
 				int colIdx = 0;
 				int rowIdx = 0;
@@ -102,8 +90,11 @@ public class JExcelUtil {
 					rowIdx = info.getRowIdx();
 					if("#LIST".equals(cell.getContents())){
 			    		List<List<JExcelInfo>> listJExcelInfo = info.getListJExcelInfo();
-			    		for(List<JExcelInfo> listInfo : listJExcelInfo){
-			    			for(JExcelInfo i : listInfo){
+			    		for(List<JExcelInfo> listInfo : listJExcelInfo){ //세로 데이터
+			    			if(rowIdx > info.getRowIdx()) { //row 삽입
+			    				sheet.insertRow(rowIdx + 1);
+			    			}
+			    			for(JExcelInfo i : listInfo){ //가로 데이터
 			    				Label label = new Label(colIdx, rowIdx, i.getContent(), new WritableCellFormat());
 			    				sheet.addCell(label);
 			    				colIdx++;
@@ -114,6 +105,19 @@ public class JExcelUtil {
 			    	}
 				}
 				
+				//값 없이 남아있는 #DATA, #LIST 플래그 삭제
+				for(int i=0;i<sheet.getRows();i++){
+					Cell[] cells = sheet.getRow(i);
+					for(int j=0;j<cells.length;j++){
+						if("#DATA,#LIST".contains(cells[j].getContents())){
+							cell = sheet.getWritableCell(j, i);
+							if (cell.getType() == CellType.LABEL){ 
+				    			l = (Label) cell; 
+				    			l.setString(""); 
+				    		}
+						}
+					}
+				}	
 				
 			}		    
 			
@@ -129,38 +133,4 @@ public class JExcelUtil {
 		return null;
 	}
 
-	public static File excelDownFile(String fileName, List<JExcelInfo> listData) throws Exception{
-		String rootPath = LcConstants.EXCEL_FILE_PATH;
-		File xfile = new File(rootPath + File.separator + fileName + ".xls");
-		
-		if(xfile.exists()){
-			File outFile = new File(rootPath + File.separator + fileName + "_" + DateUtil.getCurrentDateTime() + ".xls");
-			
-		    Workbook workbook = Workbook.getWorkbook(xfile);
-		    //WritableWorkbook copy = Workbook.createWorkbook(res.getOutputStream(), workbook);
-		    WritableWorkbook copy = Workbook.createWorkbook(outFile, workbook);
-		    WritableSheet sheet = copy.getSheet(0);
-	
-			for(int i=0;i<sheet.getRows();i++){
-				Cell[] cells = sheet.getRow(i);
-				if (cells.length>0){
-					
-				}
-			}
-			
-			if(sheet.getRows() > 0){
-			    for(JExcelInfo info : listData){
-			    	Label label = new Label(info.getColIdx(), info.getRowIdx(), info.getContent(), new WritableCellFormat(new WritableFont(WritableFont.ARIAL, sheet.getRow(info.getRowIdx())[info.getColIdx()].getCellFormat().getFont().getPointSize(), WritableFont.NO_BOLD)));
-			    	sheet.addCell(label);
-			    }
-			}
-			
-		    copy.write();
-		    copy.close();
-		    
-		    
-		    return outFile;
-		}
-		return null;
-	}	
 }

@@ -73,6 +73,7 @@ public class FileDownloadController {
     	iiList.add(iList);
     	
     	ll.add(new JExcelListInfo(2, 4, iiList));
+    	ll.add(new JExcelListInfo(2, 7, iiList));
     	
     	export.setList(ll);
     	

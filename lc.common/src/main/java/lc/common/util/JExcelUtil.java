@@ -84,15 +84,17 @@ public class JExcelUtil {
 				List<JExcelListInfo> list = listData.getList();
 				int colIdx = 0;
 				int rowIdx = 0;
+				int addRowCnt = 0; //추가된 row 수 
 				for(JExcelListInfo info : list){
-					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()); // (column, row)
+					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx() + addRowCnt); // (column, row)
 					colIdx = info.getColIdx();
-					rowIdx = info.getRowIdx();
+					rowIdx = info.getRowIdx() + addRowCnt;
 					if("#LIST".equals(cell.getContents())){
 			    		List<List<JExcelInfo>> listJExcelInfo = info.getListJExcelInfo();
 			    		for(List<JExcelInfo> listInfo : listJExcelInfo){ //세로 데이터
 			    			if(rowIdx > info.getRowIdx()) { //row 삽입
 			    				sheet.insertRow(rowIdx + 1);
+			    				addRowCnt++;
 			    			}
 			    			for(JExcelInfo i : listInfo){ //가로 데이터
 			    				Label label = new Label(colIdx, rowIdx, i.getContent(), new WritableCellFormat());

@@ -41,12 +41,16 @@ public class FileDownloadController {
             HttpServletResponse response) throws Exception {
     	
     	JExcelExportInfo export = new JExcelExportInfo();
-    	export.setData(new JExcelInfo(4, 1, "00시 ~ 01시"));
-    	export.setData(new JExcelInfo(3, 2, "9"));
-    	export.setData(new JExcelInfo(4, 2, "20"));
-    	export.setData(new JExcelInfo(2, 2, "22222"));
-    	export.setData(new JExcelInfo(3, 3, "11111"));
     	
+    	List<JExcelInfo> l = new ArrayList<JExcelInfo>();
+    	l.add(new JExcelInfo(4, 1, "00시 ~ 01시"));
+    	l.add(new JExcelInfo(3, 2, "9"));
+    	l.add(new JExcelInfo(4, 2, "20"));
+    	l.add(new JExcelInfo(2, 2, "22222"));
+    	l.add(new JExcelInfo(3, 3, "11111"));
+    	export.setData(l);
+    	
+    	List<JExcelListInfo> ll = new ArrayList<JExcelListInfo>();
     	List<List<JExcelInfo>> iiList = new ArrayList<List<JExcelInfo>>();
     	List<JExcelInfo> iList = null;
     	
@@ -68,7 +72,9 @@ public class FileDownloadController {
     	iList.add(new JExcelInfo("ccccc"));
     	iiList.add(iList);
     	
-    	export.setList(new JExcelListInfo(2, 4, iiList));
+    	ll.add(new JExcelListInfo(2, 4, iiList));
+    	
+    	export.setList(ll);
     	
     	
     	Map modelMap = new HashMap();

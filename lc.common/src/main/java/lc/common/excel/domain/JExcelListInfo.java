@@ -7,7 +7,7 @@ public class JExcelListInfo {
 	private int rowIdx;
 	private List<List<JExcelInfo>> listJExcelInfo; //가로
 	
-	public JExcelListInfo(){}
+	//public JExcelListInfo(){}
 	
 	public JExcelListInfo(int colIdx, int rowIdx, List<List<JExcelInfo>> listJExcelInfo){
 		this.colIdx = colIdx;

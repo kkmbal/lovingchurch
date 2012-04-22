@@ -213,7 +213,8 @@ function fnMakeSelectComm(id, hicd, title, select_val){
 		alert('공통코드 호출시는 그룹코드를 입력해야 합니다.');
 		return;
 	}
-	fnMakeSelect('commSelectService.getCommSubCd.json', hicd, id, title, 'CD', false, select_val);
+	fnMakeSelect('gridCommonCodeService.getCommSubCd.lc', hicd, id, title, 'CD', false, select_val);
+	//fnMakeSelect('commSelectService.getCommSubCd.json', hicd, id, title, 'CD', false, select_val);
 }
 
 /**
@@ -238,7 +239,8 @@ function fnMakeSelectCommAsync(id, hicd, title, select_val){
  * hicd : 상위코드값
  */
 function fnGetGridSelectComm(hicd){
-	return fnGetGridSelect("commSelectService.getCommSubCd.json?hicd="+hicd, "CD", "CD_NM");
+	return fnGetGridSelect("gridCommonCodeService.getCommSubCd.lc?hicd="+hicd, "CD", "CD_NM");
+//	return fnGetGridSelect("commSelectService.getCommSubCd.json?hicd="+hicd, "CD", "CD_NM");
 }
 
 /**
@@ -288,7 +290,8 @@ function fnGetGridSelect(url, key_name, val_name){
 		async: false,
 		cache : false,
 		dataType: "json",
-		url: "${pageContext.request.contextPath}/"+url, 
+		//url: "${pageContext.request.contextPath}/"+url,
+		url : ""+url,
 		data: hicd,
 		error: function(request, status, error){
 			alert(request.responseText);

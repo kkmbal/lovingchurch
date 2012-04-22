@@ -27,7 +27,8 @@ public class GridUtil {
 	 */
 	public static Map<String, String> getPager(GridInVO giVO) {
 		Map<String, String> pager = new HashMap<String, String>();
-	    pager.put("page", giVO.getPage());
+	    //pager.put("page", giVO.getPage()); //oracle
+	    pager.put("page", String.valueOf(Integer.parseInt(giVO.getPage())-1)); //mysql
 	    pager.put("rows", giVO.getRows());
 	    pager.put("sidx", giVO.getSidx());
 	    pager.put("sord", giVO.getSord());

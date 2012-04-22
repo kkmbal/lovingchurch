@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="lc.admin.inout.service.InoutMapper">
+
+	<select id="listDonation" parameterType="hashmap" resultType="hashmap" >
+			SELECT A.USER_KEY
+					,MAX(A.USER_NM) USER_NM
+					,MAX(A.CAL_YMD) CAL_YMD
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '01' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_01
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '02' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_02
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '03' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_03
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '04' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_04
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '05' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_05
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '06' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_06
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '07' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_07
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '08' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_08
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '09' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_09
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '10' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_10
+					,SUM(CASE WHEN A.INOUT_ITEM_CD = '11' THEN A.INOUT_AMT ELSE 0 END) DONA_CD_11
+			FROM (
+			SELECT   A.USER_KEY
+					,A.USER_ID
+					,A.USER_NM
+					,B.INOUT_ITEM_CD
+					,B.INOUT_AMT
+					,B.CAL_YMD
+			FROM MEMBER A
+				  LEFT OUTER JOIN WEEK_INOUT B ON ( B.CAL_YMD = #{CAL_YMD} 
+				  											   AND A.USER_KEY = B.USER_KEY
+																AND B.INOUT_CD = #{INOUT_CD})
+			WHERE IFNULL(A.AUTH_CD,'') != '10'
+			) A
+			GROUP BY A.USER_KEY
+			ORDER BY A.USER_NM				
+			LIMIT ${page}, ${rows}
+	</select>
+	
+	<select id="listDonationCount" parameterType="hashmap" resultType="int" >
+		    <![CDATA[
+			SELECT   COUNT(*) ROWCOUNT
+			FROM MEMBER
+			WHERE IFNULL(AUTH_CD,'') != '10'
+			]]>		
+	</select>
+	
+	<select id="getMaxInoutSeq" parameterType="hashmap" resultType="String" >
+		    <![CDATA[
+			SELECT IFNULL(MAX(INOUT_SEQ_NO)+1,1) SEQ	      
+			FROM WEEK_INOUT
+			WHERE CAL_YMD = #{CAL_YMD}
+			]]>
+	</select>
+	
+	<insert id="insertInout" parameterType="hashmap" >
+		    <![CDATA[
+				INSERT INTO WEEK_INOUT 
+				(  
+					 CAL_YMD
+					,INOUT_SEQ_NO
+					,USER_KEY
+					,INOUT_CD
+					,INOUT_ITEM_CD
+					,INOUT_AMT
+					,REMARK
+					,UPD_ID
+					,UPD_DATE
+					,CRE_ID
+					,CRE_DATE
+				)VALUES(
+					 #{CAL_YMD}
+					,#{INOUT_SEQ_NO}
+					,#{USER_KEY, jdbcType=VARCHAR}
+					,#{INOUT_CD}
+					,#{INOUT_ITEM_CD}
+					,#{INOUT_AMT}
+					,#{REMARK, jdbcType=VARCHAR}
+					,#{UPD_ID}
+					,NOW()
+					,#{CRE_ID}
+					,NOW()
+				)
+			]]>			
+	</insert>
+	
+	<update id="updateDonation" parameterType="hashmap" >
+		    <![CDATA[
+				UPDATE WEEK_INOUT
+				SET  INOUT_AMT	= #{INOUT_AMT}
+					,REMARK	= #{REMARK}
+					,UPD_ID		= #{UPD_ID}
+					,UPD_DATE	= NOW()				
+				WHERE CAL_YMD = #{CAL_YMD}
+				AND   USER_KEY = #{USER_KEY}
+				AND   INOUT_CD = #{INOUT_CD}
+				AND   INOUT_ITEM_CD	= #{INOUT_ITEM_CD}
+			]]>			
+	</update>
+	
+	<select id="getDonation" parameterType="hashmap" resultType="hashmap">
+		    <![CDATA[
+				SELECT CAL_YMD
+					  ,INOUT_SEQ_NO
+					  ,USER_KEY
+					  ,INOUT_CD
+					  ,INOUT_ITEM_CD
+					  ,INOUT_AMT
+					  ,REMARK
+				FROM WEEK_INOUT
+				WHERE CAL_YMD = #{CAL_YMD}
+				AND   USER_KEY = #{USER_KEY}
+				AND   INOUT_CD = #{INOUT_CD}
+				AND   INOUT_ITEM_CD	= #{INOUT_ITEM_CD}
+			]]>			
+			<if test="INOUT_SEQ_NO != '' and INOUT_SEQ_NO != null">
+			AND INOUT_SEQ_NO = #{INOUT_SEQ_NO}
+			</if>			
+	</select>
+	
+<!-- /////////////////////////////////////////////////////////////////////////////////////// -->
+
+	<select id="listInout" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT CAL_YMD
+				  ,INOUT_SEQ_NO
+				  ,USER_KEY
+				  ,INOUT_CD
+				  ,INOUT_ITEM_CD
+				  ,INOUT_AMT
+				  ,REMARK
+			FROM WEEK_INOUT
+			WHERE CAL_YMD = #{CAL_YMD}
+			AND INOUT_CD = #{INOUT_CD}
+			AND USER_KEY IS NULL
+			]]>		
+			ORDER BY ${sidx} ${sord} 
+			LIMIT ${page}, ${rows}
+	</select>
+	
+	<select id="listInoutCount" parameterType="hashmap" resultType="int" >
+		    <![CDATA[
+			SELECT   COUNT(*) ROWCOUNT
+			FROM WEEK_INOUT
+			WHERE CAL_YMD = #{CAL_YMD}
+			AND INOUT_CD = #{INOUT_CD}
+			AND USER_KEY IS NULL
+			]]>		
+	</select>
+	
+	
+	<update id="updateInout" parameterType="hashmap" >
+		    <![CDATA[
+				UPDATE WEEK_INOUT
+				SET  INOUT_AMT	= #{INOUT_AMT}
+					,REMARK	= #{REMARK}
+					,UPD_ID		= #{UPD_ID}
+					,UPD_DATE	= NOW()				
+				WHERE CAL_YMD = #{CAL_YMD}
+				AND   INOUT_SEQ_NO = #{INOUT_SEQ_NO}
+			]]>			
+	</update>
+	
+	<delete id="deleteInout" parameterType="hashmap" >
+		    <![CDATA[
+			DELETE FROM WEEK_INOUT
+			WHERE CAL_YMD = #{CAL_YMD}
+			AND   INOUT_SEQ_NO = #{INOUT_SEQ_NO}
+			]]>			
+	</delete>
+	
+	
+</mapper>

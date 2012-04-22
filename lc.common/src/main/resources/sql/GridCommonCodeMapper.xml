@@ -964,5 +964,14 @@
 			WHERE A.CD = B.GRP_CD
 			AND   A.COMN_CD_KEY = #{COMN_CD_KEY}
 			AND   B.USE_YN = 'Y'
+	</select>	
+	
+	<select id="getCommSubCd" parameterType="hashmap" resultType="hashmap">
+		SELECT CD_VAL CD
+		       ,CD_NM
+		FROM CODE
+		WHERE HICD_VAL = #{CD}
+		AND   USE_YN = 'Y'
+		ORDER BY ORD_NO
 	</select>	        		   
 </mapper>

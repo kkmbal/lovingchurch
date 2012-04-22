@@ -34,20 +34,17 @@
 				<prop key="/**/*.do">urlController</prop>
 			</props>
 		</property>
-		<!-- 
 		<property name="interceptors">
 			<list>
 				<ref bean="loginInterceptor" />
 			</list>
 		</property>		
-		 -->
 	</bean>
 
 	<bean id="urlController"
 		class="org.springframework.web.servlet.mvc.UrlFilenameViewController"
 		p:prefix="/" />	
 	
-	<!-- 	
 	<bean id="loginInterceptor"	class="lc.common.login.web.controller.SpringLoginInterceptor" >
 		<property name="exceptLogin">
 			<list>
@@ -56,6 +53,5 @@
 		</property>
 		<property name="basicName" value="/index.jsp" />	 			
 	</bean>	
-	 -->	
 		
 </beans>

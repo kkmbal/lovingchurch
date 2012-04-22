@@ -32,9 +32,9 @@ public class SpringLoginInterceptor extends HandlerInterceptorAdapter {
     	
     	try {
 	    	UserInfo user = (UserInfo)WebUtils.getSessionAttribute(request, "userInfo");
-	    	if(user == null) {
-	    		user = new UserInfo();
-	    	}
+	    	//if(user == null) {
+	    	//	user = new UserInfo();
+	    	//}
 	        if (user == null) {
 	        	//체크제외대상 url
 	        	if(exceptLogin!= null && exceptLogin.toString().indexOf(request.getServletPath()) != -1){

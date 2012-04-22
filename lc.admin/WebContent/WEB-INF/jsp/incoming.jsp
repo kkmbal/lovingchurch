@@ -15,19 +15,23 @@
 			$("#tabs").tabs();
 			
 			 $("#list1").jqGrid({
-			    url:"systemProjectService.listDetailCode.json",
-			    colNames:['성명', '주일헌금','십일조','감사헌금','선교헌금','건축헌금','생일헌금','부활절헌금','구제헌금','비고'],
+			    url:"inoutService.listDonation.lc",
+			    colNames:['성명', '주일','십일조','감사','선교','건축','생일','부활절','추수감사','구제','성탄감사','신년감사','CAL_YMD','USER_KEY'],
 			    colModel :[ 
-			      {name:'GRP_CD', index:'GRP_CD', width:90, align:'left', editable:false},
-			      {name:'CD', index:'CD', width:80, align:'left', editable:true, editrules:{required:true}}, 
-			      {name:'CD_NM', index:'CD_NM', width:80, align:'left', editable:true, editrules:{required:true}}, 
-			      {name:'CD_DESCR', index:'CD_DESCR', width:80, align:'left', editable:true, editrules:{required:true}},
-			      {name:'HIRNK_COMN_CD_KEY', index:'HIRNK_COMN_CD_KEY', width:80, align:'center', editable:true},
-			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}},
-			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}},
-			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}},
-			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}},
-			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}}
+			      {name:'USER_NM', index:'USER_NM', width:90, align:'left', editable:false},
+			      {name:'DONA_CD_01', index:'DONA_CD_01', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",",defaultValue: '0'}, editrules:{number:true}}, 
+			      {name:'DONA_CD_02', index:'DONA_CD_02', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}}, 
+			      {name:'DONA_CD_03', index:'DONA_CD_03', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
+			      {name:'DONA_CD_04', index:'DONA_CD_04', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
+			      {name:'DONA_CD_05', index:'DONA_CD_05', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
+			      {name:'DONA_CD_06', index:'DONA_CD_06', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
+			      {name:'DONA_CD_07', index:'DONA_CD_07', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
+			      {name:'DONA_CD_08', index:'DONA_CD_08', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
+			      {name:'DONA_CD_09', index:'DONA_CD_09', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
+			      {name:'DONA_CD_10', index:'DONA_CD_10', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
+			      {name:'DONA_CD_11', index:'DONA_CD_11', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
+			      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'right', editable:false},
+			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'right', editable:false}
 			    ],
 			    pager: '#pager1',
 			    caption: '헌금관리',
@@ -35,19 +39,73 @@
 			});	
 			 
 			 $("#list2").jqGrid({
-				    url:"systemProjectService.listDetailCode.json",
-				    colNames:['수입항목', '금액', '비고'],
+				    url:"inoutService.listIn.lc",
+				    colNames:['수입항목', '금액', '비고','CAL_YMD','INOUT_SEQ_NO'],
 				    colModel :[ 
-				      {name:'GRP_CD', index:'GRP_CD', width:90, align:'left', editable:false},
-				      {name:'CD', index:'CD', width:80, align:'left', editable:true, editrules:{required:true}}, 
-				      {name:'CD_NM', index:'CD_NM', width:80, align:'left', editable:true, editrules:{required:true}} 
+				      {name:'INOUT_ITEM_CD', index:'INOUT_ITEM_CD', width:90, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('IN_CD') }, formatter:'select', editrules:{number:true}},
+				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'left', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
+				      {name:'REMARK', index:'REMARK', width:80, align:'left', editable:true}, 
+				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false}, 
+				      {name:'INOUT_SEQ_NO', index:'INOUT_SEQ_NO', width:80, align:'left', editable:false} 
 				    ],
 				    pager: '#pager2',
 				    caption: '기타수입관리',
+				    sortname: 'INOUT_ITEM_CD',
 				    height:400
 			 });
 			 
 			 $("#list2").jqGrid('setGridWidth', $("#list2_parent").innerWidth()-2);
+			 
+				//Grid 검색
+				$("#search1").click(function(){
+					// 1. 특정 검색어 사용시
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT1").val().replace(/-/gi,"");
+					$("#list1").fnSelGrid("inoutService.listDonation.lc", search_data);
+
+					return false;
+				});	
+				
+				//Grid 저장(insert+update)
+				$("#save1").click( function() {
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT1").val().replace(/-/gi,"");
+					$("#list1").fnSaveGrid("inoutService.saveDonation.lc", search_data);
+					return false;
+				});				
+			 
+				
+				$("#search2").click(function(){
+					// 1. 특정 검색어 사용시
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT2").val().replace(/-/gi,"");
+					$("#list2").fnSelGrid("inoutService.listIn.lc", search_data);
+
+					return false;
+				});
+				
+				//Grid 행추가
+				$("#add2").click( function() {
+					$("#list2").fnAddGrid();
+					return false;
+				});	
+
+				//Grid 삭제
+				$("#delete2").click( function() {
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT2").val().replace(/-/gi,"");
+					$("#list2").fnDelGrid("inoutService.deleteIn.lc", search_data);
+					return false;
+				});
+
+				//Grid 저장(insert+update)
+				$("#save2").click( function() {
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT2").val().replace(/-/gi,"");
+					$("#list2").fnSaveGrid("inoutService.saveIn.lc", search_data);
+					return false;
+				});	
+				 
 		});
 	</script>
 </head>
@@ -93,7 +151,7 @@
 							<tr>
 								<td class="searchBody">날짜</td>
 								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT1" id="DT1"></td>
-								<td class="searchBody" align="center"><button id="search">검색</button></td>
+								<td class="searchBody" align="center"> <button id="search1">검색</button></td>
 							</tr>
 						</tbody>
 						<tfoot>
@@ -124,9 +182,9 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="searchBody"> </td>
+								<td class="searchBody"> <a href="excel.do"><img src="${pageContext.request.contextPath}/img/excel.gif" title="수입내역"></a> </td>
 								<td class="searchBody" align="center">&nbsp;</td>
-								<td class="searchBody" align="right"><button id="add1">행추가</button> <button id="delete1">행삭제</button> <button id="save1">저장</button></td>
+								<td class="searchBody" align="right"> <button id="save1">저장</button></td>
 							</tr>
 						</tbody> 
 						<tfoot>
@@ -154,7 +212,7 @@
 							<tr>
 								<td class="searchBody">날짜</td>
 								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT2" id="DT2"></td>
-								<td class="searchBody" align="center"><button id="search">검색</button></td>
+								<td class="searchBody" align="center"><button id="search2">검색</button></td>
 							</tr>
 						</tbody>
 						<tfoot>

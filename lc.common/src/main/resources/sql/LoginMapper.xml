@@ -6,19 +6,12 @@
 	<select id="login" parameterType="lc.common.login.domain.UserInfo"
 		 resultType="lc.common.login.domain.UserInfo" >
 		    <![CDATA[
-			SELECT LOGIN_ID
-			      ,CUSTOMERID
+			SELECT USER_ID
 			      ,PASSWORD
-			      ,CUSTOMERNM
-			      ,CUST_ST_CD
-			      ,UPD_ID
-			      ,UPD_DATE
-			      ,CRE_ID
-			      ,CRE_DATE
 			FROM MEMBER
-			WHERE LOGIN_ID = #{LOGIN_ID}
+			WHERE USER_ID = #{USER_ID}
 			AND   PASSWORD = #{PASSWORD}
-			AND   CUST_ST_CD = '10' /* 승인 */
+			AND   AUTH_CD = '10' /* admin */
 			]]>
 	</select>
 	

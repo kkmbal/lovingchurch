@@ -28,22 +28,23 @@ public class LoginController {
     		            //@RequestParam("pwd") String pwd,
     		            ModelMap model) throws Exception {
     	
-    	String user_id = request.getParameter("user_id");
-		String pwd = request.getParameter("pwd");
+    	String user_id = request.getParameter("USER_ID");
+		String pwd = request.getParameter("PASSWORD");
     	
 		UserInfo user = new UserInfo();
     	user.setUSER_ID(user_id);
-    	user.setPASSWORD(SecurityUtil.encrypt(pwd));
+    	//user.setPASSWORD(SecurityUtil.encrypt(pwd));
+    	user.setPASSWORD(pwd);
     	
     	UserInfo loginUser = loginService.login(user);
     	if(loginUser != null){	
     		request.getSession().setAttribute("userInfo", loginUser);
     		lcSessionContext.setUserInfo(user);
 
-			return "redirect:/fms/sample/main.do";
+			return "redirect:/main.do";
     	}else{
     		model.addAttribute("message", "login_error");
-    		return "redirect:/fms.jsp";
+    		return "redirect:/index.jsp";
     	}
     }
     
@@ -54,7 +55,7 @@ public class LoginController {
     	request.getSession().removeAttribute("userInfo");
     	request.getSession().invalidate();
     	
-    	return "redirect:/fms.jsp";
+    	return "redirect:/index.jsp";
     }
     
 }

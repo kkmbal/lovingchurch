@@ -2,7 +2,7 @@
 <%@ taglib prefix="c"   uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib uri="/WEB-INF/tlds/kmbal.tld" prefix="k" %>
 <%
-	response.setHeader("Cache-Control","no-store"); 
+	response.setHeader("Cache-Control","no-store");  
 	response.setHeader("Pragma","no-cache"); 
 	response.setDateHeader("Expires",0); 
 	if (request.getProtocol().equals("HTTP/1.1")) 

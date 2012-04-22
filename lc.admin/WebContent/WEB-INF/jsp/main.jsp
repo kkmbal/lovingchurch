@@ -6,20 +6,59 @@
 	<script type="text/javascript" >
 		$(document).ready(function () {
 			 $("#list").jqGrid({
-			    url:"systemProjectService.listDetailCode.json",
-			    colNames:['아이디', '성명','생년월일','가입일자','직분','권한'],
+			    url:"memberService.listMember.lc",
+			    colNames:['아이디', '성명','비밀번호','생년월일','자택','HP','가입일자','직분','권한','출교','USER_KEY','DONA_NM'],
 			    colModel :[ 
-			      {name:'GRP_CD', index:'GRP_CD', width:90, align:'left', editable:false},
-			      {name:'CD', index:'CD', width:80, align:'left', editable:true, editrules:{required:true}}, 
-			      {name:'CD_NM', index:'CD_NM', width:80, align:'left', editable:true, editrules:{required:true}}, 
-			      {name:'CD_DESCR', index:'CD_DESCR', width:80, align:'left', editable:true, editrules:{required:true}},
-			      {name:'HIRNK_COMN_CD_KEY', index:'HIRNK_COMN_CD_KEY', width:80, align:'center', editable:true},
-			      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}}
-			    ],
+			      {name:'USER_ID', index:'USER_ID', width:90, align:'left', editable:true, editrules:{required:true}},
+			      {name:'USER_NM', index:'USER_NM', width:80, align:'left', editable:true, editrules:{required:true}}, 
+			      {name:'PASSWORD', index:'PASSWORD', width:80, align:'left', editable:true, editrules:{required:true}}, 
+			      {name:'BIRTH_YMD', index:'BIRTH_YMD', width:80, align:'center', editable:true,formatter:'date', formatoptions:{srcformat:"Y-m-d",newformat:"Y-m-d"}}, 
+			      {name:'TEL_NO', index:'TEL_NO', width:80, align:'left', editable:true}, 
+			      {name:'HP_NO', index:'HP_NO', width:80, align:'left', editable:true}, 
+			      {name:'REG_YMD', index:'REG_YMD', width:80, align:'center', editable:false},
+			      {name:'DUTY_CD', index:'DUTY_CD', width:80, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('DUTY_CD') }, formatter:'select'},
+			      {name:'AUTH_CD', index:'AUTH_CD', width:80, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('AUTH_CD') }, formatter:'select'},
+			      {name:'USE_YN', index:'USE_YN', width:80, align:'center', editable:true, hidden:true},
+			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'center', editable:false},
+			      {name:'DONA_NM', index:'DONA_NM', width:80, align:'center', editable:false}
+			    ], 
 			    pager: '#pager',
-			    caption: '회원관리',
+			    caption: '교인관리',
+			    sortname: 'USER_NM',
 			    height:400
-			});		
+			});	
+			 
+				//Grid 검색
+				$("#search").click(function(){
+					// 1. 특정 검색어 사용시
+					var search_data = {};
+					search_data.USER_NM = $("#userNm").val();
+					$("#list").fnSelGrid("memberService.listMember.lc", search_data);
+
+					return false;
+				});
+				
+				//Grid 행추가
+				$("#add").click( function() {
+					$("#list").fnAddGrid();
+					return false;
+				});	
+
+				//Grid 삭제
+				$("#delete").click( function() {
+					var search_data = {};
+					search_data.USER_NM = $("#userNm").val();
+					$("#list").fnDelGrid("memberService.deleteMember.lc", search_data);
+					return false;
+				});
+
+				//Grid 저장(insert+update)
+				$("#save").click( function() {
+					var search_data = {};
+					search_data.USER_NM = $("#userNm").val();
+					$("#list").fnSaveGrid("memberService.saveMember.lc", search_data);
+					return false;
+				});			 
 		});
 	</script>
 </head>
@@ -31,12 +70,11 @@
 <!--title-->
 <div class="titleArea">
 	<ul>
-		<li class="title">회원 관리</li>
-		<li class="directory"><img src="${pageContext.request.contextPath}/img/etc/icn_home.gif">	>	회원관리</li>
+		<li class="title">교인 관리</li>
+		<li class="directory"><img src="${pageContext.request.contextPath}/img/etc/icn_home.gif">	>	교인관리</li>
 	</ul>
 </div>
 <!--title-->
-	<a href="excel.do">excel</a>
 <!--################ contentArea ##################-->
 	<div class="content" id="contentArea">
 			
@@ -56,7 +94,7 @@
 				<tbody>
 					<tr>
 						<td class="searchBody">성명</td>
-						<td class="searchBody"><input name="USER_NM" id="USER_NM"></td>
+						<td class="searchBody"><input name="userNm" id="userNm"></td>
 						<td class="searchBody" align="center"><button id="search">검색</button></td>
 					</tr>
 				</tbody>

@@ -12,12 +12,12 @@
 			if(chk != null && chk == 'chk_true'){
 				$("[id=saveCookie]").attr("checked","checked");
 				if(id != null){
-					$("#LOGIN_ID").val(id);
+					$("#USER_ID").val(id);
 				}
 			}
 			
 			if(id == null){
-				$("#LOGIN_ID").focus();
+				$("#USER_ID").focus();
 			}
 			else{
 				$("#PASSWORD").focus();
@@ -25,7 +25,7 @@
 		}
 		
 		function go_submit(){
-			if($("#LOGIN_ID").val() == ""){
+			if($("#USER_ID").val() == ""){
 				alert("ID를 입력하세요");
 				return;
 			}				
@@ -35,7 +35,7 @@
 			}	
 			//------------------------------------
 			if($("[id=saveCookie]").is(":checked")){
-				$.cookie('lc_id', $('#LOGIN_ID').val());
+				$.cookie('lc_id', $('#USER_ID').val());
 				$.cookie('chk_lc_id', "chk_true");
 			}			
 			//------------------------------------	
@@ -70,7 +70,7 @@
 </div>
 <div class="loginMIddle">
 
-<form name="frm" method="post" action="<c:url value='loginLoginMng'/>">
+<form name="frm" method="post" action="<c:url value='login.do'/>">
 	<table class="loginArea" style="width:336px;" align="right">
 		<tr><th><img src="${pageContext.request.contextPath}/img/etc/box_login01.gif"></th></tr>			
 		<tr>
@@ -84,7 +84,7 @@
 					<col width="30"><col width="*"><col width="62">
 					<tr>
 						<td><img src="${pageContext.request.contextPath}/img/etc/text_login02.gif"></td>
-						<td><input type="text" style="width:160px;" name="LOGIN_ID" id="LOGIN_ID" value="admin" tabindex="1"></td>
+						<td><input type="text" style="width:160px;" name="USER_ID" id="USER_ID" value="admin" tabindex="1"></td>
 						<td><input type="checkbox" class="input_none" id="saveCookie"> ID저장</td>
 					</tr>
 					<tr>

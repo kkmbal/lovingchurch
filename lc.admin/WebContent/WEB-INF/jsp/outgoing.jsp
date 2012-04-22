@@ -10,17 +10,51 @@
 			$("#DT").val(formatDate(new Date(), "yyyy-MM-dd"));	
 			
 			 $("#list").jqGrid({
-			    url:"systemProjectService.listDetailCode.json",
-			    colNames:['지출항목', '금액','기타'],
-			    colModel :[ 
-			      {name:'GRP_CD', index:'GRP_CD', width:90, align:'left', editable:false},
-			      {name:'CD', index:'CD', width:80, align:'left', editable:true, editrules:{required:true}}, 
-			      {name:'CD_NM', index:'CD_NM', width:80, align:'left', editable:true, editrules:{required:true}} 
-			    ],
-			    pager: '#pager',
-			    caption: '지출관리',
-			    height:400
-			});		
+				    url:"inoutService.listIn.lc",
+				    colNames:['지출항목', '금액', '비고','CAL_YMD','INOUT_SEQ_NO'],
+				    colModel :[ 
+				      {name:'INOUT_ITEM_CD', index:'INOUT_ITEM_CD', width:90, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('OUT_CD') }, formatter:'select'},
+				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'left', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
+				      {name:'REMARK', index:'REMARK', width:80, align:'left', editable:true}, 
+				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false}, 
+				      {name:'INOUT_SEQ_NO', index:'INOUT_SEQ_NO', width:80, align:'left', editable:false} 
+				    ],
+				    pager: '#pager',
+				    caption: '지출관리',
+				    sortname: 'INOUT_ITEM_CD',
+				    height:400
+			 });	
+			 
+				$("#search").click(function(){
+					// 1. 특정 검색어 사용시
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT").val().replace(/-/gi,"");
+					$("#list").fnSelGrid("inoutService.listOut.lc", search_data);
+
+					return false;
+				});
+				
+				//Grid 행추가
+				$("#add").click( function() {
+					$("#list").fnAddGrid();
+					return false;
+				});	
+
+				//Grid 삭제
+				$("#delete").click( function() {
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT").val().replace(/-/gi,"");
+					$("#list").fnDelGrid("inoutService.deleteOut.lc", search_data);
+					return false;
+				});
+
+				//Grid 저장(insert+update)
+				$("#save").click( function() {
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT").val().replace(/-/gi,"");
+					$("#list").fnSaveGrid("inoutService.saveOut.lc", search_data);
+					return false;
+				});				 
 		});
 	</script>
 </head>

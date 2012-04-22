@@ -1,6 +1,7 @@
 package lc.common.code.service.grid;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -157,5 +158,9 @@ public class GridCommonCodeServiceImpl implements GridCommonCodeService {
 		
 		return listDetailCode(giVO);
 	}
-			
+	
+	//하위코드조회
+	public List<Map> getCommSubCd(HashMap map) throws Exception{
+		return gridCommonCodeMapper.getCommSubCd(map);
+	}
 }

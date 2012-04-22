@@ -1,5 +1,9 @@
 package lc.common.code.service.grid;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import lc.common.grid.domain.GridInVO;
 import lc.common.grid.domain.GridOutVO;
 
@@ -16,6 +20,8 @@ public interface GridCommonCodeService {
 	public GridOutVO saveDetailCode(GridInVO giVO) throws Exception;
 	//상세코드삭제
 	public GridOutVO deleteDetailCode(GridInVO giVO) throws Exception;
+	//하위코드조회
+	public List<Map> getCommSubCd(HashMap map) throws Exception;
 	
 	
 }

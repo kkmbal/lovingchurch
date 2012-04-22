@@ -16,4 +16,6 @@ public interface GridCommonCodeMapper {
 	public List<Map> listDetailCode(Map map) throws Exception;
 	//상세코드유무조회
 	public int getForDeleteCode(Map data) throws Exception;	
+	//하위코드조회
+	public List<Map> getCommSubCd(Map map) throws Exception;
 }

@@ -30,4 +30,11 @@ public interface InoutMapper {
 	//수입지출 삭제
 	public void deleteInout(Map map) throws Exception;
 	
+	// --------------------------------------------------------
+	// Excel
+	// --------------------------------------------------------
+	public List<Map> listDonationExcel(Map map) throws Exception;
+	public List<Map> listDonationSumExcel(Map map) throws Exception;
+	public Map getDonationSumExcel(Map map) throws Exception;
+	
 }

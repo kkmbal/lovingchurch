@@ -5,28 +5,18 @@
 	<%@ include file="/WEB-INF/jsp/inc/header.jsp" %>
 	<script type="text/javascript" >
 		$(document).ready(function () {
-			//프로젝트
-			fnMakeSelect("systemProjectService.listProjectByName.json", null, "#cmbPjt", "", null, false, "1");
 
 			  $("#list1").jqGrid({
 				    url:"systemProjectService.listGroup.json",
-				    colNames:['프로젝트', '그룹코드','그룹코드명','그룹코드설명','상위코드','정렬순서','COMN_CD_KEY','h_proj_key','h_cd',   'GRP_CD', 'ETC_USE_TEXT','ETC_USE_TEXT2','ETC_USE_TEXT3','ETC_USE_TEXT4','USE_YN'],
+				    colNames:['그룹코드','그룹코드명','정렬순서','기타값1','기타값2','사용여부','CD_VAL'],
 				    colModel :[ 
-				      {name:'PROJ_KEY', index:'PROJ_KEY', width:150, editable:true ,edittype: "select", editoptions: {value: fnGetGridSelect('systemProjectService.listProjectByName.json') }, formatter:'select', editrules:{required:true}},
-				      {name:'CD', index:'CD', width:150, align:'left', editable:true, editrules:{required:true}}, 
-				      {name:'CD_NM', index:'CD_NM', width:150, align:'left', editable:true, editrules:{required:true}}, 
-				      {name:'CD_DESCR', index:'CD_DESCR', width:150, align:'left', editable:true, editrules:{required:true}},
-				      {name:'HIRNK_COMN_CD_KEY', index:'HIRNK_COMN_CD_KEY', width:60, align:'center', editable:true},
-				      {name:'SORT_SEQ', index:'SORT_SEQ', width:60, align:'center', editable:true, editrules:{required:true}},
-				      {name:'COMN_CD_KEY', index:'COMN_CD_KEY', width:60, hidden:true},
-				      {name:'H_PROJ_KEY', index:'H_PROJ_KEY', width:60, hidden:true},
-				      {name:'H_CD', index:'H_CD', width:60, hidden:true},
-				      {name:'GRP_CD', index:'GRP_CD', width:60, hidden:true},
-				      {name:'ETC_USE_TEXT', index:'ETC_USE_TEXT', width:60, hidden:true},
-				      {name:'ETC_USE_TEXT2', index:'ETC_USE_TEXT2', width:60, hidden:true},
-				      {name:'ETC_USE_TEXT3', index:'ETC_USE_TEXT3', width:60, hidden:true},
-				      {name:'ETC_USE_TEXT4', index:'ETC_USE_TEXT4', width:60, hidden:true},
-				      {name:'USE_YN', index:'USE_YN', width:60, hidden:true}
+				      {name:'CD_VAL', index:'CD_VAL', width:100, align:'left', editable:true, editrules:{required:true}}, 
+				      {name:'CD_NM', index:'CD_NM', width:100, align:'left', editable:true, editrules:{required:true}}, 
+				      {name:'ORD_NO', index:'ORD_NO', width:100, align:'left', editable:true, editrules:{required:true}},
+				      {name:'ETC1_VAL', index:'ETC1_VAL', width:100, align:'center', editable:true},
+				      {name:'ETC2_VAL', index:'ETC2_VAL', width:100, align:'center', editable:true},
+				      {name:'USE_YN', index:'USE_YN', width:60, editable:true},
+				      {name:'HICD_VAL', index:'HICD_VAL', width:60, editable:false}
 				    ],
 				    pager: '#pager1',
 				    caption: '그룹코드정보',
@@ -51,21 +41,15 @@
 			  
 			  $("#list2").jqGrid({
 				    url:"systemProjectService.listDetailCode.json",
-				    colNames:['그룹코드', '상세코드','상세코드명','코드설명','상위코드','정렬순서','기타사용문자1','기타사용문자2','기타사용문자3','기타사용문자4',  'COMN_CD_KEY','PROJ_KEY','USE_YN'],
+				    colNames:['그룹코드','코드','코드명','정렬순서','기타값1','기타값2','사용여부'],
 				    colModel :[ 
-				      {name:'GRP_CD', index:'GRP_CD', width:90, align:'left', editable:false},
-				      {name:'CD', index:'CD', width:80, align:'left', editable:true, editrules:{required:true}}, 
-				      {name:'CD_NM', index:'CD_NM', width:80, align:'left', editable:true, editrules:{required:true}}, 
-				      {name:'CD_DESCR', index:'CD_DESCR', width:80, align:'left', editable:true, editrules:{required:true}},
-				      {name:'HIRNK_COMN_CD_KEY', index:'HIRNK_COMN_CD_KEY', width:80, align:'center', editable:true},
-				      {name:'SORT_SEQ', index:'SORT_SEQ', width:80, align:'center', editable:true, editrules:{required:true}},
-				      {name:'ETC_USE_TEXT', index:'ETC_USE_TEXT', width:80, align:'left', editable:true},
-				      {name:'ETC_USE_TEXT2', index:'ETC_USE_TEXT2', width:80, align:'left', editable:true},
-				      {name:'ETC_USE_TEXT3', index:'ETC_USE_TEXT3', width:80, align:'left', editable:true},
-				      {name:'ETC_USE_TEXT4', index:'ETC_USE_TEXT4', width:80, align:'left', editable:true},
-				      {name:'COMN_CD_KEY', index:'COMN_CD_KEY', width:80, align:'left', hidden:true},
-				      {name:'PROJ_KEY', index:'PROJ_KEY', width:80, align:'left', hidden:true},
-				      {name:'USE_YN', index:'USE_YN', width:80, align:'left', hidden:true}
+				      {name:'HICD_VAL', index:'HICD_VAL', width:100, editable:false},
+				      {name:'CD_VAL', index:'CD_VAL', width:100, align:'left', editable:true, editrules:{required:true}}, 
+				      {name:'CD_NM', index:'CD_NM', width:100, align:'left', editable:true, editrules:{required:true}}, 
+				      {name:'ORD_NO', index:'ORD_NO', width:100, align:'left', editable:true, editrules:{required:true}},
+				      {name:'ETC1_VAL', index:'ETC1_VAL', width:100, align:'center', editable:true},
+				      {name:'ETC2_VAL', index:'ETC2_VAL', width:100, align:'center', editable:true},
+				      {name:'USE_YN', index:'USE_YN', width:60, editable:true}
 				    ],
 				    caption: '상세코드정보',
 				    height:240
@@ -185,7 +169,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="searchBody">프로젝트 <select style="width:350px" id="cmbPjt"></select></td>
+						<td class="searchBody"> </td>
 						<td class="searchBody" align="center"><button id="search">검색</button></td>
 					</tr>
 				</tbody>

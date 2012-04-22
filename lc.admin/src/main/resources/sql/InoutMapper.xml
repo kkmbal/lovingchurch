@@ -118,6 +118,46 @@
 			</if>			
 	</select>
 	
+	<select id="listDonationExcel" parameterType="hashmap" resultType="hashmap">
+		    <![CDATA[
+			SELECT B.USER_NM
+			      ,A.INOUT_AMT 
+			      ,A.INOUT_ITEM_CD
+			FROM WEEK_INOUT A,
+				  MEMBER B 
+			WHERE A.CAL_YMD = #{CAL_YMD} 
+			AND A.INOUT_CD = #{INOUT_CD} 
+			AND A.USER_KEY = B.USER_KEY
+			AND A.INOUT_AMT > 0
+			]]>			
+	</select>
+	
+	<select id="listDonationSumExcel" parameterType="hashmap" resultType="hashmap">
+		    <![CDATA[
+			SELECT A.INOUT_ITEM_CD
+			      ,SUM(A.INOUT_AMT ) INOUT_AMT
+			FROM WEEK_INOUT A,
+				  MEMBER B 
+			WHERE A.CAL_YMD = #{CAL_YMD} 
+			AND A.INOUT_CD = #{INOUT_CD} 
+			AND A.USER_KEY = B.USER_KEY
+			AND A.INOUT_AMT > 0
+			GROUP BY A.INOUT_ITEM_CD
+			]]>			
+	</select>
+	
+	<select id="getDonationSumExcel" parameterType="hashmap" resultType="hashmap">
+		    <![CDATA[
+			SELECT SUM(A.INOUT_AMT ) INOUT_AMT
+			FROM WEEK_INOUT A,
+				  MEMBER B 
+			WHERE A.CAL_YMD = #{CAL_YMD} 
+			AND A.INOUT_CD = #{INOUT_CD} 
+			AND A.USER_KEY = B.USER_KEY
+			AND A.INOUT_AMT > 0
+			]]>			
+	</select>
+	
 <!-- /////////////////////////////////////////////////////////////////////////////////////// -->
 
 	<select id="listInout" parameterType="hashmap" resultType="hashmap" >

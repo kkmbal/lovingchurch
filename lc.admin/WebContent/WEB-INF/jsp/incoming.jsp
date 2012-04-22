@@ -182,7 +182,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="searchBody"> <a href="excel.do"><img src="${pageContext.request.contextPath}/img/excel.gif" title="수입내역"></a> </td>
+								<td class="searchBody"> <a href="excel_in_list.do"><img src="${pageContext.request.contextPath}/img/excel.gif" title="수입내역"></a> </td>
 								<td class="searchBody" align="center">&nbsp;</td>
 								<td class="searchBody" align="right"> <button id="save1">저장</button></td>
 							</tr>

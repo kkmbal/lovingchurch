@@ -45,7 +45,9 @@ public class FileDownView extends AbstractView{
 //    		logger.debug(filePath);
 //    	}
     	JExcelExportInfo listData = (JExcelExportInfo)model.get("export");
-    	byte[] fileByte = JExcelUtil.excelDown("Book1", listData);
+    	byte[] fileByte = JExcelUtil.excelDown(listData.getFileName(), listData);
+    	
+    	String fullName = listData.getFileName()+".xls";
     	
 		//byte[] fileByte = file.getCts(); //파일내용(BLOB type)
 		
@@ -58,7 +60,7 @@ public class FileDownView extends AbstractView{
 		response.setHeader("Content-Transfer-Encoding", "binary;");
 		response.setHeader("Pragma", "no-cache;");
 		response.setHeader("Expires", "-1;");
-		response.setHeader("Content-Disposition", "inline"+";filename="+new String("abc.xls".getBytes("euc-kr"),"8859_1")+";");
+		response.setHeader("Content-Disposition", "inline"+";filename="+new String(fullName.getBytes("euc-kr"),"8859_1")+";");
 		OutputStream out = response.getOutputStream();
 
 		try{

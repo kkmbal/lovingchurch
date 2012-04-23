@@ -143,9 +143,11 @@ public class ExcelDownloadController {
     	param.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
     	
     	//금주수입내역
+    	param.put("INOUT_CD", "01"); //입금
     	List<Map> listInExcel = settleMapper.listIn(param);
     	
     	//금주지출내역
+    	param.put("INOUT_CD", "02"); //출금
     	List<Map> listOutExcel = settleMapper.listOut(param);
     	
     	//금주수입계

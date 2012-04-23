@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="mvoip_m" basedir="." default="all" xmlns:artifact="urn:maven-artifact-ant">
+<project name="lc.admin" basedir="." default="all" xmlns:artifact="urn:maven-artifact-ant">
     <property name="src.dir" value="src/main/java"/>
     <property name="resources.dir" value="src/main/resources"/>
     <property name="web.dir" value="WebContent"/>
@@ -7,8 +7,8 @@
     <property name="test.resources.dir" value="src/test/resources"/>
     <property name="build.dir" value="target"/>
     <property name="test.dir" value="${build.dir}/test"/>
-	<property name="common.home" value="../mvoip_common"/>
-	<property name="common.jar" value="mvoip_common.jar"/>
+	<property name="common.home" value="../lc.common"/>
+	<property name="common.jar" value="lc.common.jar"/>
 	
     <property file="build.properties"/>
     <property file="${resources.dir}/jdbc.properties"/>

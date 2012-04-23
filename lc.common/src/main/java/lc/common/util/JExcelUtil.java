@@ -86,7 +86,11 @@ public class JExcelUtil {
 				int rowIdx = 0;
 				int addRowCnt = 0; //추가된 row 수 
 				for(JExcelListInfo info : list){
-					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx() + addRowCnt); // (column, row)
+					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()); // (column, row)
+					if("#LIST2".equals(cell.getContents())){
+						//원래 가지고 있던 row값을 유지.
+						addRowCnt = 0;
+					}					
 					colIdx = info.getColIdx();
 					rowIdx = info.getRowIdx() + addRowCnt;
 					if("#LIST,#LIST2".contains(cell.getContents())){
@@ -96,6 +100,7 @@ public class JExcelUtil {
 			    				sheet.insertRow(rowIdx + 1);
 			    				addRowCnt++;
 			    			}
+
 			    			for(JExcelInfo i : listInfo){ //가로 데이터
 			    				Label label = new Label(colIdx, rowIdx, i.getContent(), new WritableCellFormat());
 			    				sheet.addCell(label);

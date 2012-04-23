@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<project name="mvoip_common" basedir="." default="all" xmlns:artifact="urn:maven-artifact-ant">
-    <property name="src.dir" value="src"/>
-    <property name="resources.dir" value="resources"/>
+<project name="lc.common" basedir="." default="all" xmlns:artifact="urn:maven-artifact-ant">
+    <property name="src.dir" value="src/main/java"/>
+    <property name="resources.dir" value="src/main/resources"/>
     <property name="web.dir" value="WebContent"/>
     <property name="build.dir" value="target"/>
     
-	<property name="app.name" value="mvoip_common"/>
+	<property name="app.name" value="lc.common"/>
 
 	<path id="compile.classpath">
 		<fileset dir="lib">

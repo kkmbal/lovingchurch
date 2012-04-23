@@ -27,6 +27,11 @@
     	class="org.mybatis.spring.mapper.MapperFactoryBean"
     	p:mapperInterface="lc.admin.inout.service.InoutMapper"
     	p:sqlSessionFactory-ref="sqlSessionFactory"/>
+        
+  	<bean id="settleMapper"
+    	class="org.mybatis.spring.mapper.MapperFactoryBean"
+    	p:mapperInterface="lc.admin.settle.service.SettleMapper"
+    	p:sqlSessionFactory-ref="sqlSessionFactory"/>    	
 <!-- 
 
   	<bean id="chargeMapper"

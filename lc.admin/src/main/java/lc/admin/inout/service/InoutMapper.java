@@ -37,4 +37,5 @@ public interface InoutMapper {
 	public List<Map> listDonationSumExcel(Map map) throws Exception;
 	public Map getDonationSumExcel(Map map) throws Exception;
 	
+	
 }

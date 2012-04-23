@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="lc.admin.settle.service.SettleMapper">
+
+	<select id="listIn" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT C.CD_NM
+			      ,SUM(A.INOUT_AMT ) INOUT_AMT
+			      ,CONCAT('A',MAX(C.ORD_NO)) ORD_NO
+			FROM WEEK_INOUT A,
+				  MEMBER B,
+				  CODE C 
+			WHERE A.CAL_YMD = #{CAL_YMD}
+			AND A.INOUT_CD = #{INOUT_CD} 
+			AND A.USER_KEY = B.USER_KEY
+			AND A.INOUT_AMT > 0
+			AND A.INOUT_ITEM_CD = C.CD_VAL
+			AND C.HICD_VAL = 'DONA_CD'
+			GROUP BY C.CD_NM
+			UNION ALL
+			SELECT CONCAT(C.CD_NM, CASE WHEN IFNULL(A.REMARK,'') = '' THEN '' ELSE CONCAT('(',A.REMARK,')') END)
+				  ,A.INOUT_AMT
+				  ,CONCAT('Z',C.ORD_NO) ORD_NO
+			FROM WEEK_INOUT A,
+				 CODE C
+			WHERE A.CAL_YMD = #{CAL_YMD}
+			AND A.INOUT_CD = #{INOUT_CD}
+			AND A.INOUT_AMT > 0
+            AND A.INOUT_ITEM_CD = C.CD_VAL
+            AND A.USER_KEY IS NULL
+            AND C.HICD_VAL = 'IN_CD'
+            ORDER BY ORD_NO			 				 
+			]]>		
+	</select>	
+	
+	<select id="listOut" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT CONCAT(C.CD_NM, CASE WHEN IFNULL(A.REMARK,'') = '' THEN '' ELSE CONCAT('(',A.REMARK,')') END) CD_NM
+				  ,A.INOUT_AMT
+				  ,CONCAT('Z',C.ORD_NO) ORD_NO
+			FROM WEEK_INOUT A,
+				 CODE C
+			WHERE A.CAL_YMD = #{CAL_YMD}
+			AND A.INOUT_CD = #{INOUT_CD}
+			AND A.INOUT_AMT > 0
+            AND A.INOUT_ITEM_CD = C.CD_VAL
+            AND A.USER_KEY IS NULL
+            AND C.HICD_VAL = 'OUT_CD'
+            ORDER BY ORD_NO			 				 
+			]]>		
+	</select>	
+	
+	<select id="getInoutSum" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT SUM(A.INOUT_AMT) INOUT_AMT
+			FROM WEEK_INOUT A
+			WHERE A.CAL_YMD = #{CAL_YMD}
+			AND A.INOUT_CD = #{INOUT_CD}
+			AND A.INOUT_AMT > 0
+			]]>		
+	</select>		
+</mapper>

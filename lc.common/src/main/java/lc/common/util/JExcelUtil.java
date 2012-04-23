@@ -89,10 +89,10 @@ public class JExcelUtil {
 					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx() + addRowCnt); // (column, row)
 					colIdx = info.getColIdx();
 					rowIdx = info.getRowIdx() + addRowCnt;
-					if("#LIST".equals(cell.getContents())){
+					if("#LIST,#LIST2".contains(cell.getContents())){
 			    		List<List<JExcelInfo>> listJExcelInfo = info.getListJExcelInfo();
 			    		for(List<JExcelInfo> listInfo : listJExcelInfo){ //세로 데이터
-			    			if(rowIdx > info.getRowIdx()) { //row 삽입
+			    			if("#LIST".equals(cell.getContents()) && rowIdx > info.getRowIdx()) { //row 삽입
 			    				sheet.insertRow(rowIdx + 1);
 			    				addRowCnt++;
 			    			}
@@ -111,7 +111,7 @@ public class JExcelUtil {
 				for(int i=0;i<sheet.getRows();i++){
 					Cell[] cells = sheet.getRow(i);
 					for(int j=0;j<cells.length;j++){
-						if("#DATA,#LIST".contains(cells[j].getContents())){
+						if("#DATA,#LIST,#LIST2".contains(cells[j].getContents())){
 							cell = sheet.getWritableCell(j, i);
 							if (cell.getType() == CellType.LABEL){ 
 				    			l = (Label) cell; 

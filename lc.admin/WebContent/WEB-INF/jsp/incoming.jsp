@@ -38,6 +38,17 @@
 			    height:400
 			});	
 			 
+			 jQuery("#list1").jqGrid('navGrid','#pager1',{add:false,edit:false,del:false,search:false,refresh:false});
+			 jQuery("#list1").jqGrid('navButtonAdd','#pager1',{
+			     caption: "Columns",
+			     title: "Reorder Columns",
+			     onClickButton : function (){
+			         jQuery("#list1").jqGrid('columnChooser');
+			     }
+			 });
+			 jQuery("#list1").jqGrid('gridResize',{minWidth:600,maxWidth:1000,minHeight:400, maxHeight:400});
+			 
+			 
 			 $("#list2").jqGrid({
 				    url:"inoutService.listIn.lc",
 				    colNames:['수입항목', '금액', '비고','CAL_YMD','INOUT_SEQ_NO'],

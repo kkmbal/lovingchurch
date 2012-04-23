@@ -120,15 +120,27 @@
 	
 	<select id="listDonationExcel" parameterType="hashmap" resultType="hashmap">
 		    <![CDATA[
-			SELECT B.USER_NM
-			      ,A.INOUT_AMT 
-			      ,A.INOUT_ITEM_CD
-			FROM WEEK_INOUT A,
-				  MEMBER B 
-			WHERE A.CAL_YMD = #{CAL_YMD} 
-			AND A.INOUT_CD = #{INOUT_CD} 
-			AND A.USER_KEY = B.USER_KEY
-			AND A.INOUT_AMT > 0
+			SELECT A.CD_NM
+					,A.USER_NM
+					,A.INOUT_AMT
+			FROM (
+				SELECT C.CD_NM
+				      ,IFNULL(B.USER_NM, '합계') USER_NM
+				      ,SUM(A.INOUT_AMT ) INOUT_AMT
+				      ,MAX(C.ORD_NO) ORD_NO
+				FROM WEEK_INOUT A,
+					  MEMBER B,
+					  CODE C 
+				WHERE A.CAL_YMD = #{CAL_YMD}
+				AND A.INOUT_CD = #{INOUT_CD} 
+				AND A.USER_KEY = B.USER_KEY
+				AND A.INOUT_AMT > 0
+				AND A.INOUT_ITEM_CD = C.CD_VAL
+				AND C.HICD_VAL = 'DONA_CD'
+				GROUP BY C.CD_NM , B.USER_NM WITH ROLLUP
+			) A
+			WHERE A.CD_NM IS NOT NULL
+			ORDER BY A.ORD_NO, A.CD_NM, A.USER_NM			
 			]]>			
 	</select>
 	
@@ -142,8 +154,11 @@
 			AND A.INOUT_CD = #{INOUT_CD} 
 			AND A.USER_KEY = B.USER_KEY
 			AND A.INOUT_AMT > 0
+			]]>
+			<if test="INOUT_ITEM_CD != '' and INOUT_ITEM_CD != null">
+			AND A.INOUT_ITEM_CD = #{INOUT_ITEM_CD}
+			</if>						
 			GROUP BY A.INOUT_ITEM_CD
-			]]>			
 	</select>
 	
 	<select id="getDonationSumExcel" parameterType="hashmap" resultType="hashmap">
@@ -208,6 +223,5 @@
 			AND   INOUT_SEQ_NO = #{INOUT_SEQ_NO}
 			]]>			
 	</delete>
-	
 	
 </mapper>

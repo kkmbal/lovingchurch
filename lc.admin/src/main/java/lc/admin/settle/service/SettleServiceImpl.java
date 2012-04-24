@@ -258,8 +258,15 @@ public class SettleServiceImpl implements SettleService {
 	}
 	
 	// ----------------------------------------------------------------------------------
-	public Map getEndYn(HashMap map) throws Exception{
-		return settleMapper.getWeekSum(map);
+	public String getEndYnForPeriod(HashMap map) throws Exception{
+		Map endYnForPeriod = settleMapper.getEndYnForPeriod(map);
+		String endYn = "N";
+		if(endYnForPeriod != null){
+			endYn = (String)endYnForPeriod.get("END_YN");
+		}else if(map.get("CAL_YMD") == null){
+			endYn = "Y";
+		}
+		return endYn;
 	}
 		
 }

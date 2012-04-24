@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import lc.admin.settle.service.SettleService;
 import lc.common.grid.domain.GridInVO;
 import lc.common.grid.domain.GridOutVO;
 import lc.common.login.domain.UserInfo;
@@ -29,6 +30,9 @@ public class InoutServiceImpl implements InoutService {
 	
 	@Resource(name="lcSessionContext")
 	private LcSessionContext lcSessionContext;
+	
+	@Resource(name="settleService")
+	private SettleService settleService;
 	
 	
 	//헌금조회
@@ -57,6 +61,13 @@ public class InoutServiceImpl implements InoutService {
 		List<Map<String, String>> savedata = giVO.getSavedata();
 		Map<String, String> userdata = giVO.getUserdata();
 		String calYmd = userdata.get("CAL_YMD");
+		
+		//마감여부조회
+		if("Y".equals(settleService.getEndYnForPeriod(new HashMap(userdata)))){
+			GridOutVO listDonation = listDonation(giVO);
+			listDonation.setResultMsg("이미 마감되었습니다.");
+			return listDonation;
+		}
 		
 		if(savedata != null && savedata.size() > 0){
 			for(Map<String, String> data : savedata){
@@ -129,6 +140,13 @@ public class InoutServiceImpl implements InoutService {
 		Map<String, String> userdata = giVO.getUserdata();
 		String calYmd = userdata.get("CAL_YMD");
 		
+		//마감여부조회
+		if("Y".equals(settleService.getEndYnForPeriod(new HashMap(userdata)))){
+			GridOutVO listIn = listIn(giVO);
+			listIn.setResultMsg("이미 마감되었습니다.");
+			return listIn;
+		}
+		
 		if(savedata != null && savedata.size() > 0){
 			for(Map<String, String> data : savedata){
 				
@@ -165,6 +183,13 @@ public class InoutServiceImpl implements InoutService {
 		List<Map<String, String>> savedata = giVO.getDeldata();
 		
 		if(savedata != null && savedata.size() > 0){
+			//마감여부조회
+			if("Y".equals(settleService.getEndYnForPeriod(new HashMap(savedata.get(0))))){
+				GridOutVO listIn = listIn(giVO);
+				listIn.setResultMsg("이미 마감되었습니다.");
+				return listIn;
+			}
+			
 			for(Map<String, String> data : savedata){
 				inoutMapper.deleteInout(data);
 			}
@@ -203,6 +228,13 @@ public class InoutServiceImpl implements InoutService {
 		Map<String, String> userdata = giVO.getUserdata();
 		String calYmd = userdata.get("CAL_YMD");
 		
+		//마감여부조회
+		if("Y".equals(settleService.getEndYnForPeriod(new HashMap(userdata)))){
+			GridOutVO listOut = listOut(giVO);
+			listOut.setResultMsg("이미 마감되었습니다.");
+			return listOut;
+		}
+		
 		if(savedata != null && savedata.size() > 0){
 			for(Map<String, String> data : savedata){
 				
@@ -239,6 +271,13 @@ public class InoutServiceImpl implements InoutService {
 		List<Map<String, String>> savedata = giVO.getDeldata();
 		
 		if(savedata != null && savedata.size() > 0){
+			//마감여부조회
+			if("Y".equals(settleService.getEndYnForPeriod(new HashMap(savedata.get(0))))){
+				GridOutVO listOut = listOut(giVO);
+				listOut.setResultMsg("이미 마감되었습니다.");
+				return listOut;
+			}
+			
 			for(Map<String, String> data : savedata){
 				inoutMapper.deleteInout(data);
 			}

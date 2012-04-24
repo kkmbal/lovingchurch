@@ -102,6 +102,17 @@
 			]]>		
 	</select>
 			
+			
+	<select id="getEndYnForPeriod" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT END_YN, CAL_YMD
+			FROM WEEK_SUM
+			WHERE CAL_YMD = (	SELECT MIN(CAL_YMD) 
+									FROM WEEK_SUM
+									WHERE CAL_YMD >= #{CAL_YMD} )
+			]]>		
+	</select>			
+			
 	<select id="listInWeekSumDetl" parameterType="hashmap" resultType="hashmap" >
 		    <![CDATA[
 			SELECT C.CD_NM

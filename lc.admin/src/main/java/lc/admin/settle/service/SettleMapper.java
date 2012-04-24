@@ -1,5 +1,6 @@
 package lc.admin.settle.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ public interface SettleMapper {
 	public void deleteWeekSum(Map map)  throws Exception;
 	public void insertWeekSumDetl(Map map)  throws Exception;
 	public void deleteWeekSumDetl(Map map)  throws Exception;
+	public Map getEndYnForPeriod(HashMap map)   throws Exception;
 	
 
 	

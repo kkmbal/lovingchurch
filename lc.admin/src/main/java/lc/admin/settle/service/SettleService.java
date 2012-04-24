@@ -23,5 +23,5 @@ public interface SettleService {
 	//마감처리
 	public Map saveEndYn(HashMap map) throws Exception;
 	//마감여부조회
-	public Map getEndYn(HashMap map) throws Exception;
+	public String getEndYnForPeriod(HashMap map) throws Exception;
 }

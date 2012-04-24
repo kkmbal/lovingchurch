@@ -84,12 +84,12 @@
 					<col width="30"><col width="*"><col width="62">
 					<tr>
 						<td><img src="${pageContext.request.contextPath}/img/etc/text_login02.gif"></td>
-						<td><input type="text" style="width:160px;" name="USER_ID" id="USER_ID" value="admin" tabindex="1"></td>
+						<td><input type="text" style="width:160px;" name="USER_ID" id="USER_ID" value="" tabindex="1"></td>
 						<td><input type="checkbox" class="input_none" id="saveCookie"> ID저장</td>
 					</tr>
 					<tr>
 						<td><img src="${pageContext.request.contextPath}/img/etc/text_login01.gif"></td>
-						<td><input type="password" style="width:160px;" name="PASSWORD" id="PASSWORD" value="admin" tabindex="2"></td>
+						<td><input type="password" style="width:160px;" name="PASSWORD" id="PASSWORD" value="" tabindex="2"></td>
 						<td><a href="#"><img src="${pageContext.request.contextPath}/img/etc/btn_login01.gif" alt="로그인" id="login_login"></a></td>
 					</tr>
 				</table>

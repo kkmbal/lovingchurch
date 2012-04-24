@@ -5,26 +5,20 @@
 <mapper namespace="lc.common.code.service.grid.GridCommonCodeMapper">
 
     <select id="listGroup" resultType="hashmap"  parameterType="hashmap" >
-			SELECT A.* FROM (
-				SELECT ROWNUM RNUM, A.*
-				FROM (    
-				    SELECT  CD_VAL
-				        ,   HICD_VAL
-				        ,   CD_NM
-				        ,   ORD_NO
-				        ,   USE_YN
-				        ,   ETC1_VAL
-				        ,   ETC2_VAL
-				    FROM    CODE
-				    WHERE   HICD_VAL = 'ROOT'
-				    AND     USE_YN     =       'Y'                     
-				    ORDER BY ORD_NO
-				) A   
-				<![CDATA[
-				WHERE ROWNUM <= (#{page}*#{rows})    
-				]]> 
-			) A
-			WHERE RNUM >= (#{page}-1)*#{rows}+1 		    
+			<![CDATA[
+			    SELECT  CD_VAL
+			        ,   HICD_VAL
+			        ,   CD_NM
+			        ,   ORD_NO
+			        ,   USE_YN
+			        ,   ETC1_VAL
+			        ,   ETC2_VAL
+			    FROM    CODE
+			    WHERE   HICD_VAL = 'ROOT'
+			    AND     USE_YN     =       'Y'                     
+			]]> 
+			ORDER BY ${sidx} ${sord} 
+			LIMIT ${page}, ${rows}		    
     </select>	
 
 	<select id="listGroupCount" parameterType="hashmap" resultType="int" >

@@ -22,7 +22,7 @@ table.loginArea{}
 .loginBottom {font-size:11px; text-align:center; line-height:16px; padding-top:10px;}
 
 /*globalArea*/
-.globalArea{width:100%; height:/*71px*/31px; padding-top:20px; background:url("../img/etc/bgTop.gif") repeat-x 0 0;}
+.globalArea{width:100%; height:/*71px*/21px; padding-top:5px; background:url("../img/etc/bgTop.gif") repeat-x 0 0;}
 
 .globalArea ul{width:980px; margin:0 auto;}
 	.globalArea li{display:block; float:right; color:#a3d4f1;}
@@ -61,9 +61,9 @@ table.loginArea{}
 */
 
 /*titleArea*/
-.titleArea {padding-top:1px; padding-bottom:50px;}
+.titleArea {padding-top:1px; padding-bottom:30px;}
 	.titleArea li{display:block; float:left;}
-		.titleArea li.title{font-family:"Malgun Gothic"; font-size:22px; line-height:26px; color:#2b2b2b; font-weight:bold; background:url("../img/etc/bl02.gif") no-repeat 0 8px; padding-left:25px;}
+		.titleArea li.title{font-family:"Malgun Gothic"; font-size:16px; line-height:20px; color:#2b2b2b; font-weight:bold; background:url("../img/etc/bl02.gif") no-repeat 0 8px; padding-left:25px;}
 		.titleArea li.directory{float:right; color:#a9a9a9;}
 			.titleArea li.directory b{color:#4a4a4a; font-weight:normal; font-size:11px; line-height:26px; }
 

@@ -293,7 +293,7 @@ public class ExcelDownloadController {
     	ll.add(new JExcelListInfo(2, 11, iiList));
     	
     	export.setList(ll);
-    	export.setFileName("week_sum");
+    	export.setFileName("month_sum");
     	
     	Map modelMap = new HashMap();
     	modelMap.put("export", export);

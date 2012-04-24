@@ -14,7 +14,7 @@
 		    url:"settleService.listIn.lc",
 		    colNames:['항목', '금액'],
 		    colModel :[ 
-		      {name:'CD_NM', index:'CD_NM', width:100, align:'left', editable:false},
+		      {name:'CAL_YMD', index:'CAL_YMD', width:100, align:'left', editable:false},
 		      {name:'INOUT_AMT', index:'INOUT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}}
 		    ],
 		    caption: '금주수입내역',
@@ -27,7 +27,7 @@
 			    url:"settleService.listOut.lc",
 			    colNames:['항목', '금액'],
 			    colModel :[ 
-			      {name:'CD_NM', index:'CD_NM', width:100, align:'left', editable:false},
+			      {name:'CAL_YMD', index:'CAL_YMD', width:100, align:'left', editable:false},
 			      {name:'INOUT_AMT', index:'INOUT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}}
 			    ],
 			    caption: '금주지출내역',
@@ -38,24 +38,25 @@
 			//Grid+form 검색
 			$("#search").click(function(){
 				var search_data = {};
-				search_data.CAL_YM = $("#DT").val().replace(/-/gi,"");
+				search_data.CAL_YM = $("#DT").val().replace(/-/gi,"").substring(0, 6);
 				search_data.INOUT_CD = "01";
 				$("#list1").fnSelGrid("settleService.listInMonth.lc", search_data);
 				
 				search_data = {};
-				search_data.CAL_YM = $("#DT").val().replace(/-/gi,"");
+				search_data.CAL_YM = $("#DT").val().replace(/-/gi,"").substring(0, 6);
 				search_data.INOUT_CD = "02";
 				$("#list2").fnSelGrid("settleService.listOutMonth.lc", search_data);
 				
-				$("#CAL_YM").val($("#DT").val().replace(/-/gi,""));
-	 			 fnSubmitAjax('settleService.getMonthSum.lc', 'CAL_YM', fnResult);
+				$("#CAL_YM").val($("#DT").val().replace(/-/gi,"").substring(0, 6));
+				$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
+	 			 fnSubmitAjax('settleService.getMonthSum.lc', 'frm1', fnResult);
 
 				return false;
 			});	
 			
 			//저장
 			$("#save").click( function() {
-				$("#CAL_YM").val($("#DT").val().replace(/-/gi,""));
+				$("#CAL_YM").val($("#DT").val().replace(/-/gi,"").substring(0, 6));
 	 			 fnSubmitAjax('settleService.saveMonthSum.lc', 'CAL_YM', fnEndResult);
 	 			 
 				return false;
@@ -63,14 +64,15 @@
 			
 			//마감
 			$("#end").click( function() {
-				$("#CAL_YM").val($("#DT").val().replace(/-/gi,""));
+				$("#CAL_YM").val($("#DT").val().replace(/-/gi,"").substring(0, 6));
+				$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
 	 			 fnSubmitAjax('settleService.saveMonthEndYn.lc', 'CAL_YM', fnEndResult);
 	 			 
 				return false;
 			});	
 			
 			$("#excel").click(function(){
-				$("#CAL_YM").val($("#DT").val().replace(/-/gi,""));
+				$("#CAL_YM").val($("#DT").val().replace(/-/gi,"").substring(0, 6));
 				$("#frm1").submit();
 			});
 	});
@@ -156,6 +158,7 @@
 			<!-- form -->
 			<form name="frm1" id="frm1" method="post" action="excel_month_sum.do">
 			<input type="hidden" name="CAL_YM" id="CAL_YM">
+			<input type="hidden" name="CAL_YMD" id="CAL_YMD">
 			</form>			
 			<table border="0" cellpadding=0 cellspacing=0  width="100%">
 				<colgroup>

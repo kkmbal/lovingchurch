@@ -19,8 +19,8 @@
 			      {name:'DUTY_CD', index:'DUTY_CD', width:80, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('DUTY_CD') }, formatter:'select'},
 			      {name:'AUTH_CD', index:'AUTH_CD', width:80, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('AUTH_CD') }, formatter:'select'},
 			      {name:'USE_YN', index:'USE_YN', width:80, align:'center', editable:true, hidden:true},
-			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'center', editable:false},
-			      {name:'DONA_NM', index:'DONA_NM', width:80, align:'center', editable:false}
+			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'center', editable:false, hidden:true},
+			      {name:'DONA_NM', index:'DONA_NM', width:80, align:'center', editable:false, hidden:true}
 			    ], 
 			    pager: '#pager',
 			    caption: '교인관리',

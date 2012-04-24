@@ -16,8 +16,8 @@
 				      {name:'INOUT_ITEM_CD', index:'INOUT_ITEM_CD', width:90, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('OUT_CD') }, formatter:'select'},
 				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'left', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
 				      {name:'REMARK', index:'REMARK', width:80, align:'left', editable:true}, 
-				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false}, 
-				      {name:'INOUT_SEQ_NO', index:'INOUT_SEQ_NO', width:80, align:'left', editable:false} 
+				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false, hidden:true}, 
+				      {name:'INOUT_SEQ_NO', index:'INOUT_SEQ_NO', width:80, align:'left', editable:false, hidden:true} 
 				    ],
 				    pager: '#pager',
 				    caption: '지출관리',

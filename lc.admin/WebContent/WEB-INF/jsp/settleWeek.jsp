@@ -47,7 +47,7 @@
 					$("#list2").fnSelGrid("settleService.listOut.lc", search_data);
 					
 					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
-		 			 fnSubmitAjax('settleService.getInoutSum.lc', 'CAL_YMD', fnResult);
+		 			 fnSubmitAjax('settleService.getWeekSum.lc', 'CAL_YMD', fnResult);
 
 					return false;
 				});	
@@ -63,7 +63,7 @@
 				//마감
 				$("#end").click( function() {
 					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
-		 			 fnSubmitAjax('settleService.saveEndYn.lc', 'CAL_YMD', fnEndResult);
+		 			 fnSubmitAjax('settleService.saveWeekEndYn.lc', 'CAL_YMD', fnEndResult);
 		 			 
 					return false;
 				});	

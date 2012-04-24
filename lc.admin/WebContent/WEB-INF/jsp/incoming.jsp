@@ -30,8 +30,8 @@
 			      {name:'DONA_CD_09', index:'DONA_CD_09', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
 			      {name:'DONA_CD_10', index:'DONA_CD_10', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
 			      {name:'DONA_CD_11', index:'DONA_CD_11', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
-			      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'right', editable:false},
-			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'right', editable:false}
+			      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'right', editable:false, hidden:tru},
+			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'right', editable:false, hidden:tru}
 			    ],
 			    pager: '#pager1',
 			    caption: '헌금관리',
@@ -56,8 +56,8 @@
 				      {name:'INOUT_ITEM_CD', index:'INOUT_ITEM_CD', width:90, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('IN_CD') }, formatter:'select', editrules:{number:true}},
 				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'left', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
 				      {name:'REMARK', index:'REMARK', width:80, align:'left', editable:true}, 
-				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false}, 
-				      {name:'INOUT_SEQ_NO', index:'INOUT_SEQ_NO', width:80, align:'left', editable:false} 
+				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false, hidden:true}, 
+				      {name:'INOUT_SEQ_NO', index:'INOUT_SEQ_NO', width:80, align:'left', editable:false, hidden:true} 
 				    ],
 				    pager: '#pager2',
 				    caption: '기타수입관리',
@@ -117,6 +117,11 @@
 					return false;
 				});	
 				 
+				$("#excel").click(function(){
+					$("#CAL_YMD").val($("#DT1").val().replace(/-/gi,""));
+					$("#frm1").submit();
+				});				
+				
 		});
 	</script>
 </head>
@@ -138,7 +143,10 @@
 	<div class="content" id="contentArea">
 			
 			<!-- 각 화면 내용 들어갈 부분 --> 
-			
+			<form name="frm1" id="frm1" method="post" action="excel_in_list.do">
+			<input type="hidden" name="CAL_YMD" id="CAL_YMD">
+			</form>
+						
 			<div id="tabs">
 				<ul>
 					<li><a href="#tabs-1" id="tabs-1-link">헌금</a></li>
@@ -193,7 +201,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="searchBody"> <a href="excel_in_list.do"><img src="${pageContext.request.contextPath}/img/excel.gif" title="수입내역"></a> </td>
+								<td class="searchBody"> <a href="#"><img src="${pageContext.request.contextPath}/img/excel.gif" id="excel" title="수입내역"></a> </td>
 								<td class="searchBody" align="center">&nbsp;</td>
 								<td class="searchBody" align="right"> <button id="save1">저장</button></td>
 							</tr>

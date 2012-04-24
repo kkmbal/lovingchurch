@@ -22,7 +22,7 @@ import org.springframework.util.FileCopyUtils;
 public class JExcelUtil {
 
 	public static byte[] excelDown(String fileName, JExcelExportInfo listData) throws Exception{
-		String rootPath = LcConstants.EXCEL_FILE_PATH;
+		String rootPath = LcConstants.EXCEL_FILE_PATH();
 		File xfile = new File(rootPath + File.separator + fileName + ".xls");
 		
 		if(xfile.exists()){

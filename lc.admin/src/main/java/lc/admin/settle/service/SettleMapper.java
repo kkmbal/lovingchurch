@@ -28,6 +28,19 @@ public interface SettleMapper {
 	public void deleteWeekSumDetl(Map map)  throws Exception;
 	public Map getEndYnForPeriod(HashMap map)   throws Exception;
 	
+	//******************************************************************
+	//월간결산조회
+	public Map getMonthSum(Map map) throws Exception;
+	//월간결산 수입,지출내역조회
+	public List<Map> listInOutMonth(Map map) throws Exception;
+	//전달이월금
+	public Map getNextAmtMonth(Map map) throws Exception;
+	
+	public void insertMonSum(Map map)  throws Exception;
+	public void deleteMonSum(Map map)  throws Exception;
+	public void updateMonthEndYn(Map map)  throws Exception;
+	//******************************************************************
+	
 
 	
 }

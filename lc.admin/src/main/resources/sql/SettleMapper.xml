@@ -270,5 +270,98 @@
 		    DELETE FROM WEEK_SUM_DETL
 			WHERE A.CAL_YMD = #{CAL_YMD}
 			]]>		
-	</delete>		    
+	</delete>		
+	
+	<!-- ****************************************************************************** -->    
+	
+	<select id="getMonthSum" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT CAL_YM
+				  ,PREV_AMT
+				  ,IN_AMT
+				  ,OUT_AMT
+				  ,NEXT_AMT
+				  ,END_YN
+			FROM MON_SUM
+			WHERE CAL_YM = #{CAL_YM}
+			]]>		
+	</select>
+	
+	<select id="listInOutMonth" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT A.CAL_YMD
+			      ,SUM(B.INOUT_AMT ) INOUT_AMT
+			FROM WEEK_SUM_DETL A,
+				 WEEK_INOUT B,
+				 WEEK_SUM C
+			WHERE SUBSTR(A.CAL_YMD, 1, 6) = #{CAL_YM}
+			AND A.INOUT_CAL_YMD = B.CAL_YMD  
+			AND A.INOUT_SEQ_NO = B.INOUT_SEQ_NO
+			AND A.CAL_YMD = C.CAL_YMD
+			AND C.END_YN = 'Y'
+			AND B.INOUT_CD = #{INOUT_CD}
+			AND B.INOUT_AMT > 0
+			GROUP BY A.CAL_YMD
+            ORDER BY A.CAL_YMD			 				 
+			]]>		
+	</select>		
+	
+	<select id="getNextAmtMonth" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT NEXT_AMT, END_YN, CAL_YMD
+			FROM MON_SUM
+			WHERE CAL_YM = (	SELECT MAX(CAL_YM) 
+									FROM WEEK_SUM
+									WHERE CAL_YM < #{CAL_YM} )
+			]]>		
+	</select>	
+	
+	<insert id="insertMonSum" parameterType="hashmap" >
+		    <![CDATA[
+		    INSERT INTO MON_SUM
+		    ( CAL_YM
+		     ,PREV_AMT
+		     ,IN_AMT
+		     ,OUT_AMT
+		     ,NEXT_AMT
+		     ,END_YN
+		     ,UPD_ID
+		     ,UPD_DATE
+		     ,CRE_ID
+		     ,CRE_DATE
+		    ) 
+			SELECT SUBSTR(CAL_YMD, 1, 6)
+				  ,PREV_AMT
+				  ,IN_AMT
+				  ,OUT_AMT
+				  ,NEXT_AMT
+				  ,NEXT_AMT
+				  ,#{END_YN}
+				  ,#{UPD_ID}
+				  ,NOW()
+				  ,#{CRE_ID}
+				  ,NOW()				  
+			FROM WEEK_SUM
+			WHERE CAL_YMD = (	SELECT MAX(CAL_YMD) 
+									FROM WEEK_SUM
+									WHERE SUBSTR(CAL_YMD, 1, 6) = #{CAL_YM} )
+			]]>		
+	</insert>	
+	
+	<delete id="deleteMonSum" parameterType="hashmap" >
+		    <![CDATA[
+		    DELETE FROM MON_SUM
+			WHERE A.CAL_YM = #{CAL_YM}
+			]]>		
+	</delete>		
+	
+	<update id="updateMonthEndYn" parameterType="hashmap" >
+		    <![CDATA[
+		    UPDATE MON_SUM
+		    SET END_YN = #{END_YN}
+		       ,UPD_ID = #{UPD_ID}
+		       ,UPD_DATE = NOW()
+		    WHERE CAL_YM = #{CAL_YM}
+			]]>		
+	</update>		
 </mapper>

@@ -9,19 +9,35 @@ import lc.common.grid.domain.GridOutVO;
 
 public interface SettleService {
 	
+	//******************************************************************
 	//주간결산 합계조회
-	public Map getInoutSum(HashMap map) throws Exception;
+	public Map getWeekSum(HashMap map) throws Exception;
 	//주간결산 수입내역조회
 	public GridOutVO listIn(GridInVO giVO) throws Exception;
-	public List<Map> listIn(HashMap map) throws Exception;
+	public List<Map> listInExcel(HashMap map) throws Exception;
 	//주간결산 지출내역조회
 	public GridOutVO listOut(GridInVO giVO) throws Exception;	
-	public List<Map> listOut(HashMap map) throws Exception;
+	public List<Map> listOutExcel(HashMap map) throws Exception;
 	
 	//주간결산저장
 	public Map saveWeekSum(HashMap map) throws Exception;
 	//마감처리
-	public Map saveEndYn(HashMap map) throws Exception;
+	public Map saveWeekEndYn(HashMap map) throws Exception;
 	//마감여부조회
 	public String getEndYnForPeriod(HashMap map) throws Exception;
+	//******************************************************************
+	//월간결산 합계조회
+	public Map getMonthSum(HashMap map) throws Exception;
+	//월간결산 수입내역조회
+	public GridOutVO listInMonth(GridInVO giVO) throws Exception;
+	public List<Map> listInMonthExcel(HashMap map) throws Exception;
+	//월간결산 지출내역조회
+	public GridOutVO listOutMonth(GridInVO giVO) throws Exception;	
+	public List<Map> listOutMonthExcel(HashMap map) throws Exception;
+	
+	//월간결산저장
+	public Map saveMonthSum(HashMap map) throws Exception;
+	//월마감처리
+	public Map saveMonthEndYn(HashMap map) throws Exception;
+	//******************************************************************
 }

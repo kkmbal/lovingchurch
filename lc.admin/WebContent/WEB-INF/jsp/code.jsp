@@ -8,7 +8,7 @@
 
 			  $("#list1").jqGrid({
 				    url:"gridCommonCodeService.listGroup.lc",
-				    colNames:['그룹코드','그룹코드명','정렬순서','기타값1','기타값2','사용여부','CD_VAL'],
+				    colNames:['그룹코드','그룹코드명','정렬순서','기타값1','기타값2','사용여부','HICD_VAL'],
 				    colModel :[ 
 				      {name:'CD_VAL', index:'CD_VAL', width:100, align:'left', editable:true, editrules:{required:true}}, 
 				      {name:'CD_NM', index:'CD_NM', width:100, align:'left', editable:true, editrules:{required:true}}, 
@@ -21,6 +21,7 @@
 				    pager: '#pager1',
 				    caption: '그룹코드정보',
 				    height:240,
+				    sortname: 'CD_NM',
 				    onCellSelect: function(rowid, iCol, cellcontent, e) {
 						if(rowid != null) {
 							var ret = $(this).jqGrid('getRowData', rowid);

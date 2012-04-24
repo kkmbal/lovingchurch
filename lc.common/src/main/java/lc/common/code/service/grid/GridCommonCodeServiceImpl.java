@@ -32,9 +32,11 @@ public class GridCommonCodeServiceImpl implements GridCommonCodeService {
 		Map<String, String> userdata = giVO.getUserdata();
 		userdata.putAll(GridUtil.getPager(giVO)); 
 		List<Map> list = gridCommonCodeMapper.listGroup(userdata);
+		int rowCnt = gridCommonCodeMapper.listGroupCount(userdata);
+		
 		GridOutVO gridOutVO = new GridOutVO();
 		if(list != null && list.size() > 0){
-			gridOutVO.setPaging(giVO, list.get(0).get("ROWCNT")); 
+			gridOutVO.setPaging(giVO, rowCnt); 
 			List<Map<String, String>> listRow = new ArrayList<Map<String, String>>();
 			for(Map<String, String> vo : list){
 				listRow.add(vo);

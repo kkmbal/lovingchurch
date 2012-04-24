@@ -18,4 +18,6 @@ public interface GridCommonCodeMapper {
 	public int getForDeleteCode(Map data) throws Exception;	
 	//하위코드조회
 	public List<Map> getCommSubCd(Map map) throws Exception;
+	
+	public int listGroupCount(Map map) throws Exception;
 }

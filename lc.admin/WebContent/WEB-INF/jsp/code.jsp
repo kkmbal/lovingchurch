@@ -7,7 +7,7 @@
 		$(document).ready(function () {
 
 			  $("#list1").jqGrid({
-				    url:"systemProjectService.listGroup.json",
+				    url:"gridCommonCodeService.listGroup.lc",
 				    colNames:['그룹코드','그룹코드명','정렬순서','기타값1','기타값2','사용여부','CD_VAL'],
 				    colModel :[ 
 				      {name:'CD_VAL', index:'CD_VAL', width:100, align:'left', editable:true, editrules:{required:true}}, 
@@ -24,23 +24,22 @@
 				    onCellSelect: function(rowid, iCol, cellcontent, e) {
 						if(rowid != null) {
 							var ret = $(this).jqGrid('getRowData', rowid);
-							if(ret.H_PROJ_KEY != "" && ret.H_CD != ""){
+							if(ret.CD_VAL != ""){
 								var search_data = {};
-								search_data.PROJ_KEY = ret.H_PROJ_KEY;
-								search_data.GRP_CD = ret.H_CD;
-								$("#list2").fnSelGrid("systemProjectService.listDetailCode.json", search_data);
+								search_data.HICD_VAL = ret.CD_VAL;
+								$("#list2").fnSelGrid("gridCommonCodeService.listDetailCode.lc", search_data);
 							}
 						}
 			  		},
 				    beforeRequest : function(){
 				        //초기값 필요할때.
-				  		jQuery(this).jqGrid('setGridParam',{postData:{ userdata:{GRP_CD:"GRP_CD"} }} );
+				  		jQuery(this).jqGrid('setGridParam',{postData:{ userdata:{HICD_VAL:"ROOT"} }} );
 			  		}
 			 });			 
 
 			  
 			  $("#list2").jqGrid({
-				    url:"systemProjectService.listDetailCode.json",
+				    url:"gridCommonCodeService.listDetailCode.lc",
 				    colNames:['그룹코드','코드','코드명','정렬순서','기타값1','기타값2','사용여부'],
 				    colModel :[ 
 				      {name:'HICD_VAL', index:'HICD_VAL', width:100, editable:false},
@@ -60,7 +59,7 @@
 				// 1. 특정 검색어 사용시
 				var search_data = {};
 				search_data.PROJ_KEY = $("#cmbPjt").val();
-				$("#list1").fnSelGrid("systemProjectService.listGroup.json", search_data);
+				$("#list1").fnSelGrid("gridCommonCodeService.listGroup.lc", search_data);
 
 				$("#list2").jqGrid('clearGridData');
 				return false;
@@ -69,24 +68,21 @@
 			//Grid 행추가
 			$("#add1").click( function() {
 				var initdata = {};
-				initdata.PROJ_KEY = $("#cmbPjt").val();
+				initdata.HICD_VAL = 'ROOT';
+				initdata.USE_YN = 'Y';
 				$("#list1").fnAddGrid(initdata);
 				return false;
 			});	
 
 			//Grid 삭제
 			$("#delete1").click( function() {
-				var search_data = {};
-				search_data.PROJ_KEY = $("#cmbPjt").val();
-				$("#list1").fnDelGrid("systemProjectService.deleteGroupCode.json", search_data);
+				$("#list1").fnDelGrid("gridCommonCodeService.deleteGroupCode.lc");
 				return false;
 			});
 
 			//Grid 저장(insert+update)
 			$("#save1").click( function() {
-				var search_data = {};
-				search_data.PROJ_KEY = $("#cmbPjt").val();
-				$("#list1").fnSaveGrid("systemProjectService.saveGroupCode.json", search_data);
+				$("#list1").fnSaveGrid("gridCommonCodeService.saveGroupCode.lc");
 				return false;
 			});	
 
@@ -95,10 +91,10 @@
 				var id = $("#list1").jqGrid('getGridParam','selrow');
 				if (id)	{
 					var ret = $("#list1").jqGrid('getRowData',id);
-					if(ret.H_PROJ_KEY != "" && ret.H_CD != ""){
+					if(ret.CD_VAL != ""){
 						var initdata = {};
-						initdata.PROJ_KEY = ret.H_PROJ_KEY;
-						initdata.GRP_CD = ret.H_CD;
+						initdata.HICD_VAL = ret.CD_VAL;
+						initdata.USE_YN = 'Y';
 						$("#list2").fnAddGrid(initdata);
 					}
 				}
@@ -111,12 +107,11 @@
 				var id = $("#list1").jqGrid('getGridParam','selrow');
 				if (id)	{
 					var ret = $("#list1").jqGrid('getRowData',id);
-					if(ret.H_PROJ_KEY != "" && ret.H_CD != ""){
-						search_data.PROJ_KEY = ret.H_PROJ_KEY;
-						search_data.GRP_CD = ret.H_CD;
+					if(ret.CD_VAL != ""){
+						search_data.HICD_VAL = ret.CD_VAL;
 					}
 				}				
-				$("#list2").fnDelGrid("systemProjectService.deleteDetailCode.json", search_data);
+				$("#list2").fnDelGrid("gridCommonCodeService.deleteDetailCode.lc", search_data);
 				return false;
 			});
 
@@ -126,13 +121,12 @@
 				var id = $("#list1").jqGrid('getGridParam','selrow');
 				if (id)	{
 					var ret = $("#list1").jqGrid('getRowData',id);
-					if(ret.H_PROJ_KEY != "" && ret.H_CD != ""){
-						search_data.PROJ_KEY = ret.H_PROJ_KEY;
-						search_data.GRP_CD = ret.H_CD;
+					if(ret.CD_VAL != ""){
+						search_data.HICD_VAL = ret.CD_VAL;
 					}
 				}
 				
-				$("#list2").fnSaveGrid("systemProjectService.saveDetailCode.json", search_data);
+				$("#list2").fnSaveGrid("gridCommonCodeService.saveDetailCode.lc", search_data);
 				return false;
 			});	
 		});

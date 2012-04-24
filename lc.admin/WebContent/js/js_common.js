@@ -1446,10 +1446,16 @@ function checkCheck(rowid, gid){
 
 /* datepicker */
 jQuery(function($){
+	var h = location.href;
+	var d = location.host;
+	var c = h.replace('http://'+d, '');
+	var href_context = c.substring(0, c.indexOf('/', 1));
+	var buttonImg = href_context+'/img/icoCal.gif';
+	
 	$.datepicker.setDefaults({
 		showOn: 'both',
 		buttonImageOnly: true,
-		buttonImage: '/lc/img/icoCal.gif',
+		buttonImage: buttonImg,
 		buttonText: 'Calendar',
 		changeMonth: true,
 		changeYear: true,

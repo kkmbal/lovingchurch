@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import lc.admin.inout.service.InoutMapper;
 import lc.admin.inout.service.InoutService;
 import lc.admin.settle.service.SettleMapper;
+import lc.admin.settle.service.SettleService;
 import lc.common.excel.domain.JExcelExportInfo;
 import lc.common.excel.domain.JExcelInfo;
 import lc.common.excel.domain.JExcelListInfo;
@@ -35,6 +36,9 @@ public class ExcelDownloadController {
     
 	@Resource(name="inoutService")
 	private InoutService inoutService;
+    
+	@Resource(name="settleService")
+	private SettleService settleService;
 	
 	@Autowired(required=true)
 	private InoutMapper	inoutMapper;
@@ -139,39 +143,41 @@ public class ExcelDownloadController {
     public ModelAndView excelWeekSum(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
     	
-    	Map<String, String> param = new HashMap<String, String>();
-    	param.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
+    	String CAL_YMD = request.getParameter("CAL_YMD"); //조회날짜
+    	
+    	HashMap<String, String> param = new HashMap<String, String>();
+    	//param.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
+    	param.put("CAL_YMD", CAL_YMD);
     	
     	//금주수입내역
     	param.put("INOUT_CD", "01"); //입금
-    	List<Map> listInExcel = settleMapper.listIn(param);
+    	List<Map> listInExcel = settleService.listIn(param);
     	
     	//금주지출내역
     	param.put("INOUT_CD", "02"); //출금
-    	List<Map> listOutExcel = settleMapper.listOut(param);
+    	List<Map> listOutExcel = settleService.listOut(param);
     	
-    	//금주수입계
-    	param.put("INOUT_CD", "01"); //입금
-    	Map inSumExcel = settleMapper.getInoutSum(param);
-    	String inSum = StringUtil.commaMask(inSumExcel.get("INOUT_AMT").toString());
-    	
-    	//금주지출계
-    	param.put("INOUT_CD", "02"); //출금
-    	Map outSumExcel = settleMapper.getInoutSum(param);
-    	String outSum = StringUtil.commaMask(outSumExcel.get("INOUT_AMT").toString());
-    	
+    	//금주수입,지출계
+    	HashMap param2 = new HashMap();
+    	//param2.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
+    	param2.put("CAL_YMD", CAL_YMD);
+    	Map inoutSumExcel = settleService.getInoutSum(param2);
     	
     	JExcelExportInfo export = new JExcelExportInfo();
     	
     	// #DATA타입
     	List<JExcelInfo> l = new ArrayList<JExcelInfo>();
     	l.add(new JExcelInfo(0, 0, DateUtil.getCurrentDate("yyyy년 MM월 dd일")));
-    	l.add(new JExcelInfo(1, 7, inSum)); //금주수입계
-    	l.add(new JExcelInfo(1, 13, inSum)); //금주수입계
-    	l.add(new JExcelInfo(3, 4, outSum)); //금주지출계
-    	l.add(new JExcelInfo(3, 7, outSum)); //금주지출계
-    	l.add(new JExcelInfo(3, 9, outSum)); //금주지출계
-    	l.add(new JExcelInfo(3, 13, outSum)); //금주지출계
+    	l.add(new JExcelInfo(1, 4, inoutSumExcel.get("prevThisSum").toString())); //전주+금주
+    	l.add(new JExcelInfo(1, 5, inoutSumExcel.get("thisEnd").toString())); //금주마감
+    	l.add(new JExcelInfo(1, 7, inoutSumExcel.get("thisIn").toString())); //금주수입계
+    	l.add(new JExcelInfo(1, 8, inoutSumExcel.get("prevEnd").toString())); //전주이월계
+    	l.add(new JExcelInfo(1, 9, inoutSumExcel.get("thisInSum").toString())); //수입합계
+    	l.add(new JExcelInfo(1, 13, inoutSumExcel.get("thisIn").toString())); //금주수입계
+    	l.add(new JExcelInfo(3, 4, inoutSumExcel.get("thisOut").toString())); //금주지출계
+    	l.add(new JExcelInfo(3, 7, inoutSumExcel.get("thisOut").toString())); //금주지출계
+    	l.add(new JExcelInfo(3, 9, inoutSumExcel.get("thisOutSum").toString())); //지출합계
+    	l.add(new JExcelInfo(3, 13, inoutSumExcel.get("thisOutSum").toString())); //지출합계
     	export.setData(l);
     	
     	// #LIST타입

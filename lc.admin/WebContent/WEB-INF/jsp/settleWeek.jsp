@@ -14,11 +14,12 @@
 			    colNames:['항목', '금액'],
 			    colModel :[ 
 			      {name:'CD_NM', index:'CD_NM', width:100, align:'left', editable:false},
-			      {name:'INOUT_AMT', index:'INOUT_AMT', width:100, align:'right', editable:false}
+			      {name:'INOUT_AMT', index:'INOUT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}}
 			    ],
 			    caption: '금주수입내역',
 			    multiselect:false,
 			    height:400
+			    
 			});	
 			 
 			 $("#list2").jqGrid({
@@ -26,7 +27,7 @@
 				    colNames:['항목', '금액'],
 				    colModel :[ 
 				      {name:'CD_NM', index:'CD_NM', width:100, align:'left', editable:false},
-				      {name:'INOUT_AMT', index:'INOUT_AMT', width:100, align:'right', editable:false}
+				      {name:'INOUT_AMT', index:'INOUT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}}
 				    ],
 				    caption: '금주지출내역',
 				    multiselect:false,
@@ -49,7 +50,28 @@
 		 			 fnSubmitAjax('settleService.getInoutSum.lc', 'CAL_YMD', fnResult);
 
 					return false;
-				});			 
+				});	
+				
+				//저장
+				$("#save").click( function() {
+					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
+		 			 fnSubmitAjax('settleService.saveWeekSum.lc', 'CAL_YMD', fnEndResult);
+		 			 
+					return false;
+				});					
+				
+				//마감
+				$("#end").click( function() {
+					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
+		 			 fnSubmitAjax('settleService.saveEndYn.lc', 'CAL_YMD', fnEndResult);
+		 			 
+					return false;
+				});	
+				
+				$("#excel").click(function(){
+					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
+					$("#frm1").submit();
+				});
 		});
 		
 		function fnResult(data){
@@ -62,6 +84,25 @@
 			$("#nextEnd").val(data.nextEnd); //다음주이월계
 			$("#thisInSum").val(data.thisInSum); //금주수입합계
 			$("#thisOutSum").val(data.thisOutSum); //금주지출합계
+			
+			if(data.END_YN == 'Y'){
+				$("#save").hide();
+				$("#end").hide();
+				$("#excel").show();
+			}else{
+				$("#save").show();
+				$("#end").show();
+				$("#excel").hide();
+			}
+		}
+		
+		function fnEndResult(data){
+			alert(data.SUCCESS);
+			if(data.END_YN == 'Y'){
+				$("#save").hide();
+				$("#end").hide();
+				$("#excel").show();
+			}
 		}
 	</script>
 </head>
@@ -112,7 +153,7 @@
 			<br>	
 			
 			<!-- form -->
-			<form name="frm1" id="frm1" method="post">
+			<form name="frm1" id="frm1" method="post" action="excel_week_sum.do">
 			<input type="hidden" name="CAL_YMD" id="CAL_YMD">
 			</form>			
 			<table border="0" cellpadding=0 cellspacing=0  width="100%">
@@ -232,9 +273,9 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="searchBody"> <a href="excel_week_sum.do"><img src="${pageContext.request.contextPath}/img/excel.gif" title="주간결산"></a> </td>
+						<td class="searchBody"> <a href="#"><img src="${pageContext.request.contextPath}/img/excel.gif" id="excel" title="주간결산" style="display:none"></a> </td>
 						<td class="searchBody" align="center">&nbsp;</td>
-						<td class="searchBody" align="right">&nbsp;</td>
+						<td class="searchBody" align="right"><button id="save">저장</button> <button id="end">마감처리</button></td>
 					</tr>
 				</tbody> 
 				<tfoot>

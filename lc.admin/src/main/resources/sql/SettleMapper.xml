@@ -12,7 +12,11 @@
 			FROM WEEK_INOUT A,
 				  MEMBER B,
 				  CODE C 
-			WHERE A.CAL_YMD = #{CAL_YMD}
+			WHERE A.CAL_YMD > (SELECT IFNULL(MAX(CAL_YMD), DATE_ADD(#{CAL_YMD}, INTERVAL -1 DAY))
+							   FROM WEEK_SUM
+							   WHERE CAL_YMD < #{CAL_YMD}
+							   ) 
+			AND A.CAL_YMD <= #{CAL_YMD}
 			AND A.INOUT_CD = #{INOUT_CD} 
 			AND A.USER_KEY = B.USER_KEY
 			AND A.INOUT_AMT > 0
@@ -25,7 +29,11 @@
 				  ,CONCAT('Z',C.ORD_NO) ORD_NO
 			FROM WEEK_INOUT A,
 				 CODE C
-			WHERE A.CAL_YMD = #{CAL_YMD}
+			WHERE A.CAL_YMD > (SELECT IFNULL(MAX(CAL_YMD), DATE_ADD(#{CAL_YMD}, INTERVAL -1 DAY))
+							   FROM WEEK_SUM
+							   WHERE CAL_YMD < #{CAL_YMD}
+							   ) 
+			AND A.CAL_YMD <= #{CAL_YMD}
 			AND A.INOUT_CD = #{INOUT_CD}
 			AND A.INOUT_AMT > 0
             AND A.INOUT_ITEM_CD = C.CD_VAL
@@ -42,7 +50,11 @@
 				  ,CONCAT('Z',C.ORD_NO) ORD_NO
 			FROM WEEK_INOUT A,
 				 CODE C
-			WHERE A.CAL_YMD = #{CAL_YMD}
+			WHERE A.CAL_YMD > (SELECT IFNULL(MAX(CAL_YMD), DATE_ADD(#{CAL_YMD}, INTERVAL -1 DAY))
+							   FROM WEEK_SUM
+							   WHERE CAL_YMD < #{CAL_YMD}
+							   ) 
+			AND A.CAL_YMD <= #{CAL_YMD}
 			AND A.INOUT_CD = #{INOUT_CD}
 			AND A.INOUT_AMT > 0
             AND A.INOUT_ITEM_CD = C.CD_VAL
@@ -56,9 +68,196 @@
 		    <![CDATA[
 			SELECT SUM(A.INOUT_AMT) INOUT_AMT
 			FROM WEEK_INOUT A
-			WHERE A.CAL_YMD = #{CAL_YMD}
+			WHERE A.CAL_YMD > (SELECT IFNULL(MAX(CAL_YMD), DATE_ADD(#{CAL_YMD}, INTERVAL -1 DAY))
+							   FROM WEEK_SUM
+							   WHERE CAL_YMD < #{CAL_YMD}
+							   ) 
+			AND A.CAL_YMD <= #{CAL_YMD}
 			AND A.INOUT_CD = #{INOUT_CD}
 			AND A.INOUT_AMT > 0
 			]]>		
 	</select>		
+	
+	<select id="getNextAmt" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT NEXT_AMT, END_YN, CAL_YMD
+			FROM WEEK_SUM
+			WHERE CAL_YMD = (	SELECT MAX(CAL_YMD) 
+									FROM WEEK_SUM
+									WHERE CAL_YMD < #{CAL_YMD} )
+			]]>		
+	</select>
+			
+	<select id="getWeekSum" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT CAL_YMD
+				  ,PREV_AMT
+				  ,IN_AMT
+				  ,OUT_AMT
+				  ,NEXT_AMT
+				  ,WS_NM
+				  ,END_YN
+			FROM WEEK_SUM
+			WHERE CAL_YMD = #{CAL_YMD}
+			]]>		
+	</select>
+			
+	<select id="listInWeekSumDetl" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT C.CD_NM
+			      ,SUM(A.INOUT_AMT ) INOUT_AMT
+			      ,CONCAT('A',MAX(C.ORD_NO)) ORD_NO
+			FROM WEEK_INOUT A,
+				  MEMBER B,
+			     CODE C,
+			     WEEK_SUM_DETL D
+			WHERE D.CAL_YMD = #{CAL_YMD}
+			AND   D.INOUT_CAL_YMD = A.CAL_YMD 	
+			AND   D.INOUT_SEQ_NO = A.INOUT_SEQ_NO					
+			AND   A.INOUT_CD = #{INOUT_CD}
+			AND   A.USER_KEY = B.USER_KEY
+			AND A.INOUT_AMT > 0
+			AND A.INOUT_ITEM_CD = C.CD_VAL
+			AND C.HICD_VAL = 'DONA_CD'
+			GROUP BY C.CD_NM
+			UNION ALL
+			SELECT CONCAT(C.CD_NM, CASE WHEN IFNULL(A.REMARK,'') = '' THEN '' ELSE CONCAT('(',A.REMARK,')') END)
+				  ,A.INOUT_AMT
+				  ,CONCAT('Z',C.ORD_NO) ORD_NO
+			FROM WEEK_INOUT A,
+				 CODE C,
+				 WEEK_SUM_DETL D
+			WHERE D.CAL_YMD = #{CAL_YMD}
+			AND   D.INOUT_CAL_YMD = A.CAL_YMD 
+			AND   D.INOUT_SEQ_NO = A.INOUT_SEQ_NO	
+			AND A.INOUT_CD = #{INOUT_CD}
+			AND A.INOUT_AMT > 0
+			AND A.INOUT_ITEM_CD = C.CD_VAL
+			AND A.USER_KEY IS NULL
+			AND C.HICD_VAL = 'IN_CD'
+			ORDER BY ORD_NO
+			]]>		
+	</select>	
+	
+	<select id="listOutWeekSumDetl" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[	
+			SELECT CONCAT(C.CD_NM, CASE WHEN IFNULL(A.REMARK,'') = '' THEN '' ELSE CONCAT('(',A.REMARK,')') END) CD_NM
+				  ,A.INOUT_AMT
+				  ,CONCAT('Z',C.ORD_NO) ORD_NO
+			FROM WEEK_INOUT A,
+				 CODE C,
+				 WEEK_SUM_DETL D
+			WHERE D.CAL_YMD = #{CAL_YMD}
+			AND   D.INOUT_CAL_YMD = A.CAL_YMD 
+			AND   D.INOUT_SEQ_NO = A.INOUT_SEQ_NO	
+			AND A.INOUT_CD = #{INOUT_CD}
+			AND A.INOUT_AMT > 0
+			AND A.INOUT_ITEM_CD = C.CD_VAL
+			AND A.USER_KEY IS NULL
+			AND C.HICD_VAL = 'OUT_CD'
+			ORDER BY ORD_NO		    
+			]]>		
+	</select>	
+	
+	<insert id="insertWeekSum" parameterType="hashmap" >
+		    <![CDATA[
+		    INSERT INTO WEEK_SUM
+		    ( CAL_YMD 
+		     ,PREV_AMT
+		     ,IN_AMT
+		     ,OUT_AMT
+		     ,NEXT_AMT
+		     ,WS_NM
+		     ,END_YN
+		     ,UPD_ID
+		     ,UPD_DATE
+		     ,CRE_ID
+		     ,CRE_DATE
+		    ) 
+			SELECT A.CAL_YMD
+			      ,IFNULL(B.NEXT_AMT,0)
+			      ,IFNULL(C.IN_AMT,0)
+			      ,IFNULL(C.OUT_AMT,0)
+			      ,(IFNULL(B.NEXT_AMT,0) + IFNULL(C.IN_AMT,0) - IFNULL(C.OUT_AMT,0))
+			      ,NULL
+			      ,#{END_YN}
+				  ,#{UPD_ID}
+				  ,NOW()
+				  ,#{CRE_ID}
+				  ,NOW()			      
+			FROM ( SELECT #{CAL_YMD} CAL_YMD ) A LEFT OUTER JOIN 
+			     ( SELECT #{CAL_YMD} CAL_YMD
+					    	  ,NEXT_AMT
+					    FROM WEEK_SUM
+						WHERE CAL_YMD = (	SELECT MAX(CAL_YMD) 
+												FROM WEEK_SUM
+												WHERE CAL_YMD < #{CAL_YMD} )
+			      ) B ON A.CAL_YMD = B.CAL_YMD
+					LEFT OUTER JOIN (
+			         SELECT A.CAL_YMD
+			               ,SUM(CASE WHEN A.INOUT_CD = '01' THEN INOUT_AMT ELSE 0 END) IN_AMT
+			               ,SUM(CASE WHEN A.INOUT_CD = '02' THEN INOUT_AMT ELSE 0 END) OUT_AMT
+			         FROM (
+							SELECT #{CAL_YMD} CAL_YMD
+							      ,SUM(A.INOUT_AMT) INOUT_AMT
+							      ,A.INOUT_CD
+							FROM WEEK_INOUT A
+							WHERE A.CAL_YMD > (SELECT IFNULL(MAX(CAL_YMD), DATE_ADD(#{CAL_YMD}, INTERVAL -1 DAY))
+											   FROM WEEK_SUM
+											   WHERE CAL_YMD < #{CAL_YMD}
+											   ) 
+							AND A.CAL_YMD <= #{CAL_YMD}
+							AND A.INOUT_AMT > 0							
+							GROUP BY A.INOUT_CD
+						) A
+						GROUP BY A.CAL_YMD
+				 ) C ON A.CAL_YMD = C.CAL_YMD
+			]]>		
+	</insert>
+		
+	<update id="updateEndYn" parameterType="hashmap" >
+		    <![CDATA[
+		    UPDATE WEEK_SUM
+		    SET END_YN = #{END_YN}
+		       ,UPD_ID = #{UPD_ID}
+		       ,UPD_DATE = NOW()
+		    WHERE CAL_YMD = #{CAL_YMD}
+			]]>		
+	</update>		
+		
+	<insert id="insertWeekSumDetl" parameterType="hashmap" >
+		    <![CDATA[
+		    INSERT INTO WEEK_SUM_DETL
+		    (CAL_YMD, DETL_SEQ_NO, INOUT_CAL_YMD, INOUT_SEQ_NO, UPD_ID, UPD_DATE, CRE_ID, CRE_DATE)	
+			SELECT #{CAL_YMD}
+				  ,(SELECT IFNULL(MAX(DETL_SEQ_NO)+1,1) FROM WEEK_SUM_DETL WHERE CAL_YMD = #{CAL_YMD})
+			      ,A.CAL_YMD
+				  ,A.INOUT_SEQ_NO
+				  ,#{UPD_ID}
+				  ,NOW()
+				  ,#{CRE_ID}
+				  ,NOW()
+			FROM WEEK_INOUT A
+			WHERE A.CAL_YMD > (SELECT IFNULL(MAX(CAL_YMD), DATE_ADD(#{CAL_YMD}, INTERVAL -1 DAY))
+							   FROM WEEK_SUM
+							   WHERE CAL_YMD < #{CAL_YMD}
+							   ) 
+			AND A.CAL_YMD <= #{CAL_YMD}
+			AND A.INOUT_AMT > 0
+			]]>		
+	</insert>	
+	
+	<delete id="deleteWeekSum" parameterType="hashmap" >
+		    <![CDATA[
+		    DELETE FROM WEEK_SUM
+			WHERE A.CAL_YMD = #{CAL_YMD}
+			]]>		
+	</delete>	
+	
+	<delete id="deleteWeekSumDetl" parameterType="hashmap" >
+		    <![CDATA[
+		    DELETE FROM WEEK_SUM_DETL
+			WHERE A.CAL_YMD = #{CAL_YMD}
+			]]>		
+	</delete>		    
 </mapper>

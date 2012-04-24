@@ -30,8 +30,8 @@
 			      {name:'DONA_CD_09', index:'DONA_CD_09', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
 			      {name:'DONA_CD_10', index:'DONA_CD_10', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
 			      {name:'DONA_CD_11', index:'DONA_CD_11', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
-			      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'right', editable:false, hidden:tru},
-			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'right', editable:false, hidden:tru}
+			      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'right', editable:false, hidden:true},
+			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'right', editable:false, hidden:true}
 			    ],
 			    pager: '#pager1',
 			    caption: '헌금관리',

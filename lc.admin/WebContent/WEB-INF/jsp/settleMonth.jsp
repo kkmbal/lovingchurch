@@ -65,7 +65,6 @@
 			//마감
 			$("#end").click( function() {
 				$("#CAL_YM").val($("#DT").val().replace(/-/gi,"").substring(0, 6));
-				$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
 	 			 fnSubmitAjax('settleService.saveMonthEndYn.lc', 'CAL_YM', fnEndResult);
 	 			 
 				return false;
@@ -73,6 +72,7 @@
 			
 			$("#excel").click(function(){
 				$("#CAL_YM").val($("#DT").val().replace(/-/gi,"").substring(0, 6));
+				$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
 				$("#frm1").submit();
 			});
 	});

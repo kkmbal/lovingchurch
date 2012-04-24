@@ -230,6 +230,7 @@ public class ExcelDownloadController {
             HttpServletResponse response) throws Exception {
     	
     	String CAL_YM = request.getParameter("CAL_YM"); //조회날짜
+    	String CAL_YMD = request.getParameter("CAL_YMD"); //조회날짜
     	
     	HashMap<String, String> param = new HashMap<String, String>();
     	//param.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
@@ -255,7 +256,7 @@ public class ExcelDownloadController {
     	List<JExcelInfo> l = new ArrayList<JExcelInfo>();
     	
     	//l.add(new JExcelInfo(0, 0, DateUtil.getCurrentDate("yyyy년 MM월 dd일")));
-    	l.add(new JExcelInfo(0, 0, DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YM), "yyyy년 MM월")));
+    	l.add(new JExcelInfo(0, 0, DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YMD), "yyyy년 MM월")));
     	l.add(new JExcelInfo(1, 4, inoutSumExcel.get("prevThisSum").toString())); //전달+금달
     	l.add(new JExcelInfo(1, 5, inoutSumExcel.get("thisEnd").toString())); //금달마감
     	l.add(new JExcelInfo(1, 7, inoutSumExcel.get("thisIn").toString())); //금달수입계
@@ -276,7 +277,7 @@ public class ExcelDownloadController {
     	//수입내역
     	for(Map map : listInExcel){
     		iList = new ArrayList<JExcelInfo>();
-    		iList.add(new JExcelInfo(map.get("CD_NM").toString()));
+    		iList.add(new JExcelInfo(map.get("CAL_YMD").toString()));
     		iList.add(new JExcelInfo(StringUtil.commaMask(map.get("INOUT_AMT").toString())));
     		iiList.add(iList);
     	}
@@ -286,7 +287,7 @@ public class ExcelDownloadController {
     	//지출내역
     	for(Map map : listOutExcel){
     		iList = new ArrayList<JExcelInfo>();
-    		iList.add(new JExcelInfo(map.get("CD_NM").toString()));
+    		iList.add(new JExcelInfo(map.get("CAL_YMD").toString()));
     		iList.add(new JExcelInfo(StringUtil.commaMask(map.get("INOUT_AMT").toString())));
     		iiList.add(iList);
     	}
@@ -299,4 +300,10 @@ public class ExcelDownloadController {
     	modelMap.put("export", export);
     	return new ModelAndView(new FileDownView(), modelMap);
     }     
+    
+    public static void main(String[] args){
+    	String CAL_YM = "201203";
+    	System.out.println(">>>>>>>"+DateUtil.convertStringToDate(CAL_YM));
+    	System.out.println(">>>>>>>"+DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YM), "yyyy년 MM월"));
+    }
 }

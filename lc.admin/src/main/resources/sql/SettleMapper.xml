@@ -289,7 +289,7 @@
 	
 	<select id="listInOutMonth" parameterType="hashmap" resultType="hashmap" >
 		    <![CDATA[
-			SELECT A.CAL_YMD
+			SELECT DATE_FORMAT(A.CAL_YMD, '%c.%e') CAL_YMD
 			      ,SUM(B.INOUT_AMT ) INOUT_AMT
 			FROM WEEK_SUM_DETL A,
 				 WEEK_INOUT B,
@@ -308,7 +308,7 @@
 	
 	<select id="getNextAmtMonth" parameterType="hashmap" resultType="hashmap" >
 		    <![CDATA[
-			SELECT NEXT_AMT, END_YN, CAL_YMD
+			SELECT NEXT_AMT, END_YN, CAL_YM
 			FROM MON_SUM
 			WHERE CAL_YM = (	SELECT MAX(CAL_YM) 
 									FROM WEEK_SUM
@@ -334,7 +334,6 @@
 				  ,PREV_AMT
 				  ,IN_AMT
 				  ,OUT_AMT
-				  ,NEXT_AMT
 				  ,NEXT_AMT
 				  ,#{END_YN}
 				  ,#{UPD_ID}

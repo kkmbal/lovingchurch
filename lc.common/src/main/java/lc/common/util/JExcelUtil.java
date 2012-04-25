@@ -68,7 +68,7 @@ public class JExcelUtil {
 			if(sheet.getRows() > 0){
 				// #DATA 타입
 				List<JExcelInfo> data = listData.getData();
-				if(data.size() > 0){
+				if(data != null && data.size() > 0){
 				for(JExcelInfo info : data){
 					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()); // (column, row)
 					if("#DATA".equals(cell.getContents())){
@@ -87,7 +87,7 @@ public class JExcelUtil {
 				int colIdx = 0;
 				int rowIdx = 0;
 				int addRowCnt = 0; //추가된 row 수 
-				if(list.size() > 0){
+				if(list != null && list.size() > 0){
 				for(JExcelListInfo info : list){
 					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()+addRowCnt); // (column, row)
 					colIdx = info.getColIdx();
@@ -117,7 +117,7 @@ public class JExcelUtil {
 				List<JExcelListInfo> list2 = listData.getList2();
 				colIdx = 0;
 				rowIdx = 0;
-				if(list2.size() > 0){
+				if(list2 != null && list2.size() > 0){
 				for(JExcelListInfo info : list2){
 					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()); // (column, row)
 					colIdx = info.getColIdx();

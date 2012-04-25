@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lc.common.exception.LcException;
+import lc.common.login.web.controller.LcSessionContext;
 import lc.common.util.BeanUtil;
 import lc.common.util.ByteUtil;
 import lc.common.util.DateConverter;
@@ -56,6 +57,13 @@ public class JsonController<T> extends HttpServlet {
 				return;
 			}
 
+			//로그인체크
+			Object login_service = BeanUtil.getServiceBean("lcSessionContext");
+			if(login_service == null || ((LcSessionContext)login_service).getUserInfo() == null){
+				response.sendError(500, "not login.");
+				return;
+			}
+			
 			Object service = BeanUtil.getServiceBean(requestUris[0]);
 			if (service == null) {
 				response.sendError(500, requestUris[0]

@@ -6,6 +6,7 @@ public class JExcelExportInfo {
 	private String fileName;
 	private List<JExcelInfo> data;
 	private List<JExcelListInfo> list; //세로
+	private List<JExcelListInfo> list2; //세로
 	
 	
 	public String getFileName() {
@@ -25,6 +26,12 @@ public class JExcelExportInfo {
 	}
 	public void setList(List<JExcelListInfo> list) {
 		this.list = list;
+	}
+	public List<JExcelListInfo> getList2() {
+		return list2;
+	}
+	public void setList2(List<JExcelListInfo> list2) {
+		this.list2 = list2;
 	}
 	
 

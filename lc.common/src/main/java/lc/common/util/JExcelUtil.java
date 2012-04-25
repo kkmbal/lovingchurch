@@ -89,10 +89,10 @@ public class JExcelUtil {
 					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()+addRowCnt); // (column, row)
 					colIdx = info.getColIdx();
 					rowIdx = info.getRowIdx() + addRowCnt;
-					if("#LIST,#LIST2".contains(cell.getContents())){
+					if("#LIST".equals(cell.getContents())){
 			    		List<List<JExcelInfo>> listJExcelInfo = info.getListJExcelInfo();
 			    		for(List<JExcelInfo> listInfo : listJExcelInfo){ //세로 데이터
-			    			if("#LIST".equals(cell.getContents()) && rowIdx > info.getRowIdx()) { //row 삽입
+			    			if(rowIdx > info.getRowIdx()) { //row 삽입
 			    				sheet.insertRow(rowIdx + 1);
 			    				addRowCnt++;
 			    			}
@@ -107,6 +107,29 @@ public class JExcelUtil {
 			    		}
 			    	}
 				}
+				
+				
+				// #LIST2 타입
+				List<JExcelListInfo> list2 = listData.getList2();
+				colIdx = 0;
+				rowIdx = 0;
+				for(JExcelListInfo info : list2){
+					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()); // (column, row)
+					colIdx = info.getColIdx();
+					rowIdx = info.getRowIdx();
+					if("#LIST2".equals(cell.getContents())){
+			    		List<List<JExcelInfo>> listJExcelInfo = info.getListJExcelInfo();
+			    		for(List<JExcelInfo> listInfo : listJExcelInfo){ //세로 데이터
+			    			for(JExcelInfo i : listInfo){ //가로 데이터
+			    				Label label = new Label(colIdx, rowIdx, i.getContent(), new WritableCellFormat());
+			    				sheet.addCell(label);
+			    				colIdx++;
+			    			}
+			    			rowIdx++;
+			    			colIdx = info.getColIdx();
+			    		}
+			    	}
+				}				
 				
 				//값 없이 남아있는 #DATA, #LIST 플래그 삭제
 				for(int i=0;i<sheet.getRows();i++){

@@ -2,13 +2,41 @@
 <!DOCTYPE html>
 <html>
 <head>  
+	<style>
+	.ui-datepicker-calendar{display:none}
+	</style>
 	<%@ include file="/WEB-INF/jsp/inc/header.jsp" %>
 	<script type="text/javascript" >
+	jQuery(function($){
+		$.datepicker.regional['ko'] = {
+				closeText: '닫기',
+				prevText: '이전달',
+				nextText: '다음달',
+				currentText: '오늘',
+				monthNames: ['1월','2월','3월','4월','5월','6월',
+				'7월','8월','9월','10월','11월','12월'],
+				monthNamesShort: ['1월','2월','3월','4월','5월','6월',
+				'7월','8월','9월','10월','11월','12월'],
+				dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'],
+				dayNamesShort: ['일','월','화','수','목','금','토'],
+				dayNamesMin: ['일','월','화','수','목','금','토'],
+				weekHeader: 'Wk',
+				dateFormat: 'yy-mm',
+				onClose:function(dateText, inst){
+						var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+						var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+						$(this).datepicker('setDate', new Date(year, month, 1));
+				},
+				firstDay: 0,
+				isRTL: false,
+				showMonthAfterYear: true};	
+		$.datepicker.setDefaults($.datepicker.regional['ko']);
+	});
 	$(document).ready(function () {
-	
+
 		//실행일자
 		$("#DT").datepicker();		
-		$("#DT").val(formatDate(new Date(), "yyyy-MM-dd"));	
+		$("#DT").val(formatDate(new Date(), "yyyy-MM"));	
 		
 		 $("#list1").jqGrid({
 		    url:"settleService.listIn.lc",

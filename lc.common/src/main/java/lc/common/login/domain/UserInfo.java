@@ -1,6 +1,10 @@
 package lc.common.login.domain;
 
-public class UserInfo {
+import java.io.Serializable;
+
+public class UserInfo implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private String USER_ID;
 	private String PASSWORD;
 	private String USER_NM;

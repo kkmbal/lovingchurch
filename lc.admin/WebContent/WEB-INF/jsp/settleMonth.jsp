@@ -100,6 +100,12 @@
 	  			}		
 			});		 
 		 
+			//Grid 검색
+			$("#search3").click(function(){
+				$("#list3").fnSelGrid("settleService.listMonSum.lc");
+				return false;
+			});			 
+		 
 			//Grid+form 검색
 			$("#search").click(function(){
 				var search_data = {};
@@ -207,6 +213,31 @@
 				</ul>			
 			
 			    <div id="tabs-1">
+					<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
+						<colgroup>
+							<col width="50"/>
+							<col width="*"/>
+							<col width="100"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<td class="searchHline" colspan="3"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="searchBody"> </td>
+								<td class="searchBody"> </td>
+								<td class="searchBody" align="center"><button id="search3">검색</button></td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td class="searchHline" colspan="3"></td>
+							</tr>
+						</tfoot>
+					</table>
+								    
 			        <p id="list1_parent"></p>
 					<table id="list3"><tr><td/></tr></table>
 					<div id="pager3"></div>			    

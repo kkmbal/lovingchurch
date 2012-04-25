@@ -68,6 +68,7 @@ public class JExcelUtil {
 			if(sheet.getRows() > 0){
 				// #DATA 타입
 				List<JExcelInfo> data = listData.getData();
+				if(data.size() > 0){
 				for(JExcelInfo info : data){
 					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()); // (column, row)
 					if("#DATA".equals(cell.getContents())){
@@ -77,6 +78,7 @@ public class JExcelUtil {
 			    		} 
 			    	}
 				}
+				}
 				
 
 				
@@ -85,6 +87,7 @@ public class JExcelUtil {
 				int colIdx = 0;
 				int rowIdx = 0;
 				int addRowCnt = 0; //추가된 row 수 
+				if(list.size() > 0){
 				for(JExcelListInfo info : list){
 					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()+addRowCnt); // (column, row)
 					colIdx = info.getColIdx();
@@ -107,12 +110,14 @@ public class JExcelUtil {
 			    		}
 			    	}
 				}
+				}
 				
 				
 				// #LIST2 타입
 				List<JExcelListInfo> list2 = listData.getList2();
 				colIdx = 0;
 				rowIdx = 0;
+				if(list2.size() > 0){
 				for(JExcelListInfo info : list2){
 					cell = sheet.getWritableCell(info.getColIdx(), info.getRowIdx()); // (column, row)
 					colIdx = info.getColIdx();
@@ -129,7 +134,8 @@ public class JExcelUtil {
 			    			colIdx = info.getColIdx();
 			    		}
 			    	}
-				}				
+				}	
+				}
 				
 				//값 없이 남아있는 #DATA, #LIST 플래그 삭제
 				for(int i=0;i<sheet.getRows();i++){

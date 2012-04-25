@@ -46,7 +46,7 @@
 			         jQuery("#list1").jqGrid('columnChooser');
 			     }
 			 });
-			 jQuery("#list1").jqGrid('gridResize',{minWidth:600,maxWidth:1000,minHeight:400, maxHeight:400});
+			 jQuery("#list1").jqGrid('gridResize',{minWidth:600,maxWidth:960,minHeight:400, maxHeight:400});
 			 
 			 
 			 $("#list2").jqGrid({

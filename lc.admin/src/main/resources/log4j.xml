@@ -66,15 +66,15 @@
     </logger>
    
     <logger name="lc.common.call">
-        <level value="DEBUG"/>
+        <level value="WARN"/>
     </logger>
    
     <logger name="lc.common.util.ServiceConnector">
-        <level value="DEBUG"/>
+        <level value="WARN"/>
     </logger>
 
 	<logger name="java.sql">
-		<level value="DEBUG" />
+		<level value="WARN" />
 	</logger>
 	<!-- 
 	<logger name="java.sql.Connection">
@@ -94,7 +94,7 @@
 	-->
 	
     <root>
-        <level value="DEBUG"/>
+        <level value="WARN"/>
         <appender-ref ref="CONSOLE"/>
 <!--        <appender-ref ref="FILE"/>-->
     </root>

@@ -35,7 +35,9 @@
 			    ],
 			    pager: '#pager1',
 			    caption: '헌금관리',
-			    height:400
+			    height:400,
+			    rowNum:100,
+				rowList:[100,200,300]
 			});	
 			 
 			 jQuery("#list1").jqGrid('navGrid','#pager1',{add:false,edit:false,del:false,search:false,refresh:false});

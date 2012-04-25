@@ -188,6 +188,7 @@ public class ExcelDownloadController {
     	
     	// #LIST타입
     	List<JExcelListInfo> ll = new ArrayList<JExcelListInfo>();
+    	List<JExcelListInfo> ll2 = new ArrayList<JExcelListInfo>();
     	List<List<JExcelInfo>> iiList = new ArrayList<List<JExcelInfo>>();
     	List<JExcelInfo> iList = null;
     	
@@ -208,9 +209,10 @@ public class ExcelDownloadController {
     		iList.add(new JExcelInfo(StringUtil.commaMask(map.get("INOUT_AMT").toString())));
     		iiList.add(iList);
     	}
-    	ll.add(new JExcelListInfo(2, 11, iiList));
+    	ll2.add(new JExcelListInfo(2, 11, iiList));
     	
     	export.setList(ll);
+    	export.setList2(ll2);
     	export.setFileName("week_sum");
     	
     	Map modelMap = new HashMap();

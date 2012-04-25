@@ -25,7 +25,8 @@
 			    pager: '#pager',
 			    caption: '교인관리',
 			    sortname: 'USER_NM',
-			    height:400
+			    height:500,
+				rowNum:20
 			});	
 			 
 				//Grid 검색

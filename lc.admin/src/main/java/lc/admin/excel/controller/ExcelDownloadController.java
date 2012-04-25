@@ -188,6 +188,7 @@ public class ExcelDownloadController {
     	
     	// #LIST타입
     	List<JExcelListInfo> ll = new ArrayList<JExcelListInfo>();
+    	// #LIST2타입
     	List<JExcelListInfo> ll2 = new ArrayList<JExcelListInfo>();
     	List<List<JExcelInfo>> iiList = new ArrayList<List<JExcelInfo>>();
     	List<JExcelInfo> iList = null;

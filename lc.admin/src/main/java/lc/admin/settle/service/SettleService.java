@@ -10,6 +10,8 @@ import lc.common.grid.domain.GridOutVO;
 public interface SettleService {
 	
 	//******************************************************************
+	//주간결산목록조회
+	public GridOutVO listWeekSum(GridInVO giVO) throws Exception;
 	//주간결산 합계조회
 	public Map getWeekSum(HashMap map) throws Exception;
 	//주간결산 수입내역조회
@@ -26,6 +28,8 @@ public interface SettleService {
 	//마감여부조회
 	public String getEndYnForPeriod(HashMap map) throws Exception;
 	//******************************************************************
+	//월간결산목록조회
+	public GridOutVO listMonSum(GridInVO giVO) throws Exception;
 	//월간결산 합계조회
 	public Map getMonthSum(HashMap map) throws Exception;
 	//월간결산 수입내역조회

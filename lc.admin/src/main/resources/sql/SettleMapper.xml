@@ -4,6 +4,36 @@
     "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="lc.admin.settle.service.SettleMapper">
 
+	<select id="listWeekSum" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT DATE_FORMAT(CAL_YMD, '%Y-%m-%d') CAL_YMD
+				  ,PREV_AMT
+				  ,IN_AMT
+				  ,OUT_AMT
+				  ,NEXT_AMT
+				  ,WS_NM
+				  ,END_YN					
+			FROM WEEK_SUM
+			WHERE 1 = 1
+			]]>		
+			<if test="CAL_YMD != null and CAL_YMD != ''">
+			AND CAL_YMD = #{CAL_YMD}
+			</if>				
+			ORDER BY ${sidx} ${sord} 
+			LIMIT ${page}, ${rows}
+	</select>
+	
+	<select id="listWeekSumCount" parameterType="hashmap" resultType="int" >
+		    <![CDATA[
+			SELECT   COUNT(*) ROWCOUNT
+			FROM WEEK_SUM
+			WHERE 1 = 1
+			]]>		
+			<if test="CAL_YMD != null and CAL_YMD != ''">
+			AND CAL_YMD = #{CAL_YMD}
+			</if>	
+	</select>	
+
 	<select id="listIn" parameterType="hashmap" resultType="hashmap" >
 		    <![CDATA[
 			SELECT C.CD_NM
@@ -274,6 +304,35 @@
 	
 	<!-- ****************************************************************************** -->    
 	
+	<select id="listMonSum" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT DATE_FORMAT(CONCAT(CAL_YM,'01'), '%Y-%m') CAL_YM
+				  ,PREV_AMT
+				  ,IN_AMT
+				  ,OUT_AMT
+				  ,NEXT_AMT
+				  ,END_YN					
+			FROM MON_SUM
+			WHERE 1 = 1
+			]]>		
+			<if test="CAL_YM != null and CAL_YM != ''">
+			AND CAL_YM = #{CAL_YM}
+			</if>				
+			ORDER BY ${sidx} ${sord} 
+			LIMIT ${page}, ${rows}
+	</select>
+	
+	<select id="listMonSumCount" parameterType="hashmap" resultType="int" >
+		    <![CDATA[
+			SELECT   COUNT(*) ROWCOUNT
+			FROM MON_SUM
+			WHERE 1 = 1
+			]]>		
+			<if test="CAL_YM != null and CAL_YM != ''">
+			AND CAL_YM = #{CAL_YM}
+			</if>	
+	</select>	
+	
 	<select id="getMonthSum" parameterType="hashmap" resultType="hashmap" >
 		    <![CDATA[
 			SELECT CAL_YM
@@ -346,6 +405,22 @@
 									WHERE SUBSTR(CAL_YMD, 1, 6) = #{CAL_YM} )
 			]]>		
 	</insert>	
+	
+	<select id="getWeekSumLast" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT CAL_YMD
+				  ,PREV_AMT
+				  ,IN_AMT
+				  ,OUT_AMT
+				  ,NEXT_AMT
+				  ,WS_NM
+				  ,END_YN
+			FROM WEEK_SUM
+			WHERE CAL_YMD = (	SELECT MAX(CAL_YMD) 
+									FROM WEEK_SUM
+									WHERE SUBSTR(CAL_YMD, 1, 6) = #{CAL_YM} )
+			]]>		
+	</select>	
 	
 	<delete id="deleteMonSum" parameterType="hashmap" >
 		    <![CDATA[

@@ -6,6 +6,9 @@ import java.util.Map;
 
 public interface SettleMapper {
 	
+	//주간결산 목록조회
+	public List<Map> listWeekSum(Map map) throws Exception;
+	public int listWeekSumCount(Map map) throws Exception;
 	//주간결산 합계조회
 	public Map getInoutSum(Map map) throws Exception;
 	//주간결산 수입내역조회
@@ -29,12 +32,16 @@ public interface SettleMapper {
 	public Map getEndYnForPeriod(HashMap map)   throws Exception;
 	
 	//******************************************************************
+	//월간결산 목록조회
+	public List<Map> listMonSum(Map map) throws Exception;
+	public int listMonSumCount(Map map) throws Exception;
 	//월간결산조회
 	public Map getMonthSum(Map map) throws Exception;
 	//월간결산 수입,지출내역조회
 	public List<Map> listInOutMonth(Map map) throws Exception;
 	//전달이월금
 	public Map getNextAmtMonth(Map map) throws Exception;
+	public Map getWeekSumLast(HashMap map) throws Exception;
 	
 	public void insertMonSum(Map map)  throws Exception;
 	public void deleteMonSum(Map map)  throws Exception;

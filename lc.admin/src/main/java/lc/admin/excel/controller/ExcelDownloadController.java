@@ -230,7 +230,8 @@ public class ExcelDownloadController {
             HttpServletResponse response) throws Exception {
     	
     	String CAL_YM = request.getParameter("CAL_YM"); //조회날짜
-    	String CAL_YMD = request.getParameter("CAL_YMD"); //조회날짜
+    	//String CAL_YMD = request.getParameter("CAL_YMD"); //조회날짜
+    	String CAL_YMD = CAL_YM + "01";
     	
     	HashMap<String, String> param = new HashMap<String, String>();
     	//param.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
@@ -248,6 +249,7 @@ public class ExcelDownloadController {
     	HashMap param2 = new HashMap();
     	//param2.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
     	param2.put("CAL_YM", CAL_YM);
+    	//param2.put("CAL_YMD", CAL_YMD);
     	Map inoutSumExcel = settleService.getMonthSum(param2);
     	
     	JExcelExportInfo export = new JExcelExportInfo();

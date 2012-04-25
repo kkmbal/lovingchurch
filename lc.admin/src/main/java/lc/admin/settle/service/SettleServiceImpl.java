@@ -11,6 +11,7 @@ import lc.common.grid.domain.GridInVO;
 import lc.common.grid.domain.GridOutVO;
 import lc.common.login.domain.UserInfo;
 import lc.common.login.web.controller.LcSessionContext;
+import lc.common.util.GridUtil;
 import lc.common.util.StringUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,25 @@ public class SettleServiceImpl implements SettleService {
 	// ----------------------------------------------------------------------------------
 	// 주간
 	// ----------------------------------------------------------------------------------
+	//주간결산목록조회
+	public GridOutVO listWeekSum(GridInVO giVO) throws Exception{
+		Map<String, String> userdata = giVO.getUserdata();
+		userdata.putAll(GridUtil.getPager(giVO)); 
+		List<Map> list = settleMapper.listWeekSum(userdata);
+		int rowCnt = settleMapper.listWeekSumCount(userdata);
+		GridOutVO gridOutVO = new GridOutVO();
+		if(list != null && list.size() > 0){
+			gridOutVO.setPaging(giVO, rowCnt); 
+			List<Map<String, String>> listRow = new ArrayList<Map<String, String>>();
+			for(Map<String, String> vo : list){
+				listRow.add(vo);
+			}
+			gridOutVO.setRows(listRow);
+		}
+		return gridOutVO;
+	}
+	
+	
 	//주간결산 수입내역조회
 	public GridOutVO listIn(GridInVO giVO) throws Exception{
 		Map<String, String> userdata = giVO.getUserdata();
@@ -257,6 +277,24 @@ public class SettleServiceImpl implements SettleService {
 	// ----------------------------------------------------------------------------------
 	// 월간
 	// ----------------------------------------------------------------------------------
+	//월간결산목록조회
+	public GridOutVO listMonSum(GridInVO giVO) throws Exception{
+		Map<String, String> userdata = giVO.getUserdata();
+		userdata.putAll(GridUtil.getPager(giVO)); 
+		List<Map> list = settleMapper.listMonSum(userdata);
+		int rowCnt = settleMapper.listMonSumCount(userdata);
+		GridOutVO gridOutVO = new GridOutVO();
+		if(list != null && list.size() > 0){
+			gridOutVO.setPaging(giVO, rowCnt); 
+			List<Map<String, String>> listRow = new ArrayList<Map<String, String>>();
+			for(Map<String, String> vo : list){
+				listRow.add(vo);
+			}
+			gridOutVO.setRows(listRow);
+		}
+		return gridOutVO;
+	}
+	
 	//월간결산 수입내역조회
 	public GridOutVO listInMonth(GridInVO giVO) throws Exception{
 		Map<String, String> userdata = giVO.getUserdata();
@@ -319,7 +357,7 @@ public class SettleServiceImpl implements SettleService {
 		
 		//WEEK_SUM에서 조회
 		if(monSum == null){
-			Map weekSum = settleMapper.getWeekSum(map);
+			Map weekSum = settleMapper.getWeekSumLast(map);
 			
 			if(weekSum != null){
 				thisIn = Integer.parseInt(weekSum.get("IN_AMT").toString());

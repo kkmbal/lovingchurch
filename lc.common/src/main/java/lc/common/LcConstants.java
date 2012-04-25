@@ -17,7 +17,7 @@ public class LcConstants {
 		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
 		ServletContextResource scr = new ServletContextResource(webApplicationContext.getServletContext(), "/doc");
 		String path = scr.getFile().getAbsolutePath()+File.separator;
-		System.out.println("path==>"+path);
+		//System.out.println("path==>"+path);
 		return path;
 		
 	}

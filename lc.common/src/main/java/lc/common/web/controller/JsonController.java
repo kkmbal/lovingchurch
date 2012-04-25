@@ -77,8 +77,8 @@ public class JsonController<T> extends HttpServlet {
 				return;
 			}
 
-			System.out.println("**********Service Name:" + service.toString());
-			System.out.println("**********Method Name:" + method.getName());
+			//System.out.println("**********Service Name:" + service.toString());
+			//System.out.println("**********Method Name:" + method.getName());
 			
 			Class<?>[] paramTypes = method.getParameterTypes();
 			Gson gson = gsonBuilder.create();
@@ -86,7 +86,7 @@ public class JsonController<T> extends HttpServlet {
 			if (paramTypes != null && paramTypes.length > 0) {
 				byte[] jsonBytes = ByteUtil.readBytes(request.getInputStream());
 				String jsonString = new String(jsonBytes, "UTF-8");
-				System.out.println("in**********Json String:" + jsonString);
+				//System.out.println("in**********Json String:" + jsonString);
 				paramValues = new Object[paramTypes.length]; 
 				int i = 0;
 				for (Class<?> paramType : paramTypes) {
@@ -103,7 +103,7 @@ public class JsonController<T> extends HttpServlet {
 
 			if (returnObject != null) {
 				String jsonString = gson.toJson(returnObject);
-				System.out.println("out**********Json String:" + jsonString);
+				//System.out.println("out**********Json String:" + jsonString);
 				response.getWriter().write(jsonString);
 				response.flushBuffer();
 			}

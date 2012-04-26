@@ -16,7 +16,7 @@
 			
 			 $("#list1").jqGrid({
 			    url:"inoutService.listDonation.lc",
-			    colNames:['성명', '주일','십일조','감사','선교','건축','생일','부활절','추수감사','구제','성탄감사','신년감사','비고','CAL_YMD','USER_KEY'],
+			    colNames:['성명', '주일','십일조','감사','선교','건축','생일','부활절','추수감사','구제','성탄감사','신년감사','CAL_YMD','USER_KEY'],
 			    colModel :[ 
 			      {name:'USER_NM', index:'USER_NM', width:90, align:'left', editable:false},
 			      {name:'DONA_CD_01', index:'DONA_CD_01', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",",defaultValue: '0'}, editrules:{number:true}}, 
@@ -30,7 +30,6 @@
 			      {name:'DONA_CD_09', index:'DONA_CD_09', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
 			      {name:'DONA_CD_10', index:'DONA_CD_10', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
 			      {name:'DONA_CD_11', index:'DONA_CD_11', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}},
-			      {name:'REMARK', index:'REMARK', width:80, align:'right', editable:true},
 			      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'right', editable:false, hidden:true},
 			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'right', editable:false, hidden:true}
 			    ],

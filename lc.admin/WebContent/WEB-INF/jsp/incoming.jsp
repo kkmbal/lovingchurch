@@ -12,6 +12,9 @@
 			$("#DT2").datepicker();		
 			$("#DT2").val(formatDate(new Date(), "yyyy-MM-dd"));
 			
+			$("#DT2").datepicker();		
+			$("#DT2").val(formatDate(new Date(), "yyyy-MM-dd"));			
+			
 			$("#tabs").tabs();
 			
 			 $("#list1").jqGrid({
@@ -259,7 +262,7 @@
 						<tbody>
 							<tr>
 								<td class="searchBody">날짜</td>
-								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT1" id="DT1"></td>
+								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT3" id="DT3"></td>
 								<td class="searchBody" align="center"> <button id="search3">검색</button></td>
 							</tr>
 						</tbody>

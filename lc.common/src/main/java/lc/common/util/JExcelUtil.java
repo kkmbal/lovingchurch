@@ -39,35 +39,6 @@ public class JExcelUtil {
 		    Label l = null;
 		    Number n = null;
 	
-/*			for(int i=0;i<sheet.getRows();i++){
-				Cell[] cells = sheet.getRow(i);
-				if (cells.length>0){
-					for(int j=0;j<cells.length;j++){
-						if("#LIST".equals(cells[j].getContents())){
-							//list형 데이터
-							
-						}else if("#DATA".equals(cells[j].getContents())){
-							//단건 데이터
-							cell = sheet.getWritableCell(j, i); // (column, row) 
-
-							if (cell.getType() == CellType.LABEL){ 
-							  l = (Label) cell; 
-							  l.setString("modified cell"); 
-							} 
-
-							
-						}
-					}
-				}
-			}*/
-			
-//			if(sheet.getRows() > 0){
-//			    for(JExcelInfo info : listData){
-//			    	//Label label = new Label(info.getColIdx(), info.getRowIdx(), info.getContent(), new WritableCellFormat(new WritableFont(WritableFont.ARIAL, sheet.getRow(info.getRowIdx())[info.getColIdx()].getCellFormat().getFont().getPointSize(), WritableFont.NO_BOLD)));
-//			    	Label label = new Label(info.getColIdx(), info.getRowIdx(), info.getContent(), new WritableCellFormat());
-//			    	sheet.addCell(label);
-//			    }
-//			}
 		    
 			if(sheet.getRows() > 0){
 				// #DATA 타입

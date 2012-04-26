@@ -32,8 +32,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ExcelDownloadController {
 	Log logger = LogFactory.getLog(getClass());
     
-	@Resource(name="inoutService")
-	private InoutService inoutService;
+//	@Resource(name="inoutService")
+//	private InoutService inoutService;
     
 	@Resource(name="settleService")
 	private SettleService settleService;
@@ -41,8 +41,8 @@ public class ExcelDownloadController {
 	@Autowired(required=true)
 	private InoutMapper	inoutMapper;
 	
-	@Autowired(required=true)
-	private SettleMapper settleMapper;	
+//	@Autowired(required=true)
+//	private SettleMapper settleMapper;	
 	
     /**
      * 수입내역

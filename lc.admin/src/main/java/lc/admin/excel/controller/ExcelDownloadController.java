@@ -14,8 +14,6 @@ import lc.admin.inout.service.InoutService;
 import lc.admin.settle.service.SettleMapper;
 import lc.admin.settle.service.SettleService;
 import lc.common.excel.domain.JExcelExportInfo;
-import lc.common.excel.domain.JExcelInfo;
-import lc.common.excel.domain.JExcelListInfo;
 import lc.common.util.DateUtil;
 import lc.common.util.FileDownView;
 import lc.common.util.StringUtil;
@@ -78,57 +76,16 @@ public class ExcelDownloadController {
     	JExcelExportInfo export = new JExcelExportInfo();
     	
     	// #DATA타입
-    	List<JExcelInfo> l = new ArrayList<JExcelInfo>();
-    	//l.add(new JExcelInfo(0, 1, DateUtil.getCurrentDate("yyyy년 MM월 dd일")));
-    	l.add(new JExcelInfo(0, 1, DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YMD), "yyyy년 MM월 dd일")));
-    	l.add(new JExcelInfo(2, 3, StringUtil.commaMask(sum)));
-    	export.setData(l);
+    	export.addData(0, 1, DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YMD), "yyyy년 MM월 dd일"));
+    	export.addData(2, 3, StringUtil.commaMask(sum));
     	
     	// #LIST타입
-    	List<JExcelListInfo> ll = new ArrayList<JExcelListInfo>();
-    	List<List<JExcelInfo>> iiList = new ArrayList<List<JExcelInfo>>();
-    	List<JExcelInfo> iList = null;
-    	
-    	// 주일헌금(01)
-    	// 십일조(02)
-    	// 선교헌금(04)
-    	// 감사헌금(03)
-    	// 건축헌금(05)
     	for(Map map : listDonation){
-    		iList = new ArrayList<JExcelInfo>();
-    		iList.add(new JExcelInfo(map.get("CD_NM").toString()));
-    		iList.add(new JExcelInfo(map.get("USER_NM").toString()));
-    		iList.add(new JExcelInfo(StringUtil.commaMask(map.get("INOUT_AMT").toString())));
-    		iiList.add(iList);
-    		if("합계".equals(map.get("USER_NM").toString())){
-    			iList = new ArrayList<JExcelInfo>();
-    			iList.add(new JExcelInfo(" "));
-    			iiList.add(iList);
+    		if(map.get("INOUT_AMT") != null){
+    			map.put("INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
     		}
     	}
-    	
-    	
-//    	iList.add(new JExcelInfo("1"));
-//    	iList.add(new JExcelInfo("22222"));
-//    	iList.add(new JExcelInfo("aaaaa"));
-//    	iiList.add(iList);
-    	
-//    	iList = new ArrayList<JExcelInfo>();
-//    	iList.add(new JExcelInfo("2"));
-//    	iList.add(new JExcelInfo("44444"));
-//    	iList.add(new JExcelInfo("bbbbb"));
-//    	iiList.add(iList);
-//    	
-//    	iList = new ArrayList<JExcelInfo>();
-//    	iList.add(new JExcelInfo("3"));
-//    	iList.add(new JExcelInfo("66666"));
-//    	iList.add(new JExcelInfo("ccccc"));
-//    	iiList.add(iList);
-    	
-    	ll.add(new JExcelListInfo(0, 6, iiList));
-    	//ll.add(new JExcelListInfo(2, 7, iiList));
-    	
-    	export.setList(ll);
+    	export.addList(0, 6, listDonation, new String[]{"CD_NM", "USER_NM", "INOUT_AMT"});
     	export.setFileName("in_list");
     	
     	Map modelMap = new HashMap();
@@ -150,7 +107,6 @@ public class ExcelDownloadController {
     	String CAL_YMD = request.getParameter("CAL_YMD"); //조회날짜
     	
     	HashMap<String, String> param = new HashMap<String, String>();
-    	//param.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
     	param.put("CAL_YMD", CAL_YMD);
     	
     	//금주수입내역
@@ -163,57 +119,59 @@ public class ExcelDownloadController {
     	
     	//금주수입,지출계
     	HashMap param2 = new HashMap();
-    	//param2.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
     	param2.put("CAL_YMD", CAL_YMD);
     	Map inoutSumExcel = settleService.getWeekSum(param2);
     	
     	JExcelExportInfo export = new JExcelExportInfo();
     	
     	// #DATA타입
-    	List<JExcelInfo> l = new ArrayList<JExcelInfo>();
-    	
-    	//l.add(new JExcelInfo(0, 0, DateUtil.getCurrentDate("yyyy년 MM월 dd일")));
-    	l.add(new JExcelInfo(0, 0, DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YMD), "yyyy년 MM월 dd일")));
-    	l.add(new JExcelInfo(1, 4, inoutSumExcel.get("prevThisSum").toString())); //전주+금주
-    	l.add(new JExcelInfo(1, 5, inoutSumExcel.get("thisEnd").toString())); //금주마감
-    	l.add(new JExcelInfo(1, 7, inoutSumExcel.get("thisIn").toString())); //금주수입계
-    	l.add(new JExcelInfo(1, 8, inoutSumExcel.get("prevEnd").toString())); //전주이월계
-    	l.add(new JExcelInfo(1, 9, inoutSumExcel.get("thisInSum").toString())); //수입합계
-    	l.add(new JExcelInfo(1, 13, inoutSumExcel.get("thisIn").toString())); //금주수입계
-    	l.add(new JExcelInfo(3, 4, inoutSumExcel.get("thisOut").toString())); //금주지출계
-    	l.add(new JExcelInfo(3, 7, inoutSumExcel.get("thisOut").toString())); //금주지출계
-    	l.add(new JExcelInfo(3, 9, inoutSumExcel.get("thisOutSum").toString())); //지출합계
-    	l.add(new JExcelInfo(3, 13, inoutSumExcel.get("thisOutSum").toString())); //지출합계
-    	export.setData(l);
+    	export.addData(0, 0, DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YMD), "yyyy년 MM월 dd일"));
+    	export.addData(1, 4, inoutSumExcel.get("prevThisSum").toString()); //전주+금주
+    	export.addData(1, 5, inoutSumExcel.get("thisEnd").toString()); //금주마감
+    	export.addData(1, 7, inoutSumExcel.get("thisIn").toString()); //금주수입계
+    	export.addData(1, 8, inoutSumExcel.get("prevEnd").toString()); //전주이월계
+    	export.addData(1, 9, inoutSumExcel.get("thisInSum").toString()); //수입합계
+    	export.addData(1, 13, inoutSumExcel.get("thisIn").toString()); //금주수입계
+    	export.addData(3, 4, inoutSumExcel.get("thisOut").toString()); //금주지출계
+    	export.addData(3, 7, inoutSumExcel.get("thisOut").toString()); //금주지출계
+    	export.addData(3, 9, inoutSumExcel.get("thisOutSum").toString()); //지출합계
+    	export.addData(3, 13, inoutSumExcel.get("thisOutSum").toString()); //지출합계
     	
     	// #LIST타입
-    	List<JExcelListInfo> ll = new ArrayList<JExcelListInfo>();
-    	// #LIST2타입
-    	List<JExcelListInfo> ll2 = new ArrayList<JExcelListInfo>();
-    	List<List<JExcelInfo>> iiList = new ArrayList<List<JExcelInfo>>();
-    	List<JExcelInfo> iList = null;
-    	
-    	//수입내역
     	for(Map map : listInExcel){
-    		iList = new ArrayList<JExcelInfo>();
-    		iList.add(new JExcelInfo(map.get("CD_NM").toString()));
-    		iList.add(new JExcelInfo(StringUtil.commaMask(map.get("INOUT_AMT").toString())));
-    		iiList.add(iList);
+    		if(map.get("INOUT_AMT") != null){
+    			map.put("INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
+    		}
     	}
-    	ll.add(new JExcelListInfo(0, 11, iiList));
-    	
-    	iiList = new ArrayList<List<JExcelInfo>>();
-    	//지출내역
+    	// #LIST2타입
     	for(Map map : listOutExcel){
-    		iList = new ArrayList<JExcelInfo>();
-    		iList.add(new JExcelInfo(map.get("CD_NM").toString()));
-    		iList.add(new JExcelInfo(StringUtil.commaMask(map.get("INOUT_AMT").toString())));
-    		iiList.add(iList);
+    		if(map.get("INOUT_AMT") != null){
+    			map.put("INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
+    		}
+    		map.put("CD_NM2", map.get("CD_NM"));
+    		map.put("INOUT_AMT2", map.get("INOUT_AMT"));
+    		map.remove("CD_NM");
+    		map.remove("INOUT_AMT");
     	}
-    	ll2.add(new JExcelListInfo(2, 11, iiList));
+    	List<Map> newList = new ArrayList<Map>();
+    	if(listInExcel.size() >= listOutExcel.size()){
+    		for(int i=0;i<listOutExcel.size();i++){
+    			((Map)listInExcel.get(i)).putAll(listOutExcel.get(i));
+    		}
+    		newList.addAll(listInExcel);
+    	}else{
+    		for(int i=0;i<listInExcel.size();i++){
+    			((Map)listOutExcel.get(i)).putAll(listInExcel.get(i));
+    		}
+    		newList.addAll(listOutExcel);
+    	}
     	
-    	export.setList(ll);
-    	export.setList2(ll2);
+    	
+    	
+    	
+    	export.addList(0, 11, newList, new String[]{"CD_NM", "INOUT_AMT", "CD_NM2", "INOUT_AMT2"});
+    	
+
     	export.setFileName("week_sum");
     	
     	Map modelMap = new HashMap();
@@ -233,11 +191,9 @@ public class ExcelDownloadController {
             HttpServletResponse response) throws Exception {
     	
     	String CAL_YM = request.getParameter("CAL_YM"); //조회날짜
-    	//String CAL_YMD = request.getParameter("CAL_YMD"); //조회날짜
     	String CAL_YMD = CAL_YM + "01";
     	
     	HashMap<String, String> param = new HashMap<String, String>();
-    	//param.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
     	param.put("CAL_YM", CAL_YM);
     	
     	//금주수입내역
@@ -250,61 +206,202 @@ public class ExcelDownloadController {
     	
     	//금주수입,지출계
     	HashMap param2 = new HashMap();
-    	//param2.put("CAL_YMD", DateUtil.getCurrentDate()); //현재날짜
     	param2.put("CAL_YM", CAL_YM);
-    	//param2.put("CAL_YMD", CAL_YMD);
     	Map inoutSumExcel = settleService.getMonthSum(param2);
     	
     	JExcelExportInfo export = new JExcelExportInfo();
     	
     	// #DATA타입
-    	List<JExcelInfo> l = new ArrayList<JExcelInfo>();
-    	
-    	//l.add(new JExcelInfo(0, 0, DateUtil.getCurrentDate("yyyy년 MM월 dd일")));
-    	l.add(new JExcelInfo(0, 0, DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YMD), "yyyy년 MM월")));
-    	l.add(new JExcelInfo(1, 4, inoutSumExcel.get("prevThisSum").toString())); //전달+금달
-    	l.add(new JExcelInfo(1, 5, inoutSumExcel.get("thisEnd").toString())); //금달마감
-    	l.add(new JExcelInfo(1, 7, inoutSumExcel.get("thisIn").toString())); //금달수입계
-    	l.add(new JExcelInfo(1, 8, inoutSumExcel.get("prevEnd").toString())); //전달이월계
-    	l.add(new JExcelInfo(1, 9, inoutSumExcel.get("thisInSum").toString())); //수입합계
-    	l.add(new JExcelInfo(1, 13, inoutSumExcel.get("thisIn").toString())); //금달수입계
-    	l.add(new JExcelInfo(3, 4, inoutSumExcel.get("thisOut").toString())); //금달지출계
-    	l.add(new JExcelInfo(3, 7, inoutSumExcel.get("thisOut").toString())); //금달지출계
-    	l.add(new JExcelInfo(3, 9, inoutSumExcel.get("thisOutSum").toString())); //지출합계
-    	l.add(new JExcelInfo(3, 13, inoutSumExcel.get("thisOutSum").toString())); //지출합계
-    	export.setData(l);
+    	export.addData(0, 0, DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YMD), "yyyy년 MM월"));
+    	export.addData(1, 4, inoutSumExcel.get("prevThisSum").toString()); //전달+금달
+    	export.addData(1, 5, inoutSumExcel.get("thisEnd").toString()); //금달마감
+    	export.addData(1, 7, inoutSumExcel.get("thisIn").toString()); //금달수입계
+    	export.addData(1, 8, inoutSumExcel.get("prevEnd").toString()); //전달이월계
+    	export.addData(1, 9, inoutSumExcel.get("thisInSum").toString()); //수입합계
+    	export.addData(1, 13, inoutSumExcel.get("thisIn").toString()); //금달수입계
+    	export.addData(3, 4, inoutSumExcel.get("thisOut").toString()); //금달지출계
+    	export.addData(3, 7, inoutSumExcel.get("thisOut").toString()); //금달지출계
+    	export.addData(3, 9, inoutSumExcel.get("thisOutSum").toString()); //지출합계
+    	export.addData(3, 13, inoutSumExcel.get("thisOutSum").toString()); //지출합계
     	
     	// #LIST타입
-    	List<JExcelListInfo> ll = new ArrayList<JExcelListInfo>();
-    	List<List<JExcelInfo>> iiList = new ArrayList<List<JExcelInfo>>();
-    	List<JExcelInfo> iList = null;
-    	
-    	//수입내역
     	for(Map map : listInExcel){
-    		iList = new ArrayList<JExcelInfo>();
-    		iList.add(new JExcelInfo(map.get("CAL_YMD").toString()));
-    		iList.add(new JExcelInfo(StringUtil.commaMask(map.get("INOUT_AMT").toString())));
-    		iiList.add(iList);
+    		if(map.get("INOUT_AMT") != null){
+    			map.put("INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
+    		}
     	}
-    	ll.add(new JExcelListInfo(0, 11, iiList));
-    	
-    	iiList = new ArrayList<List<JExcelInfo>>();
-    	//지출내역
+    	// #LIST2타입
     	for(Map map : listOutExcel){
-    		iList = new ArrayList<JExcelInfo>();
-    		iList.add(new JExcelInfo(map.get("CAL_YMD").toString()));
-    		iList.add(new JExcelInfo(StringUtil.commaMask(map.get("INOUT_AMT").toString())));
-    		iiList.add(iList);
+    		if(map.get("INOUT_AMT") != null){
+    			map.put("INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
+    		}
+    		map.put("CAL_YMD2", map.get("CAL_YMD"));
+    		map.put("INOUT_AMT2", map.get("INOUT_AMT"));
+    		map.remove("CAL_YMD");
+    		map.remove("INOUT_AMT");
     	}
-    	ll.add(new JExcelListInfo(2, 11, iiList));
+    	List<Map> newList = new ArrayList<Map>();
+    	if(listInExcel.size() >= listOutExcel.size()){
+    		for(int i=0;i<listOutExcel.size();i++){
+    			((Map)listInExcel.get(i)).putAll(listOutExcel.get(i));
+    		}
+    		newList.addAll(listInExcel);
+    	}else{
+    		for(int i=0;i<listInExcel.size();i++){
+    			((Map)listOutExcel.get(i)).putAll(listInExcel.get(i));
+    		}
+    		newList.addAll(listOutExcel);
+    	}
     	
-    	export.setList(ll);
+    	export.addList(0, 11, newList, new String[]{"CAL_YMD", "INOUT_AMT", "CAL_YMD2", "INOUT_AMT2"});
+    	
+    	
     	export.setFileName("month_sum");
     	
     	Map modelMap = new HashMap();
     	modelMap.put("export", export);
     	return new ModelAndView(new FileDownView(), modelMap);
     }     
+    
+//    /**
+//     * 주간결산
+//     * @param request
+//     * @param response
+//     * @return ModelAndView
+//     * @throws Exception
+//     */
+//    @RequestMapping("/excel_week_sum.do")
+//    public ModelAndView excelWeekSum(HttpServletRequest request,
+//            HttpServletResponse response) throws Exception {
+//    	
+//    	String CAL_YMD = request.getParameter("CAL_YMD"); //조회날짜
+//    	
+//    	HashMap<String, String> param = new HashMap<String, String>();
+//    	param.put("CAL_YMD", CAL_YMD);
+//    	
+//    	//금주수입내역
+//    	param.put("INOUT_CD", "01"); //입금
+//    	List<Map> listInExcel = settleService.listInExcel(param);
+//    	
+//    	//금주지출내역
+//    	param.put("INOUT_CD", "02"); //출금
+//    	List<Map> listOutExcel = settleService.listOutExcel(param);
+//    	
+//    	//금주수입,지출계
+//    	HashMap param2 = new HashMap();
+//    	param2.put("CAL_YMD", CAL_YMD);
+//    	Map inoutSumExcel = settleService.getWeekSum(param2);
+//    	
+//    	JExcelExportInfo export = new JExcelExportInfo();
+//    	
+//    	// #DATA타입
+//    	export.addData(0, 0, DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YMD), "yyyy년 MM월 dd일"));
+//    	export.addData(1, 4, inoutSumExcel.get("prevThisSum").toString()); //전주+금주
+//    	export.addData(1, 5, inoutSumExcel.get("thisEnd").toString()); //금주마감
+//    	export.addData(1, 7, inoutSumExcel.get("thisIn").toString()); //금주수입계
+//    	export.addData(1, 8, inoutSumExcel.get("prevEnd").toString()); //전주이월계
+//    	export.addData(1, 9, inoutSumExcel.get("thisInSum").toString()); //수입합계
+//    	export.addData(1, 13, inoutSumExcel.get("thisIn").toString()); //금주수입계
+//    	export.addData(3, 4, inoutSumExcel.get("thisOut").toString()); //금주지출계
+//    	export.addData(3, 7, inoutSumExcel.get("thisOut").toString()); //금주지출계
+//    	export.addData(3, 9, inoutSumExcel.get("thisOutSum").toString()); //지출합계
+//    	export.addData(3, 13, inoutSumExcel.get("thisOutSum").toString()); //지출합계
+//    	
+//    	// #LIST타입
+//    	for(Map map : listInExcel){
+//    		if(map.get("INOUT_AMT") != null){
+//    			map.put("INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
+//    		}
+//    	}
+//    	export.addList(0, 11, listInExcel, new String[]{"CD_NM", "INOUT_AMT"});
+//    	
+//    	// #LIST2타입
+//    	for(Map map : listOutExcel){
+//    		if(map.get("INOUT_AMT") != null){
+//    			map.put("INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
+//    		}
+//    	}
+//    	export.addList2(2, 11, listOutExcel, new String[]{"CD_NM", "INOUT_AMT"});
+//
+//    	export.setFileName("week_sum");
+//    	
+//    	Map modelMap = new HashMap();
+//    	modelMap.put("export", export);
+//    	return new ModelAndView(new FileDownView(), modelMap);
+//    }  
+//    
+//    /**
+//     * 월간결산
+//     * @param request
+//     * @param response
+//     * @return ModelAndView
+//     * @throws Exception
+//     */
+//    @RequestMapping("/excel_month_sum.do")
+//    public ModelAndView excelMonSum(HttpServletRequest request,
+//            HttpServletResponse response) throws Exception {
+//    	
+//    	String CAL_YM = request.getParameter("CAL_YM"); //조회날짜
+//    	String CAL_YMD = CAL_YM + "01";
+//    	
+//    	HashMap<String, String> param = new HashMap<String, String>();
+//    	param.put("CAL_YM", CAL_YM);
+//    	
+//    	//금주수입내역
+//    	param.put("INOUT_CD", "01"); //입금
+//    	List<Map> listInExcel = settleService.listInMonthExcel(param);
+//    	
+//    	//금주지출내역
+//    	param.put("INOUT_CD", "02"); //출금
+//    	List<Map> listOutExcel = settleService.listOutMonthExcel(param);
+//    	
+//    	//금주수입,지출계
+//    	HashMap param2 = new HashMap();
+//    	param2.put("CAL_YM", CAL_YM);
+//    	Map inoutSumExcel = settleService.getMonthSum(param2);
+//    	
+//    	JExcelExportInfo export = new JExcelExportInfo();
+//    	
+//    	// #DATA타입
+//    	export.addData(0, 0, DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YMD), "yyyy년 MM월"));
+//    	export.addData(1, 4, inoutSumExcel.get("prevThisSum").toString()); //전달+금달
+//    	export.addData(1, 5, inoutSumExcel.get("thisEnd").toString()); //금달마감
+//    	export.addData(1, 7, inoutSumExcel.get("thisIn").toString()); //금달수입계
+//    	export.addData(1, 8, inoutSumExcel.get("prevEnd").toString()); //전달이월계
+//    	export.addData(1, 9, inoutSumExcel.get("thisInSum").toString()); //수입합계
+//    	export.addData(1, 13, inoutSumExcel.get("thisIn").toString()); //금달수입계
+//    	export.addData(3, 4, inoutSumExcel.get("thisOut").toString()); //금달지출계
+//    	export.addData(3, 7, inoutSumExcel.get("thisOut").toString()); //금달지출계
+//    	export.addData(3, 9, inoutSumExcel.get("thisOutSum").toString()); //지출합계
+//    	export.addData(3, 13, inoutSumExcel.get("thisOutSum").toString()); //지출합계
+//    	
+//    	// #LIST타입
+//    	for(Map map : listInExcel){
+//    		if(map.get("INOUT_AMT") != null){
+//    			map.put("INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
+//    		}
+//    	}
+//    	export.addList(0, 11, listInExcel, new String[]{"CAL_YMD", "INOUT_AMT"});
+//    	
+//    	// #LIST2타입
+//    	for(Map map : listOutExcel){
+//    		if(map.get("INOUT_AMT") != null){
+//    			map.put("INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
+//    		}
+//    	}
+//    	export.addList(2, 11, listOutExcel, new String[]{"CAL_YMD", "INOUT_AMT"});
+//    	
+//    	export.setFileName("month_sum");
+//    	
+//    	Map modelMap = new HashMap();
+//    	modelMap.put("export", export);
+//    	return new ModelAndView(new FileDownView(), modelMap);
+//    }     
+    
+    
+    
+    
+    
     
     public static void main(String[] args){
     	String CAL_YM = "201203";

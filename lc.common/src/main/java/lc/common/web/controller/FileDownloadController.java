@@ -48,7 +48,7 @@ public class FileDownloadController {
     	l.add(new JExcelInfo(4, 2, "20"));
     	l.add(new JExcelInfo(2, 2, "22222"));
     	l.add(new JExcelInfo(3, 3, "11111"));
-    	export.setData(l);
+    	//export.setData(l);
     	
     	List<JExcelListInfo> ll = new ArrayList<JExcelListInfo>();
     	List<List<JExcelInfo>> iiList = new ArrayList<List<JExcelInfo>>();
@@ -75,7 +75,7 @@ public class FileDownloadController {
     	ll.add(new JExcelListInfo(2, 4, iiList));
     	ll.add(new JExcelListInfo(2, 7, iiList));
     	
-    	export.setList(ll);
+    	//export.setList(ll);
     	
     	
     	Map modelMap = new HashMap();

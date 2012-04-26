@@ -12,8 +12,8 @@
 			$("#DT2").datepicker();		
 			$("#DT2").val(formatDate(new Date(), "yyyy-MM-dd"));
 			
-			$("#DT2").datepicker();		
-			$("#DT2").val(formatDate(new Date(), "yyyy-MM-dd"));			
+			$("#DT3").datepicker();		
+			$("#DT3").val(formatDate(new Date(), "yyyy-MM-dd"));			
 			
 			$("#tabs").tabs();
 			

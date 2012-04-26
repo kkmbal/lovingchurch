@@ -121,13 +121,14 @@
 	<select id="listDonationExcel" parameterType="hashmap" resultType="hashmap">
 		    <![CDATA[
 			SELECT A.CD_NM
-					,A.USER_NM
+					,CONCAT(A.USER_NM, CASE WHEN A.USER_NM = '합계' OR A.REMARK IS NULL THEN '' ELSE CONCAT('(',A.REMARK,')') END) USER_NM
 					,A.INOUT_AMT
 			FROM (
 				SELECT C.CD_NM
 				      ,IFNULL(B.USER_NM, '합계') USER_NM
 				      ,SUM(A.INOUT_AMT ) INOUT_AMT
 				      ,MAX(C.ORD_NO) ORD_NO
+				      ,MAX(A.REMARK) REMARK
 				FROM WEEK_INOUT A,
 					  MEMBER B,
 					  CODE C 

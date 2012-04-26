@@ -88,7 +88,7 @@
 		    <![CDATA[
 				UPDATE WEEK_INOUT
 				SET  INOUT_AMT	= #{INOUT_AMT}
-					,REMARK	= #{REMARK}
+					,REMARK	= #{REMARK, jdbcType=VARCHAR}
 					,UPD_ID		= #{UPD_ID}
 					,UPD_DATE	= NOW()				
 				WHERE CAL_YMD = #{CAL_YMD}

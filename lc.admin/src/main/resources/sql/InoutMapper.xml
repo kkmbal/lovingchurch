@@ -30,7 +30,7 @@
 				  LEFT OUTER JOIN WEEK_INOUT B ON ( B.CAL_YMD = #{CAL_YMD} 
 				  											   AND A.USER_KEY = B.USER_KEY
 																AND B.INOUT_CD = #{INOUT_CD})
-			WHERE IFNULL(A.AUTH_CD,'') != '10'
+			WHERE 1=1
 			) A
 			GROUP BY A.USER_KEY
 			ORDER BY A.USER_NM				
@@ -41,7 +41,8 @@
 		    <![CDATA[
 			SELECT   COUNT(*) ROWCOUNT
 			FROM MEMBER
-			WHERE IFNULL(AUTH_CD,'') != '10'
+			WHERE 1=1
+			/* WHERE IFNULL(AUTH_CD,'') != '10' */
 			]]>		
 	</select>
 	

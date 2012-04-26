@@ -44,6 +44,8 @@ public class JExcelExportInfo {
 			for(String str : order){
 				if(map.get(str) != null){
 					iList.add(new JExcelInfo(map.get(str).toString()));
+				}else{
+					iList.add(new JExcelInfo(""));
 				}
 			}
 			listJExcelInfo.add(iList);
@@ -66,6 +68,8 @@ public class JExcelExportInfo {
 			for(String str : order){
 				if(map.get(str) != null){
 					iList.add(new JExcelInfo(map.get(str).toString()));
+				}else{
+					iList.add(new JExcelInfo(""));
 				}
 			}
 			listJExcelInfo.add(iList);

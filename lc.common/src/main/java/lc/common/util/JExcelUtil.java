@@ -6,7 +6,10 @@ import java.util.List;
 import jxl.Cell;
 import jxl.CellType;
 import jxl.Workbook;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
 import jxl.write.Label;
+import jxl.write.Number;
 import jxl.write.WritableCell;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
@@ -34,6 +37,7 @@ public class JExcelUtil {
 		    WritableSheet sheet = copy.getSheet(0);
 		    WritableCell cell = null;
 		    Label l = null;
+		    Number n = null;
 	
 /*			for(int i=0;i<sheet.getRows();i++){
 				Cell[] cells = sheet.getRow(i);
@@ -75,7 +79,10 @@ public class JExcelUtil {
 			    		if (cell.getType() == CellType.LABEL){ 
 			    			l = (Label) cell; 
 			    			l.setString(info.getContent()); 
-			    		} 
+			    		}else if(cell.getType() == CellType.NUMBER){
+			    			n = (Number) cell; 
+			    			n.setValue(Long.parseLong(info.getContent()));
+			    		}
 			    	}
 				}
 				}
@@ -93,6 +100,7 @@ public class JExcelUtil {
 					colIdx = info.getColIdx();
 					rowIdx = info.getRowIdx() + addRowCnt;
 					if("#LIST".equals(cell.getContents())){
+						WritableCellFormat cellFormat = getCellFormat(cell);
 			    		List<List<JExcelInfo>> listJExcelInfo = info.getListJExcelInfo();
 			    		for(List<JExcelInfo> listInfo : listJExcelInfo){ //세로 데이터
 			    			if(rowIdx > info.getRowIdx()) { //row 삽입
@@ -101,7 +109,8 @@ public class JExcelUtil {
 			    			}
 
 			    			for(JExcelInfo i : listInfo){ //가로 데이터
-			    				Label label = new Label(colIdx, rowIdx, i.getContent(), new WritableCellFormat());
+			    				//Label label = new Label(colIdx, rowIdx, i.getContent(), new WritableCellFormat());
+			    				Label label = new Label(colIdx, rowIdx, i.getContent(), cellFormat);
 			    				sheet.addCell(label);
 			    				colIdx++;
 			    			}
@@ -165,4 +174,17 @@ public class JExcelUtil {
 		return null;
 	}
 
+	private static WritableCellFormat getCellFormat(Cell cell) throws Exception{
+		//WritableFont centerFont = new WritableFont(WritableFont.ARIAL, cell.getCellFormat().getFont().getPointSize(),WritableFont.NO_BOLD);
+		WritableFont centerFont = new WritableFont(WritableFont.createFont(cell.getCellFormat().getFont().getName()), cell.getCellFormat().getFont().getPointSize(),WritableFont.NO_BOLD);
+		WritableCellFormat cellFormat = new WritableCellFormat(centerFont);	
+		//cellFormat.setBackground(cell.getCellFormat().getBackgroundColour());	
+		
+		cellFormat.setAlignment(cell.getCellFormat().getAlignment());
+		if (cell.getCellFormat().hasBorders()){
+			cellFormat.setBorder(Border.ALL , BorderLineStyle.HAIR);
+			//cellFormat.setBorder(Border.ALL , cell.getCellFormat().getBorderLine(Border.ALL));
+		}
+		return cellFormat;
+	}
 }

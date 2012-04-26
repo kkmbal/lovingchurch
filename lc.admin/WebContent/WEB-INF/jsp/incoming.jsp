@@ -67,7 +67,25 @@
 				    height:400
 			 });
 			 
+			 $("#list3").jqGrid({
+				    url:"inoutService.listIn.lc",
+				    colNames:['헌금명', '성명', '금액','비고','CAL_YMD','INOUT_SEQ_NO'],
+				    colModel :[ 
+				      {name:'INOUT_ITEM_CD', index:'INOUT_ITEM_CD', width:90, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('DONA_CD') }, formatter:'select', editrules:{number:true}},
+				      {name:'USER_KEY', index:'USER_KEY', width:80, align:'left', editable:true}, 
+				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'left', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
+				      {name:'REMARK', index:'REMARK', width:80, align:'left', editable:true},
+				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false, hidden:true}, 
+				      {name:'INOUT_SEQ_NO', index:'INOUT_SEQ_NO', width:80, align:'left', editable:false, hidden:true} 
+				    ],
+				    pager: '#pager3',
+				    caption: '헌금관리',
+				    sortname: 'INOUT_ITEM_CD',
+				    height:400
+			 });			 
+			 
 			 $("#list2").jqGrid('setGridWidth', $("#list2_parent").innerWidth()-2);
+			 $("#list3").jqGrid('setGridWidth', $("#list2_parent").innerWidth()-2);
 			 
 				//Grid 검색
 				$("#search1").click(function(){
@@ -103,6 +121,13 @@
 					return false;
 				});	
 
+				
+				//Grid 행추가
+				$("#add3").click( function() {
+					$("#list3").fnAddGrid();
+					return false;
+				});	
+				
 				//Grid 삭제
 				$("#delete2").click( function() {
 					var search_data = {};
@@ -151,8 +176,9 @@
 						
 			<div id="tabs">
 				<ul>
-					<li><a href="#tabs-1" id="tabs-1-link">헌금</a></li>
-					<li><a href="#tabs-2" id="tabs-2-link">기타수입</a></li>
+					<li><a href="#tabs-1" id="tabs-1-link">교인별헌금목록</a></li>
+					<li><a href="#tabs-2" id="tabs-2-link">헌금별목록</a></li>
+					<li><a href="#tabs-3" id="tabs-3-link">기타수입</a></li>
 				</ul>			
 			
 			    <div id="tabs-1">
@@ -216,7 +242,69 @@
 					</table>
 				</div>	
 				
+				
 			    <div id="tabs-2">
+					<form name="frm" id="frm">
+					<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
+						<colgroup>
+							<col width="50"/>
+							<col width="*"/>
+							<col width="100"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<td class="searchHline" colspan="3"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="searchBody">날짜</td>
+								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT1" id="DT1"></td>
+								<td class="searchBody" align="center"> <button id="search3">검색</button></td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td class="searchHline" colspan="3"></td>
+							</tr>
+						</tfoot>
+					</table>
+					</form>
+					<br>	
+					
+					<!-- 그리드 박스 -->
+					<table id="list3"><tr><td/></tr></table>
+					<div id="pager3"></div>		
+					
+					<!-- 버튼 박스 -->
+					<table class="form-layout" border="0" cellspacing="0" cellpadding="0">
+						<colgroup>
+							<col width="30%"/>
+							<col width="40%"/>
+							<col width="30%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<td class="searchHline" colspan="3"></td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="searchBody">  </td>
+								<td class="searchBody" align="center">&nbsp;</td>
+								<td class="searchBody" align="right"><button id="add3">행추가</button> <button id="delete3">행삭제</button> <button id="save3">저장</button></td>
+							</tr>
+						</tbody> 
+						<tfoot>
+							<tr>
+								<td class="searchHline" colspan="3"></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>				
+				
+				
+			    <div id="tabs-3">
 					<form name="frm" id="frm">
 					<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
 						<colgroup>

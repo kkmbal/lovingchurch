@@ -52,7 +52,8 @@
 				      {name:'USE_YN', index:'USE_YN', width:60, editable:true}
 				    ],
 				    caption: '상세코드정보',
-				    height:240
+				    height:240,
+				    rowNum:500
 			 });	
 
 			//Grid 검색

@@ -1,6 +1,7 @@
 package lc.admin.member.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,6 +94,10 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		return listMember(giVO);
+	}
+	
+	public List<Map> listAllMember(HashMap map) throws Exception{
+		return memberMapper.listAllMember(map);
 	}
 			
 }

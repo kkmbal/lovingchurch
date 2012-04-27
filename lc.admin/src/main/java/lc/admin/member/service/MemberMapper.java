@@ -6,6 +6,7 @@ import java.util.Map;
 public interface MemberMapper {
 	//조회
 	public List<Map> listMember(Map map) throws Exception;
+	public List<Map> listAllMember(Map map) throws Exception;
 	//ROWCNT조회
 	public int listMemberCount(Map map) throws Exception;
 	//코드추가

@@ -4,6 +4,7 @@
 <head>  
 	<%@ include file="/WEB-INF/jsp/inc/header.jsp" %>
 	<script type="text/javascript" >
+	    var mem = '';
 		$(document).ready(function () {
 			//실행일자
 			$("#DT1").datepicker();		
@@ -75,7 +76,8 @@
 				    colNames:['헌금명', '성명', '금액','비고','CAL_YMD','INOUT_SEQ_NO'],
 				    colModel :[ 
 				      {name:'INOUT_ITEM_CD', index:'INOUT_ITEM_CD', width:90, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('DONA_CD') }, formatter:'select', editrules:{number:true}},
-				      {name:'USER_KEY', index:'USER_KEY', width:80, align:'left', editable:true}, 
+				      //{name:'USER_KEY', index:'USER_KEY', width:80, align:'left', editable:true, edittype: 'custom', editable:true, editoptions : {custom_element : autocomplete_element, custom_value : autocomplete_value}}, 
+				      {name:'USER_KEY', index:'USER_KEY', width:80, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelect("memberService.listAllMember.lc", "VALUE", "LABEL") }, formatter:'select', editrules:{number:true}},
 				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
 				      {name:'REMARK', index:'REMARK', width:80, align:'left', editable:true},
 				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false, hidden:true}, 
@@ -105,7 +107,7 @@
 					var search_data = {};
 					search_data.CAL_YMD = $("#DT3").val().replace(/-/gi,"");
 					$("#list3").fnSelGrid("inoutService.listDonationEach.lc", search_data);
-
+					
 					return false;
 				});				
 				
@@ -172,9 +174,30 @@
 				$("#excel").click(function(){
 					$("#CAL_YMD").val($("#DT1").val().replace(/-/gi,""));
 					$("#frm1").submit();
-				});				
+				});	
+				
+				//fnSubmitAjax('memberService.listAllMember.lc', 'CAL_YMD', fnResult);
 				
 		});
+		
+		function autocomplete_element(value, options) {  
+			 alert(mem)
+			  var ac = $('<input type="text"/>');  
+			  ac.val(value);  
+			  //ac.autocomplete({source: ["test","values", "later", "db-query"]});  
+			  ac.autocomplete({source: mem});
+			  return ac;  
+
+		}  
+
+		function autocomplete_value(elem) {  
+		  return $(elem).val();  
+		} 		
+		
+		function fnResult(data){
+			var nameSel = JSON.stringify(data).toLowerCase();
+			mem = nameSel;
+		}
 	</script>
 </head>
 
@@ -198,7 +221,7 @@
 			<form name="frm1" id="frm1" method="post" action="excel_in_list.do">
 			<input type="hidden" name="CAL_YMD" id="CAL_YMD">
 			</form>
-						
+	
 			<div id="tabs">
 				<ul>
 					<li><a href="#tabs-1" id="tabs-1-link">교인별헌금목록</a></li>
@@ -222,7 +245,7 @@
 						<tbody>
 							<tr>
 								<td class="searchBody">날짜</td>
-								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT1" id="DT1"></td>
+								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT1" id="DT1">  </td>
 								<td class="searchBody" align="center"> <button id="search1">검색</button></td>
 							</tr>
 						</tbody>

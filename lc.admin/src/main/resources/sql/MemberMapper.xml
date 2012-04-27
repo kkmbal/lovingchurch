@@ -32,6 +32,14 @@
 			LIMIT ${page}, ${rows}
 	</select>
 	
+	<select id="listAllMember" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT   USER_KEY as VALUE
+					,USER_NM  as LABEL
+			FROM MEMBER
+			]]>		
+	</select>	
+	
 	<select id="listMemberCount" parameterType="hashmap" resultType="int" >
 		    <![CDATA[
 			SELECT   COUNT(*) ROWCOUNT

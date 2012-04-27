@@ -510,7 +510,10 @@ function fnServerConnector(url, param, callback, success_msg){
     	cache : false,
     	//success: callback
     	success: function(data){
-			callback(data);
+    		if ( $.isFunction( callback ) ){
+    			callback(data);
+    		}
+			
 			if(success_msg != undefined){
 				alert(success_msg);
 			}

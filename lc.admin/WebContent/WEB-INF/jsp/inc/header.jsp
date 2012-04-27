@@ -44,7 +44,6 @@
 	<script src="${pageContext.request.contextPath}/js/jquery.jqGrid-4.3.1/js/jquery.jqGrid.src.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/js/jquery.jqGrid-4.3.1/plugins/grid.postext.js" type="text/javascript"></script>
 
-	<script src="${pageContext.request.contextPath}/js/jquery.treeview.js"></script>
 	
 	<!-- jquery plugin -->
 	<script src="${pageContext.request.contextPath}/js/json2.js"></script> 

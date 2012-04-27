@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
 <% try{ %>			
 <head>
-	<%@include file="/WEB-INF/jsp/inc/title.jsp" %>	
   <style type="text/css">
 	/*textBox*/
 	.textBox{border:1px solid #e1e1e1; font-size:12px; color:#8e8e8e; overflow:auto; padding:10px;  line-height:20px; word-wrap: break-word;}
@@ -19,9 +18,6 @@
 <!--body-->
 <div class="bodyBackground">
 	<div class="bodyArea">
-		<!--leftMenu-->
-		<%//@include file="/WEB-INF/jsp/inc/leftmenu02.jsp" %>	
-		<!--//leftMenu-->
 
 		<!--################ contentArea ##################-->
 			<div class="titleArea">
@@ -63,9 +59,6 @@
 </div>
 <!--body-->
 
-<!--footer-->
-<%@include file="/WEB-INF/jsp/inc/signature.jsp" %>	
-<!--//footer-->
 <% }catch(Exception e){ %>
 			<div class="titleArea">
 				<span>오류가 발생하였습니다.</span>

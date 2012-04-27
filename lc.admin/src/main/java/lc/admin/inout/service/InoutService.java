@@ -6,8 +6,11 @@ import lc.common.grid.domain.GridOutVO;
 public interface InoutService {
 	//헌금조회
 	public GridOutVO listDonation(GridInVO giVO) throws Exception;
+	public GridOutVO listDonationEach(GridInVO giVO) throws Exception;
 	//헌금저장
 	public GridOutVO saveDonation(GridInVO giVO) throws Exception;
+	public GridOutVO saveDonationEach(GridInVO giVO) throws Exception;
+	public GridOutVO deleteDonationEach(GridInVO giVO) throws Exception;
 	
 	//수입조회
 	public GridOutVO listIn(GridInVO giVO) throws Exception;

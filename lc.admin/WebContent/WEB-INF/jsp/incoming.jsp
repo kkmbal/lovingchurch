@@ -71,12 +71,12 @@
 			 });
 			 
 			 $("#list3").jqGrid({
-				    url:"inoutService.listIn.lc",
+				    url:"inoutService.listDonationEach.lc",
 				    colNames:['헌금명', '성명', '금액','비고','CAL_YMD','INOUT_SEQ_NO'],
 				    colModel :[ 
 				      {name:'INOUT_ITEM_CD', index:'INOUT_ITEM_CD', width:90, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('DONA_CD') }, formatter:'select', editrules:{number:true}},
 				      {name:'USER_KEY', index:'USER_KEY', width:80, align:'left', editable:true}, 
-				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'left', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
+				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
 				      {name:'REMARK', index:'REMARK', width:80, align:'left', editable:true},
 				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false, hidden:true}, 
 				      {name:'INOUT_SEQ_NO', index:'INOUT_SEQ_NO', width:80, align:'left', editable:false, hidden:true} 
@@ -100,6 +100,15 @@
 					return false;
 				});	
 				
+				$("#search3").click(function(){
+					// 1. 특정 검색어 사용시
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT3").val().replace(/-/gi,"");
+					$("#list3").fnSelGrid("inoutService.listDonationEach.lc", search_data);
+
+					return false;
+				});				
+				
 				//Grid 저장(insert+update)
 				$("#save1").click( function() {
 					var search_data = {};
@@ -108,6 +117,19 @@
 					return false;
 				});				
 			 
+				$("#save3").click( function() {
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT3").val().replace(/-/gi,"");
+					$("#list3").fnSaveGrid("inoutService.saveDonationEach.lc", search_data);
+					return false;
+				});				
+				
+				$("#delete3").click( function() {
+					var search_data = {};
+					search_data.CAL_YMD = $("#DT3").val().replace(/-/gi,"");
+					$("#list3").fnDelGrid("inoutService.deleteDonationEach.lc", search_data);
+					return false;
+				});				
 				
 				$("#search2").click(function(){
 					// 1. 특정 검색어 사용시

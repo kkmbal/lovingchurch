@@ -37,6 +37,25 @@
 			LIMIT ${page}, ${rows}
 	</select>
 	
+	<select id="listDonationEach" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT A.CAL_YMD
+				  ,A.INOUT_SEQ_NO
+				  ,A.USER_KEY
+				  ,A.INOUT_CD
+				  ,A.INOUT_ITEM_CD
+				  ,A.INOUT_AMT
+				  ,A.REMARK
+			FROM WEEK_INOUT A
+			    ,MEMBER B
+			WHERE CAL_YMD = #{CAL_YMD}
+			AND INOUT_CD = #{INOUT_CD}
+			AND A.USER_KEY = B.USER_KEY
+			]]>		
+			ORDER BY ${sidx} ${sord} 
+			LIMIT ${page}, ${rows}
+	</select>	
+	
 	<select id="listDonationCount" parameterType="hashmap" resultType="int" >
 		    <![CDATA[
 			SELECT   COUNT(*) ROWCOUNT
@@ -45,6 +64,16 @@
 			/* WHERE IFNULL(AUTH_CD,'') != '10' */
 			]]>		
 	</select>
+	<select id="listDonationEachCount" parameterType="hashmap" resultType="int" >
+		    <![CDATA[
+			SELECT COUNT(*) ROWCOUNT
+			FROM WEEK_INOUT A
+			    ,MEMBER B
+			WHERE CAL_YMD = #{CAL_YMD}
+			AND INOUT_CD = #{INOUT_CD}
+			AND A.USER_KEY = B.USER_KEY
+			]]>		
+	</select>	
 	
 	<select id="getMaxInoutSeq" parameterType="hashmap" resultType="String" >
 		    <![CDATA[

@@ -11,6 +11,7 @@ import lc.common.grid.domain.GridOutVO;
 import lc.common.login.domain.UserInfo;
 import lc.common.login.web.controller.LcSessionContext;
 import lc.common.util.GridUtil;
+import lc.common.util.SecurityUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,15 @@ public class MemberServiceImpl implements MemberService {
 			for(Map<String, String> data : savedata){
 				switch(GridUtil.getOperation(data)){
 					case INSERT:
+						try{
+							String sec = SecurityUtil.encrypt(String.valueOf(Math.random()));
+							data.put("USER_ID", sec);
+							data.put("PASSWORD", sec);
+						}catch(Exception e){
+							String sec = "love"+String.valueOf(Math.random());
+							data.put("USER_ID", sec);
+							data.put("PASSWORD", sec);
+						}
 						data.put("CRE_ID", UserInfo.getUSER_ID());
 						data.put("UPD_ID", UserInfo.getUSER_ID());
 						data.put("USE_YN", "Y");

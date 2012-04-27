@@ -1155,6 +1155,7 @@ function checkCheck(rowid, gid){
 		}, 300);		
 		
 		delarr = [];
+		errorMsg = '';
 		
 		//url 이 계속 delete로 남아 있을 경우 페이징처리시 에러발생하는 경우를 막기위함.
 		var init_url = init_default_url[$(this).attr("id")];
@@ -1234,6 +1235,7 @@ function checkCheck(rowid, gid){
 
 		
 		delarr = [];
+		errorMsg = '';
 		
 		//url 이 계속 save로 남아 있을 경우 페이징처리시 에러발생하는 경우를 막기위함.
 		var init_url = init_default_url[$(this).attr("id")];
@@ -1374,6 +1376,7 @@ function checkCheck(rowid, gid){
 			}, 300);
 		
 		delarr = [];
+		errorMsg = '';
 		
 		//url 이 계속 save로 남아 있을 경우 페이징처리시 에러발생하는 경우를 막기위함.
 		var init_url = init_default_url[$(this).attr("id")];

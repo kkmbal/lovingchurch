@@ -404,8 +404,9 @@ public class ExcelDownloadController {
     
     
     public static void main(String[] args){
-    	String CAL_YM = "201203";
-    	System.out.println(">>>>>>>"+DateUtil.convertStringToDate(CAL_YM));
-    	System.out.println(">>>>>>>"+DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YM), "yyyy년 MM월"));
+    	//String CAL_YM = "201203";
+    	//System.out.println(">>>>>>>"+DateUtil.convertStringToDate(CAL_YM));
+    	//System.out.println(">>>>>>>"+DateUtil.convertDateToString(DateUtil.convertStringToDate(CAL_YM), "yyyy년 MM월"));
+    	System.out.println(Math.random());
     }
 }

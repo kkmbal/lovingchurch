@@ -54,6 +54,25 @@ public class InoutServiceImpl implements InoutService {
 		}
 		return gridOutVO;
 	}
+	public GridOutVO listDonationEach(GridInVO giVO) throws Exception{
+		Map<String, String> userdata = giVO.getUserdata();
+		userdata.putAll(GridUtil.getPager(giVO)); 
+		userdata.put("INOUT_CD", "01"); //입금
+		
+		List<Map> list = inoutMapper.listDonationEach(userdata);
+		int rowCnt = inoutMapper.listDonationEachCount(userdata);
+		GridOutVO gridOutVO = new GridOutVO();
+		if(list != null && list.size() > 0){
+			gridOutVO.setPaging(giVO, rowCnt); 
+			List<Map<String, String>> listRow = new ArrayList<Map<String, String>>();
+			for(Map<String, String> vo : list){
+				listRow.add(vo);
+			}
+			gridOutVO.setRows(listRow);
+		}
+		return gridOutVO;
+	}	
+	
 	//헌금저장
 	public GridOutVO saveDonation(GridInVO giVO) throws Exception{
 		UserInfo UserInfo = lcSessionContext.getUserInfo();
@@ -108,8 +127,67 @@ public class InoutServiceImpl implements InoutService {
 		
 		return listDonation(giVO);
 	}
-	
-	
+	public GridOutVO saveDonationEach(GridInVO giVO) throws Exception{
+		UserInfo UserInfo = lcSessionContext.getUserInfo();
+		
+		List<Map<String, String>> savedata = giVO.getSavedata();
+		Map<String, String> userdata = giVO.getUserdata();
+		String calYmd = userdata.get("CAL_YMD");
+		
+		//마감여부조회
+		if("Y".equals(settleService.getEndYnForPeriod(new HashMap(userdata)))){
+			GridOutVO listIn = listIn(giVO);
+			listIn.setResultMsg("이미 마감되었습니다.");
+			return listIn;
+		}
+		
+		if(savedata != null && savedata.size() > 0){
+			for(Map<String, String> data : savedata){
+				
+				data.put("INOUT_CD", "01"); //입금
+				data.put("CAL_YMD", calYmd); //날짜
+				
+				switch(GridUtil.getOperation(data)){
+					case INSERT:
+						String seq = inoutMapper.getMaxInoutSeq(data);
+						data.put("INOUT_SEQ_NO", seq);
+						data.put("CRE_ID", UserInfo.getUSER_ID());
+						data.put("UPD_ID", UserInfo.getUSER_ID());
+						
+						
+						inoutMapper.insertInout(data);
+						break;
+					case UPDATE:
+						data.put("UPD_ID", UserInfo.getUSER_ID());
+						
+						inoutMapper.updateInout(data);
+						break;
+				}
+			}
+		}
+		
+		return listDonationEach(giVO);
+	}
+	public GridOutVO deleteDonationEach(GridInVO giVO) throws Exception{
+		UserInfo UserInfo = lcSessionContext.getUserInfo();
+		
+		List<Map<String, String>> savedata = giVO.getDeldata();
+		
+		if(savedata != null && savedata.size() > 0){
+			//마감여부조회
+			if("Y".equals(settleService.getEndYnForPeriod(new HashMap(savedata.get(0))))){
+				GridOutVO listIn = listIn(giVO);
+				listIn.setResultMsg("이미 마감되었습니다.");
+				return listIn;
+			}
+			
+			for(Map<String, String> data : savedata){
+				inoutMapper.deleteInout(data);
+			}
+		}
+		
+		return listDonationEach(giVO);
+	}
 	// ----------------------------------------------------------------------------------
 	
 	//수입조회

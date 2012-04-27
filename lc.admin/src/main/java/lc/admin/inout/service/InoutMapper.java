@@ -10,8 +10,10 @@ public interface InoutMapper {
 	
 	//헌금조회
 	public List<Map> listDonation(Map map) throws Exception;
+	public List<Map> listDonationEach(Map map) throws Exception;
 	//ROWCNT조회
 	public int listDonationCount(Map map) throws Exception;
+	public int listDonationEachCount(Map map) throws Exception;
 	//추가
 	public void insertInout(Map map) throws Exception;
 	//Max Seq

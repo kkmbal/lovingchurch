@@ -181,11 +181,12 @@
 		});
 		
 		function autocomplete_element(value, options) {  
-			 alert(mem)
+			 //alert(mem)
 			  var ac = $('<input type="text"/>');  
 			  ac.val(value);  
 			  //ac.autocomplete({source: ["test","values", "later", "db-query"]});  
-			  ac.autocomplete({source: mem});
+			  //ac.autocomplete({source: mem});
+			  ac.autocomplete({source: "memberService.listAllMember.lc"});
 			  return ac;  
 
 		}  

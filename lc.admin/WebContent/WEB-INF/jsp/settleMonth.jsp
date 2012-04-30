@@ -174,6 +174,7 @@
 			$("#end").show();
 			$("#excel").hide();
 		}
+		$("#excel").show();
 	}
 	
 	function fnEndResult(data){

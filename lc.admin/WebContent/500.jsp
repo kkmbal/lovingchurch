@@ -1,3 +1,4 @@
+<%@ page isErrorPage="true"%>
 <%@page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
@@ -26,17 +27,17 @@
 				
 			<div class="space15"></div>
 			<ul class="description01">
-				<li><s:actionerror/></li>
+				<li> </li>
 			</ul>			
 
 			<div class="textBox" style="width:100%; height:60px;">
-			<s:property value="%{exception}"/>
+			${exception}
 			</div>
 
 			<div class="space30"></div>
 
 			<div class="textBox" style="width:100%; height:60px;">
-			<s:property value="%{exceptionStack}"/>
+
 			</div>
 			<div class="space5"></div>
 			<div class="space30"></div>

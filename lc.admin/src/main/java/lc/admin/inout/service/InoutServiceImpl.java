@@ -102,7 +102,7 @@ public class InoutServiceImpl implements InoutService {
 						data.put("CAL_YMD", calYmd); //날짜
 						data.put("INOUT_SEQ_NO", data.get("INOUT_SEQ_NO"));
 						
-						Map donation = inoutMapper.getDonation(data);
+						List<Map> donation = inoutMapper.getDonation(data);
 						
 						if(donation == null){
 							//insert

@@ -21,7 +21,7 @@ public interface InoutMapper {
 	//헌금수정
 	public void updateDonation(Map map) throws Exception;
 	//헌금조회
-	public Map getDonation(Map map) throws Exception;
+	public List<Map> getDonation(Map map) throws Exception;
 	
 	//수입지출 조회
 	public List<Map> listInout(Map map) throws Exception;

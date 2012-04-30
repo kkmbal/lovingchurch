@@ -100,7 +100,7 @@ public class InoutServiceImpl implements InoutService {
 						data.put("INOUT_ITEM_CD", cd.replaceAll("DONA_CD_", "")); //헌금코드
 						data.put("INOUT_AMT", data.get(cd)); //금액
 						data.put("CAL_YMD", calYmd); //날짜
-						data.put("INOUT_SEQ_NO", null);
+						data.put("INOUT_SEQ_NO", data.get("INOUT_SEQ_NO"));
 						
 						Map donation = inoutMapper.getDonation(data);
 						

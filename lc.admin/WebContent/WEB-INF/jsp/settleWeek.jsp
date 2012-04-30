@@ -147,6 +147,8 @@
 				$("#excel").show();
 			}
 			$("#excel").show();
+			
+			$("#search").trigger("click");
 		}
 	</script>
 </head>

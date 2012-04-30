@@ -125,6 +125,7 @@
 				AND   USER_KEY = #{USER_KEY}
 				AND   INOUT_CD = #{INOUT_CD}
 				AND   INOUT_ITEM_CD	= #{INOUT_ITEM_CD}
+				AND   INOUT_AMT != #{INOUT_AMT}
 			]]>			
 	</update>
 	

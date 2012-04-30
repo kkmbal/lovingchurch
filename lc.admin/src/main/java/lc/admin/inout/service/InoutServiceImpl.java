@@ -105,11 +105,12 @@ public class InoutServiceImpl implements InoutService {
 						
 						if(donation == null){
 							//insert
-							String seq = inoutMapper.getMaxInoutSeq(data);
-							data.put("INOUT_SEQ_NO", seq);
-							data.put("CRE_ID", UserInfo.getUSER_ID());
-							data.put("UPD_ID", UserInfo.getUSER_ID());
 							if(!"0".equals(data.get("INOUT_AMT"))){ // 0원은 insert 제외
+								String seq = inoutMapper.getMaxInoutSeq(data);
+								data.put("INOUT_SEQ_NO", seq);
+								data.put("CRE_ID", UserInfo.getUSER_ID());
+								data.put("UPD_ID", UserInfo.getUSER_ID());
+								
 								inoutMapper.insertInout(data);
 							}
 						}else{

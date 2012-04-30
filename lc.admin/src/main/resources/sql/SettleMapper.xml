@@ -292,14 +292,14 @@
 	<delete id="deleteWeekSum" parameterType="hashmap" >
 		    <![CDATA[
 		    DELETE FROM WEEK_SUM
-			WHERE A.CAL_YMD = #{CAL_YMD}
+			WHERE CAL_YMD = #{CAL_YMD}
 			]]>		
 	</delete>	
 	
 	<delete id="deleteWeekSumDetl" parameterType="hashmap" >
 		    <![CDATA[
 		    DELETE FROM WEEK_SUM_DETL
-			WHERE A.CAL_YMD = #{CAL_YMD}
+			WHERE CAL_YMD = #{CAL_YMD}
 			]]>		
 	</delete>		
 	

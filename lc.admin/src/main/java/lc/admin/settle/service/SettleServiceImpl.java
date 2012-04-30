@@ -180,16 +180,16 @@ public class SettleServiceImpl implements SettleService {
 		UserInfo UserInfo = lcSessionContext.getUserInfo();
 		Map result = new HashMap();
 		
-		//전주마감처리여부 조회
-		Map nextAmt = settleMapper.getNextAmt(map);
-		if(nextAmt != null){
-			String endYn = (String)nextAmt.get("END_YN");
-			String calYmd = (String)nextAmt.get("CAL_YMD");
-			if(!"Y".equals(endYn)){
-				result.put("SUCCESS", "마감처리 되지 않은 날짜가 있습니다.("+calYmd+")"); 
-				return result;
-			}
-		}
+//		//전주마감처리여부 조회
+//		Map nextAmt = settleMapper.getNextAmt(map);
+//		if(nextAmt != null){
+//			String endYn = (String)nextAmt.get("END_YN");
+//			String calYmd = (String)nextAmt.get("CAL_YMD");
+//			if(!"Y".equals(endYn)){
+//				result.put("SUCCESS", "마감처리 되지 않은 날짜가 있습니다.("+calYmd+")"); 
+//				return result;
+//			}
+//		}
 		
 		
 		
@@ -401,16 +401,16 @@ public class SettleServiceImpl implements SettleService {
 		UserInfo UserInfo = lcSessionContext.getUserInfo();
 		Map result = new HashMap();
 		
-		//전달마감처리여부 조회
-		Map nextAmt = settleMapper.getNextAmtMonth(map);
-		if(nextAmt != null){
-			String endYn = (String)nextAmt.get("END_YN");
-			String calYm = (String)nextAmt.get("CAL_YM");
-			if(!"Y".equals(endYn)){
-				result.put("SUCCESS", "마감처리 되지 않은 달이 있습니다.("+calYm+")");
-				return result;
-			}
-		}
+//		//전달마감처리여부 조회
+//		Map nextAmt = settleMapper.getNextAmtMonth(map);
+//		if(nextAmt != null){
+//			String endYn = (String)nextAmt.get("END_YN");
+//			String calYm = (String)nextAmt.get("CAL_YM");
+//			if(!"Y".equals(endYn)){
+//				result.put("SUCCESS", "마감처리 되지 않은 달이 있습니다.("+calYm+")");
+//				return result;
+//			}
+//		}
 		
 		
 		

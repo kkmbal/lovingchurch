@@ -102,11 +102,16 @@ public class InoutServiceImpl implements InoutService {
 						data.put("CAL_YMD", calYmd); //날짜
 						data.put("INOUT_SEQ_NO", data.get("INOUT_SEQ_NO"));
 						
-						List<Map> donation = inoutMapper.getDonation(data);
-						
-						if(donation == null){
-							//insert
-							if(!"0".equals(data.get("INOUT_AMT"))){ // 0원은 insert 제외
+						if(!"0".equals(data.get("INOUT_AMT"))){ // 0원은 insert 제외
+							List<Map> donation = inoutMapper.getDonation(data);
+							System.out.println("donation=="+donation);
+							if(donation != null && donation.size() > 0){
+								//update
+								data.put("UPD_ID", UserInfo.getUSER_ID());
+								
+								inoutMapper.updateDonation(data);
+							}else{
+								//insert
 								String seq = inoutMapper.getMaxInoutSeq(data);
 								data.put("INOUT_SEQ_NO", seq);
 								data.put("CRE_ID", UserInfo.getUSER_ID());
@@ -114,11 +119,6 @@ public class InoutServiceImpl implements InoutService {
 								
 								inoutMapper.insertInout(data);
 							}
-						}else{
-							//update
-							data.put("UPD_ID", UserInfo.getUSER_ID());
-							
-							inoutMapper.updateDonation(data);
 						}
 						
 					}

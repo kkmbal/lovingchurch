@@ -86,6 +86,8 @@
 				    pager: '#pager3',
 				    caption: '헌금관리',
 				    sortname: 'INOUT_ITEM_CD',
+				    rowNum:100,
+					rowList:[100,200,300],
 				    height:400
 			 });			 
 			 
@@ -106,6 +108,7 @@
 					// 1. 특정 검색어 사용시
 					var search_data = {};
 					search_data.CAL_YMD = $("#DT3").val().replace(/-/gi,"");
+					search_data.USER_NM = $("#userNm").val()
 					$("#list3").fnSelGrid("inoutService.listDonationEach.lc", search_data);
 					
 					return false;
@@ -308,7 +311,7 @@
 						<tbody>
 							<tr>
 								<td class="searchBody">날짜</td>
-								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT3" id="DT3"></td>
+								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT3" id="DT3">&nbsp;&nbsp;성명 <input name="userNm" name="userNm" id="userNm"></td>
 								<td class="searchBody" align="center"> <button id="search3">검색</button></td>
 							</tr>
 						</tbody>

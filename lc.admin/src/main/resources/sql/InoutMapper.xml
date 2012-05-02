@@ -52,6 +52,9 @@
 			AND INOUT_CD = #{INOUT_CD}
 			AND A.USER_KEY = B.USER_KEY
 			]]>		
+			<if test="USER_NM != '' and USER_NM != null">
+			AND B.USER_NM LIKE CONCAT('%', #{USER_NM} , '%')
+			</if>			
 			ORDER BY ${sidx} ${sord} 
 			LIMIT ${page}, ${rows}
 	</select>	
@@ -61,8 +64,10 @@
 			SELECT   COUNT(*) ROWCOUNT
 			FROM MEMBER
 			WHERE 1=1
-			/* WHERE IFNULL(AUTH_CD,'') != '10' */
-			]]>		
+			]]>	
+			<if test="USER_NM != '' and USER_NM != null">
+			AND USER_NM LIKE CONCAT('%', #{USER_NM} , '%')
+			</if>				
 	</select>
 	<select id="listDonationEachCount" parameterType="hashmap" resultType="int" >
 		    <![CDATA[

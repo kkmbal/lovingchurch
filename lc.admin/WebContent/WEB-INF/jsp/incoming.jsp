@@ -16,6 +16,8 @@
 			$("#DT3").datepicker();		
 			$("#DT3").val(formatDate(new Date(), "yyyy-MM-dd"));			
 			
+			fnMakeSelectComm("#cmbDona", "DONA_CD", "전체");
+					
 			$("#tabs").tabs();
 			
 			 $("#list1").jqGrid({
@@ -108,7 +110,8 @@
 					// 1. 특정 검색어 사용시
 					var search_data = {};
 					search_data.CAL_YMD = $("#DT3").val().replace(/-/gi,"");
-					search_data.USER_NM = $("#userNm").val()
+					search_data.USER_NM = $("#userNm").val();
+					search_data.INOUT_ITEM_CD = $("#cmbDona").val();
 					$("#list3").fnSelGrid("inoutService.listDonationEach.lc", search_data);
 					
 					return false;
@@ -311,7 +314,7 @@
 						<tbody>
 							<tr>
 								<td class="searchBody">날짜</td>
-								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT3" id="DT3">&nbsp;&nbsp;성명 <input name="userNm" name="userNm" id="userNm"></td>
+								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT3" id="DT3">&nbsp;&nbsp;성명 <input name="userNm" name="userNm" id="userNm"> &nbsp;&nbsp;헌금 <select style="width:100" id="cmbDona"></select> </td>
 								<td class="searchBody" align="center"> <button id="search3">검색</button></td>
 							</tr>
 						</tbody>

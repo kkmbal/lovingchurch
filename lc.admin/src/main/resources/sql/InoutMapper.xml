@@ -54,7 +54,10 @@
 			]]>		
 			<if test="USER_NM != '' and USER_NM != null">
 			AND B.USER_NM LIKE CONCAT('%', #{USER_NM} , '%')
-			</if>			
+			</if>	
+			<if test="INOUT_ITEM_CD != '' and INOUT_ITEM_CD != null">
+			AND A.INOUT_ITEM_CD = #{INOUT_ITEM_CD}
+			</if>					
 			ORDER BY ${sidx} ${sord} 
 			LIMIT ${page}, ${rows}
 	</select>	
@@ -65,9 +68,6 @@
 			FROM MEMBER
 			WHERE 1=1
 			]]>	
-			<if test="USER_NM != '' and USER_NM != null">
-			AND USER_NM LIKE CONCAT('%', #{USER_NM} , '%')
-			</if>				
 	</select>
 	<select id="listDonationEachCount" parameterType="hashmap" resultType="int" >
 		    <![CDATA[
@@ -77,7 +77,13 @@
 			WHERE CAL_YMD = #{CAL_YMD}
 			AND INOUT_CD = #{INOUT_CD}
 			AND A.USER_KEY = B.USER_KEY
-			]]>		
+			]]>	
+			<if test="USER_NM != '' and USER_NM != null">
+			AND B.USER_NM LIKE CONCAT('%', #{USER_NM} , '%')
+			</if>	
+			<if test="INOUT_ITEM_CD != '' and INOUT_ITEM_CD != null">
+			AND A.INOUT_ITEM_CD = #{INOUT_ITEM_CD}
+			</if>				
 	</select>	
 	
 	<select id="getMaxInoutSeq" parameterType="hashmap" resultType="String" >

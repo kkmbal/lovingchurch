@@ -928,7 +928,8 @@ $.extend($.jgrid.defaults, {
      loadError:function(xhr, status, error){
 	     //alert(xhr.responseText);
 		 errorMsg = error;
-	     alert(error);
+	     //alert(error);
+		 alert(xhr.responseText);
 	 },
 	 loadComplete:function(data){
 		 //if(data != null && data.resultMsg != null){

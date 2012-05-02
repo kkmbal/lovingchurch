@@ -54,8 +54,8 @@ public class GridCommonCodeServiceImpl implements GridCommonCodeService {
 			for(Map<String, String> data : savedata){
 				switch(GridUtil.getOperation(data)){
 					case INSERT:
-						Long codeKey = null;//sequenceMapper.getSequence(Sequence.COMNCD_SEQ).getNextId();
-						data.put("COMN_CD_KEY", codeKey.toString());
+						//Long codeKey = null;//sequenceMapper.getSequence(Sequence.COMNCD_SEQ).getNextId();
+						//data.put("COMN_CD_KEY", codeKey.toString());
 						data.put("CREATR_KEY", UserInfo.getUSER_ID());
 						data.put("ALTRPSN_KEY", UserInfo.getUSER_ID());
 						data.put("USE_YN", "Y");
@@ -124,8 +124,8 @@ public class GridCommonCodeServiceImpl implements GridCommonCodeService {
 			for(Map<String, String> data : savedata){
 				switch(GridUtil.getOperation(data)){
 					case INSERT:
-						Long codeKey = null;//sequenceMapper.getSequence(Sequence.COMNCD_SEQ).getNextId();
-						data.put("COMN_CD_KEY", codeKey.toString());
+						//Long codeKey = null;//sequenceMapper.getSequence(Sequence.COMNCD_SEQ).getNextId();
+						//data.put("COMN_CD_KEY", codeKey.toString());
 						data.put("CREATR_KEY", UserInfo.getUSER_ID());
 						data.put("ALTRPSN_KEY", UserInfo.getUSER_ID());
 						data.put("USE_YN", "Y");

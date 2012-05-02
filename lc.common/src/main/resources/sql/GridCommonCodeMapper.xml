@@ -85,10 +85,10 @@
     </delete>    
     
 	<select id="getForDeleteCode" parameterType="hashmap" resultType="int">
-			SELECT COUNT(B.CD)
+			SELECT COUNT(B.CD_VAL)
 			FROM CODE A
 			    ,CODE B
-			WHERE A.HICD_VAL = B.CD_VAL
+			WHERE A.CD_VAL = B.HICD_VAL
 			AND   A.CD_VAL = #{CD_VAL}
 			AND   B.USE_YN = 'Y'
 	</select>	

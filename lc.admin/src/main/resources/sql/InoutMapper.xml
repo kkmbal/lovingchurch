@@ -172,7 +172,7 @@
 				GROUP BY C.CD_NM , B.USER_NM WITH ROLLUP
 			) A
 			WHERE A.CD_NM IS NOT NULL
-			ORDER BY A.ORD_NO, A.CD_NM, A.USER_NM			
+			ORDER BY A.ORD_NO, A.CD_NM, (CASE WHEN A.USER_NM = '합계' THEN '히' ELSE A.USER_NM END)			
 			]]>			
 	</select>
 	

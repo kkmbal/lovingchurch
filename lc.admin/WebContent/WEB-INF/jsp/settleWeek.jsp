@@ -80,7 +80,8 @@
 				    sortname: 'CAL_YMD',
 				    multiselect:false,
 				    height:400,
-				    rowNum:20,
+				    rowNum:50,
+				    rowList:[10,50,100],
 				    footerrow:true,
 				    userDataOnFooter:true,
 				    ondblClickRow : function(rowid, iRow, iCol, e){

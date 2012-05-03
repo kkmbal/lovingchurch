@@ -50,7 +50,7 @@
 		    caption: '금주수입내역',
 		    multiselect:false,
 		    height:400,
-		    rowNum:100,
+		    rowNum:0,
 		    footerrow:true,
 		    userDataOnFooter:true,	
   			 loadComplete:function(data){
@@ -74,7 +74,7 @@
 			    caption: '금주지출내역',
 			    multiselect:false,
 			    height:400,
-			    rowNum:100,
+			    rowNum:0,
 			    footerrow:true,
 			    userDataOnFooter:true,	
 	  			 loadComplete:function(data){

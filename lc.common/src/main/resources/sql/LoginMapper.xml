@@ -8,6 +8,7 @@
 		    <![CDATA[
 			SELECT USER_ID
 			      ,PASSWORD
+			      ,USER_NM
 			      ,AUTH_CD
 			FROM MEMBER
 			WHERE USER_ID = #{USER_ID}

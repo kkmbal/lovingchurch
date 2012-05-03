@@ -43,7 +43,38 @@
 			    caption: '헌금관리',
 			    height:400,
 			    rowNum:100,
-				rowList:[100,200,300]
+				rowList:[100,200,300],
+			    footerrow:true,
+			    userDataOnFooter:true,	
+	  			 loadComplete:function(data){
+	  				 if(data != null){
+	  					 //합계
+	  					var DONA_CD_01_sum = $("#list1").jqGrid('getCol', 'DONA_CD_01', false, 'sum');
+	  					var DONA_CD_02_sum = $("#list1").jqGrid('getCol', 'DONA_CD_02', false, 'sum');
+	  					var DONA_CD_03_sum = $("#list1").jqGrid('getCol', 'DONA_CD_03', false, 'sum');
+	  					var DONA_CD_04_sum = $("#list1").jqGrid('getCol', 'DONA_CD_04', false, 'sum');
+	  					var DONA_CD_05_sum = $("#list1").jqGrid('getCol', 'DONA_CD_05', false, 'sum');
+	  					var DONA_CD_06_sum = $("#list1").jqGrid('getCol', 'DONA_CD_06', false, 'sum');
+	  					var DONA_CD_07_sum = $("#list1").jqGrid('getCol', 'DONA_CD_07', false, 'sum');
+	  					var DONA_CD_08_sum = $("#list1").jqGrid('getCol', 'DONA_CD_08', false, 'sum');
+	  					var DONA_CD_09_sum = $("#list1").jqGrid('getCol', 'DONA_CD_09', false, 'sum');
+	  					var DONA_CD_10_sum = $("#list1").jqGrid('getCol', 'DONA_CD_10', false, 'sum');
+	  					var DONA_CD_11_sum = $("#list1").jqGrid('getCol', 'DONA_CD_11', false, 'sum');
+						
+						$("#list1").jqGrid('footerData', 'set', { USER_NM: '합계', DONA_CD_01: DONA_CD_01_sum, 
+																				   DONA_CD_02: DONA_CD_02_sum,
+																				   DONA_CD_03: DONA_CD_03_sum,
+																				   DONA_CD_04: DONA_CD_04_sum,
+																				   DONA_CD_05: DONA_CD_05_sum,
+																				   DONA_CD_06: DONA_CD_06_sum,
+																				   DONA_CD_07: DONA_CD_07_sum,
+																				   DONA_CD_08: DONA_CD_08_sum,
+																				   DONA_CD_09: DONA_CD_09_sum,
+																				   DONA_CD_10: DONA_CD_10_sum,
+																				   DONA_CD_11: DONA_CD_11_sum
+																				   });
+	  				 }
+	  			 }			    
 			});	
 			 
 			 jQuery("#list1").jqGrid('navGrid','#pager1',{add:false,edit:false,del:false,search:false,refresh:false});
@@ -62,7 +93,7 @@
 				    colNames:['수입항목', '금액', '비고','CAL_YMD','INOUT_SEQ_NO'],
 				    colModel :[ 
 				      {name:'INOUT_ITEM_CD', index:'INOUT_ITEM_CD', width:90, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('IN_CD') }, formatter:'select', editrules:{number:true}},
-				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'left', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
+				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
 				      {name:'REMARK', index:'REMARK', width:80, align:'left', editable:true}, 
 				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false, hidden:true}, 
 				      {name:'INOUT_SEQ_NO', index:'INOUT_SEQ_NO', width:80, align:'left', editable:false, hidden:true} 
@@ -70,7 +101,17 @@
 				    pager: '#pager2',
 				    caption: '기타수입관리',
 				    sortname: 'INOUT_ITEM_CD',
-				    height:400
+				    height:400,
+				    footerrow:true,
+				    userDataOnFooter:true,	
+		  			 loadComplete:function(data){
+		  				 if(data != null){
+		  					 //합계
+		  					var INOUT_AMT_sum = $("#list2").jqGrid('getCol', 'INOUT_AMT', false, 'sum');
+							
+							$("#list2").jqGrid('footerData', 'set', { INOUT_ITEM_CD: '합계', INOUT_AMT: INOUT_AMT_sum});
+		  				 }
+		  			 }					    
 			 });
 			 
 			 $("#list3").jqGrid({
@@ -90,7 +131,17 @@
 				    sortname: 'INOUT_ITEM_CD',
 				    rowNum:100,
 					rowList:[100,200,300],
-				    height:400
+				    height:400,
+				    footerrow:true,
+				    userDataOnFooter:true,	
+		  			 loadComplete:function(data){
+		  				 if(data != null){
+		  					 //합계
+		  					var INOUT_AMT_sum = $("#list3").jqGrid('getCol', 'INOUT_AMT', false, 'sum');
+							
+							$("#list3").jqGrid('footerData', 'set', { INOUT_ITEM_CD: '합계', INOUT_AMT: INOUT_AMT_sum});
+		  				 }
+		  			 }				    
 			 });			 
 			 
 			 $("#list2").jqGrid('setGridWidth', $("#list2_parent").innerWidth()-2);

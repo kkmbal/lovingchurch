@@ -20,7 +20,18 @@
 			    ],
 			    caption: '금주수입내역',
 			    multiselect:false,
-			    height:400
+			    height:400,
+			    rowNum:100,
+			    footerrow:true,
+			    userDataOnFooter:true,	
+	  			 loadComplete:function(data){
+	  				 if(data != null){
+	  					 //합계
+	  					var INOUT_AMT_sum = $("#list1").jqGrid('getCol', 'INOUT_AMT', false, 'sum');
+						
+						$("#list1").jqGrid('footerData', 'set', { CD_NM: '합계', INOUT_AMT: INOUT_AMT_sum});
+	  				 }
+	  			 }				    
 			    
 			});	
 			 
@@ -33,7 +44,18 @@
 				    ],
 				    caption: '금주지출내역',
 				    multiselect:false,
-				    height:400
+				    height:400,
+				    rowNum:100,
+				    footerrow:true,
+				    userDataOnFooter:true,	
+		  			 loadComplete:function(data){
+		  				 if(data != null){
+		  					 //합계
+		  					var INOUT_AMT_sum = $("#list2").jqGrid('getCol', 'INOUT_AMT', false, 'sum');
+							
+							$("#list2").jqGrid('footerData', 'set', { CD_NM: '합계', INOUT_AMT: INOUT_AMT_sum});
+		  				 }
+		  			 }				    
 				});	
 			 
 			 $("#list1").jqGrid('setGridWidth', $("#list1_parent").innerWidth()/2-2);
@@ -55,6 +77,8 @@
 				    sortname: 'CAL_YMD',
 				    multiselect:false,
 				    height:400,
+				    footerrow:true,
+				    userDataOnFooter:true,
 				    ondblClickRow : function(rowid, iRow, iCol, e){
 				  		if(rowid != null) {
 				  			var ret = $(this).jqGrid('getRowData', rowid);
@@ -68,12 +92,24 @@
 				    beforeRequest : function(){
 			         	//초기값 필요할때.
 			  			jQuery(this).jqGrid('setGridParam',{postData:{ userdata:{} }} );
-		  			}				    
+		  			},
+		  			 loadComplete:function(data){
+		  				 if(data != null){
+		  					 //합계
+		  					var preAmtSum = $("#list3").jqGrid('getCol', 'PREV_AMT', false, 'sum');
+							var inAmtSum = $("#list3").jqGrid('getCol', 'IN_AMT', false, 'sum');
+							var outAmtSum = $("#list3").jqGrid('getCol', 'OUT_AMT', false, 'sum');
+							var nextAmtSum = $("#list3").jqGrid('getCol', 'NEXT_AMT', false, 'sum');
+							
+							$("#list3").jqGrid('footerData', 'set', { CAL_YMD: '합계', PREV_AMT: preAmtSum, IN_AMT: inAmtSum, OUT_AMT: outAmtSum, NEXT_AMT: nextAmtSum });
+		  				 }
+		  			 }
 				});				 
 			 
 				//Grid 검색
 				$("#search3").click(function(){
 					$("#list3").fnSelGrid("settleService.listWeekSum.lc");
+					
 					return false;
 				});				 
 			 

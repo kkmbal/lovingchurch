@@ -14,7 +14,7 @@
 				    colNames:['지출항목', '금액', '비고','CAL_YMD','INOUT_SEQ_NO'],
 				    colModel :[ 
 				      {name:'INOUT_ITEM_CD', index:'INOUT_ITEM_CD', width:90, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('OUT_CD') }, formatter:'select'},
-				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'left', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
+				      {name:'INOUT_AMT', index:'INOUT_AMT', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",", defaultValue: '0'}, editrules:{number:true}}, 
 				      {name:'REMARK', index:'REMARK', width:80, align:'left', editable:true}, 
 				      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'left', editable:false, hidden:true}, 
 				      {name:'INOUT_SEQ_NO', index:'INOUT_SEQ_NO', width:80, align:'left', editable:false, hidden:true} 
@@ -22,7 +22,17 @@
 				    pager: '#pager',
 				    caption: '지출관리',
 				    sortname: 'INOUT_ITEM_CD',
-				    height:400
+				    height:400,
+				    footerrow:true,
+				    userDataOnFooter:true,	
+		  			 loadComplete:function(data){
+		  				 if(data != null){
+		  					 //합계
+		  					var INOUT_AMT_sum = $("#list").jqGrid('getCol', 'INOUT_AMT', false, 'sum');
+							
+							$("#list").jqGrid('footerData', 'set', { INOUT_ITEM_CD: '합계', INOUT_AMT: INOUT_AMT_sum});
+		  				 }
+		  			 }				    
 			 });	
 			 
 				$("#search").click(function(){

@@ -18,7 +18,13 @@
 			]]>		
 			<if test="CAL_YMD != null and CAL_YMD != ''">
 			AND CAL_YMD = #{CAL_YMD}
-			</if>				
+			</if>
+			<if test="YEAR != null and YEAR != ''">
+			AND CAL_YMD LIKE CONCAT(#{YEAR}, '%')
+			</if>		
+			<if test="MON != null and MON != ''">
+			AND SUBSTR(CAL_YMD, 5) LIKE CONCAT(#{MON}, '%')
+			</if>									
 			ORDER BY ${sidx} ${sord} 
 			LIMIT ${page}, ${rows}
 	</select>
@@ -32,6 +38,12 @@
 			<if test="CAL_YMD != null and CAL_YMD != ''">
 			AND CAL_YMD = #{CAL_YMD}
 			</if>	
+			<if test="YEAR != null and YEAR != ''">
+			AND CAL_YMD LIKE CONCAT(#{YEAR}, '%')
+			</if>		
+			<if test="MON != null and MON != ''">
+			AND SUBSTR(CAL_YMD, 5) LIKE CONCAT(#{MON}, '%')
+			</if>				
 	</select>	
 
 	<select id="listIn" parameterType="hashmap" resultType="hashmap" >
@@ -318,7 +330,10 @@
 			]]>		
 			<if test="CAL_YM != null and CAL_YM != ''">
 			AND CAL_YM = #{CAL_YM}
-			</if>				
+			</if>	
+			<if test="YEAR != null and YEAR != ''">
+			AND CAL_YM LIKE CONCAT(#{YEAR}, '%')
+			</if>						
 			ORDER BY ${sidx} ${sord} 
 			LIMIT ${page}, ${rows}
 	</select>
@@ -332,6 +347,9 @@
 			<if test="CAL_YM != null and CAL_YM != ''">
 			AND CAL_YM = #{CAL_YM}
 			</if>	
+			<if test="YEAR != null and YEAR != ''">
+			AND CAL_YM LIKE CONCAT(#{YEAR}, '%')
+			</if>			
 	</select>	
 	
 	<select id="getMonthSum" parameterType="hashmap" resultType="hashmap" >

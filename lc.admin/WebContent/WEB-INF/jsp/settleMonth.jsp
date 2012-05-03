@@ -38,6 +38,8 @@
 		$("#DT").datepicker();		
 		$("#DT").val(formatDate(new Date(), "yyyy-MM"));	
 		
+		fnMakeYearSelect("#cmbYear", "전체");
+		
 		$("#tabs").tabs();
 		
 		 $("#list1").jqGrid({
@@ -106,6 +108,7 @@
 			    multiselect:false,
 			    sortname: 'CAL_YM',
 			    height:400,
+			    rowNum:20,
 			    footerrow:true,
 			    userDataOnFooter:true,			    
 			    ondblClickRow : function(rowid, iRow, iCol, e){
@@ -125,19 +128,19 @@
 	  			 loadComplete:function(data){
 	  				 if(data != null){
 	  					 //합계
-	  					var preAmtSum = $("#list3").jqGrid('getCol', 'PREV_AMT', false, 'sum');
 						var inAmtSum = $("#list3").jqGrid('getCol', 'IN_AMT', false, 'sum');
 						var outAmtSum = $("#list3").jqGrid('getCol', 'OUT_AMT', false, 'sum');
-						var nextAmtSum = $("#list3").jqGrid('getCol', 'NEXT_AMT', false, 'sum');
 						
-						$("#list3").jqGrid('footerData', 'set', { CAL_YM: '합계', PREV_AMT: preAmtSum, IN_AMT: inAmtSum, OUT_AMT: outAmtSum, NEXT_AMT: nextAmtSum });
+						$("#list3").jqGrid('footerData', 'set', { CAL_YM: '합계', IN_AMT: inAmtSum, OUT_AMT: outAmtSum});
 	  				 }
 	  			 }	  			
 			});		 
 		 
 			//Grid 검색
 			$("#search3").click(function(){
-				$("#list3").fnSelGrid("settleService.listMonSum.lc");
+				var search_data = {};
+				search_data.YEAR = $("#cmbYear").val();
+				$("#list3").fnSelGrid("settleService.listMonSum.lc", search_data);
 				return false;
 			});			 
 		 
@@ -253,7 +256,7 @@
 			    <div id="tabs-1">
 					<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
 						<colgroup>
-							<col width="50"/>
+							<col width="100"/>
 							<col width="*"/>
 							<col width="100"/>
 						</colgroup>
@@ -264,7 +267,7 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="searchBody"> </td>
+								<td class="searchBody">년 <select style="width:100" id="cmbYear"></select> </td>
 								<td class="searchBody"> </td>
 								<td class="searchBody" align="center"><button id="search3">검색</button></td>
 							</tr>

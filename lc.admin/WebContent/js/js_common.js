@@ -113,6 +113,35 @@ function fnGetCookie(sName)
 	return null;
 }
 
+function fnMakeYearSelect(id, title){
+	var tr = "";
+	if(title != undefined){
+		tr = tr + "<option value=''>"+title+"</option>";
+	}
+	var y = formatDate(new Date(), "yyyy");
+	var y_p = parseInt(y) - 10;
+	var y_n = parseInt(y) + 10;
+	for(var i=y_p;i<=y_n;i++){
+		tr = tr + "<option value='"+i+"'>"+i+"</option>";
+	}
+	$(id+"").html(tr);	
+}
+
+function fnMakeMonthSelect(id, title){
+	var tr = "";
+	if(title != undefined){
+		tr = tr + "<option value=''>"+title+"</option>";
+	}
+	for(var i=1;i<=12;i++){
+		if(i < 10){
+			tr = tr + "<option value='0"+i+"'>0"+i+"</option>";
+		}else{
+			tr = tr + "<option value='"+i+"'>"+i+"</option>";
+		}
+	}
+	$(id+"").html(tr);	
+}
+
 /**
  * Yes/No Select Box 생성용 함수
  * 

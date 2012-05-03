@@ -44,6 +44,7 @@
 			    height:400,
 			    rowNum:100,
 				rowList:[100,200,300],
+				sortable: true,
 			    footerrow:true,
 			    userDataOnFooter:true,	
 	  			 loadComplete:function(data){

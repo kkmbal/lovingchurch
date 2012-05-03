@@ -11,7 +11,7 @@
 			FROM MEMBER
 			WHERE USER_ID = #{USER_ID}
 			AND   PASSWORD = #{PASSWORD}
-			AND   AUTH_CD = '10' /* admin */
+			AND   AUTH_CD IN ('10','SP') /* admin */
 			]]>
 	</select>
 	

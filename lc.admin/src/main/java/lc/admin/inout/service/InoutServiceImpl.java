@@ -139,7 +139,7 @@ public class InoutServiceImpl implements InoutService {
 		
 		//마감여부조회
 		if("Y".equals(settleService.getEndYnForPeriod(new HashMap(userdata)))){
-			GridOutVO listIn = listIn(giVO);
+			GridOutVO listIn = listDonationEach(giVO);
 			listIn.setResultMsg("이미 마감되었습니다.");
 			return listIn;
 		}
@@ -152,13 +152,15 @@ public class InoutServiceImpl implements InoutService {
 				
 				switch(GridUtil.getOperation(data)){
 					case INSERT:
-						String seq = inoutMapper.getMaxInoutSeq(data);
-						data.put("INOUT_SEQ_NO", seq);
-						data.put("CRE_ID", UserInfo.getUSER_ID());
-						data.put("UPD_ID", UserInfo.getUSER_ID());
-						
-						
-						inoutMapper.insertInout(data);
+						List<Map> donation = inoutMapper.getDonation(data);
+						if(donation == null || donation.size() == 0){
+							String seq = inoutMapper.getMaxInoutSeq(data);
+							data.put("INOUT_SEQ_NO", seq);
+							data.put("CRE_ID", UserInfo.getUSER_ID());
+							data.put("UPD_ID", UserInfo.getUSER_ID());
+							
+							inoutMapper.insertInout(data);
+						}
 						break;
 					case UPDATE:
 						data.put("UPD_ID", UserInfo.getUSER_ID());
@@ -179,7 +181,7 @@ public class InoutServiceImpl implements InoutService {
 		if(savedata != null && savedata.size() > 0){
 			//마감여부조회
 			if("Y".equals(settleService.getEndYnForPeriod(new HashMap(savedata.get(0))))){
-				GridOutVO listIn = listIn(giVO);
+				GridOutVO listIn = listDonationEach(giVO);
 				listIn.setResultMsg("이미 마감되었습니다.");
 				return listIn;
 			}

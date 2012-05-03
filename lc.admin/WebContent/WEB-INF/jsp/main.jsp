@@ -11,19 +11,19 @@
 			    colModel :[ 
 	   		<c:choose>   		
 		   		<c:when test="${SUPER=='Y'}">
-		   		  {name:'USER_ID', index:'USER_ID', width:90, align:'left', editable:true, editrules:{required:true}, hidden:false},
+		   		  {name:'USER_ID', index:'USER_ID', width:90, align:'left', editable:true, hidden:false},
 		   		</c:when>
 		   		<c:otherwise>
-		   		  {name:'USER_ID', index:'USER_ID', width:90, align:'left', editable:false, editrules:{required:true}, hidden:true},
+		   		  {name:'USER_ID', index:'USER_ID', width:90, align:'left', editable:false, hidden:true},
 		   		</c:otherwise>
 		   	</c:choose>				               
 			      {name:'USER_NM', index:'USER_NM', width:80, align:'left', editable:true, editrules:{required:true}},
 		   	<c:choose>   		
 		   		<c:when test="${SUPER=='Y'}">
-		   		  {name:'PASSWORD', index:'PASSWORD', width:80, align:'left', editable:true, editrules:{required:true}, hidden:false},
+		   		  {name:'PASSWORD', index:'PASSWORD', width:80, align:'left', editable:true,  hidden:false},
 		   		</c:when>
 		   		<c:otherwise>
-		   		  {name:'PASSWORD', index:'PASSWORD', width:80, align:'left', editable:false, editrules:{required:true}, hidden:true},
+		   		  {name:'PASSWORD', index:'PASSWORD', width:80, align:'left', editable:false,  hidden:true},
 		   		</c:otherwise>
 		   	</c:choose>			      
 			      {name:'BIRTH_YMD', index:'BIRTH_YMD', width:80, align:'center', editable:true}, 

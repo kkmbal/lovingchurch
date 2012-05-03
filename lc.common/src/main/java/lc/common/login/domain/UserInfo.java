@@ -9,6 +9,7 @@ public class UserInfo implements Serializable{
 	private String PASSWORD;
 	private String USER_NM;
 	private String USE_YN;
+	private String AUTH_CD;
 	private String ADMIN_YN;
 	
 	public String getUSER_ID() {
@@ -40,6 +41,12 @@ public class UserInfo implements Serializable{
 	}
 	public void setADMIN_YN(String aDMIN_YN) {
 		ADMIN_YN = aDMIN_YN;
+	}
+	public String getAUTH_CD() {
+		return AUTH_CD;
+	}
+	public void setAUTH_CD(String aUTH_CD) {
+		AUTH_CD = aUTH_CD;
 	}
 	
 	

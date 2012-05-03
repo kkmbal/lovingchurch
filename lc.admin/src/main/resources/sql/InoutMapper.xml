@@ -31,6 +31,7 @@
 				  											   AND A.USER_KEY = B.USER_KEY
 																AND B.INOUT_CD = #{INOUT_CD})
 			WHERE 1=1
+			AND   A.USE_YN = 'Y'
 			) A
 			GROUP BY A.USER_KEY
 			ORDER BY A.USER_NM				
@@ -67,6 +68,7 @@
 			SELECT   COUNT(*) ROWCOUNT
 			FROM MEMBER
 			WHERE 1=1
+			AND   USE_YN = 'Y'
 			]]>	
 	</select>
 	<select id="listDonationEachCount" parameterType="hashmap" resultType="int" >

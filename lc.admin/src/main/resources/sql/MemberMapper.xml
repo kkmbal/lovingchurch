@@ -24,6 +24,7 @@
 					,CRE_DATE
 			FROM MEMBER
 			WHERE 1 = 1
+			AND   USE_YN = 'Y'
 			]]>		
 			<if test="USER_NM != '' and USER_NM != null">
 			AND USER_NM LIKE CONCAT('%', #{USER_NM} , '%')
@@ -37,6 +38,8 @@
 			SELECT   USER_KEY as VALUE
 					,USER_NM  as LABEL
 			FROM MEMBER
+			WHERE 1 = 1
+			AND   USE_YN = 'Y'
 			]]>		
 	</select>	
 	
@@ -45,6 +48,7 @@
 			SELECT   COUNT(*) ROWCOUNT
 			FROM MEMBER
 			WHERE 1 = 1
+			AND   USE_YN = 'Y'
 			]]>		
 			<if test="USER_NM != '' and USER_NM != null">
 			AND USER_NM LIKE CONCAT('%', #{USER_NM} , '%')
@@ -112,7 +116,7 @@
 	
 	<delete id="deleteMember" parameterType="hashmap" >
 		    <![CDATA[
-			DELETE FROM MEMBER
+			UPDATE MEMBER SET USE_YN = 'N'
 			WHERE USER_KEY = #{USER_KEY}
 			]]>			
 	</delete>

@@ -9,15 +9,37 @@
 			    url:"memberService.listMember.lc",
 			    colNames:['아이디', '성명','비밀번호','생년월일','자택','HP','가입일자','직분','권한','출교','USER_KEY','DONA_NM'],
 			    colModel :[ 
-			      {name:'USER_ID', index:'USER_ID', width:90, align:'left', editable:false, editrules:{required:true}, hidden:true},
-			      {name:'USER_NM', index:'USER_NM', width:80, align:'left', editable:true, editrules:{required:true}}, 
-			      {name:'PASSWORD', index:'PASSWORD', width:80, align:'left', editable:false, editrules:{required:true}, hidden:true}, 
+	   		<c:choose>   		
+		   		<c:when test="${SUPER=='Y'}">
+		   		  {name:'USER_ID', index:'USER_ID', width:90, align:'left', editable:true, editrules:{required:true}, hidden:false},
+		   		</c:when>
+		   		<c:otherwise>
+		   		  {name:'USER_ID', index:'USER_ID', width:90, align:'left', editable:false, editrules:{required:true}, hidden:true},
+		   		</c:otherwise>
+		   	</c:choose>				               
+			      {name:'USER_NM', index:'USER_NM', width:80, align:'left', editable:true, editrules:{required:true}},
+		   	<c:choose>   		
+		   		<c:when test="${SUPER=='Y'}">
+		   		  {name:'PASSWORD', index:'PASSWORD', width:80, align:'left', editable:true, editrules:{required:true}, hidden:false},
+		   		</c:when>
+		   		<c:otherwise>
+		   		  {name:'PASSWORD', index:'PASSWORD', width:80, align:'left', editable:false, editrules:{required:true}, hidden:true},
+		   		</c:otherwise>
+		   	</c:choose>			      
 			      {name:'BIRTH_YMD', index:'BIRTH_YMD', width:80, align:'center', editable:true}, 
 			      {name:'TEL_NO', index:'TEL_NO', width:80, align:'left', editable:true}, 
 			      {name:'HP_NO', index:'HP_NO', width:80, align:'left', editable:true}, 
 			      {name:'REG_YMD', index:'REG_YMD', width:80, align:'center', editable:false},
 			      {name:'DUTY_CD', index:'DUTY_CD', width:80, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('DUTY_CD') }, formatter:'select'},
-			      {name:'AUTH_CD', index:'AUTH_CD', width:80, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('AUTH_CD') }, formatter:'select'},
+			<c:choose>   		
+		   		<c:when test="${SUPER=='Y'}">
+		   		  {name:'AUTH_CD', index:'AUTH_CD', width:80, align:'left', editable:true, edittype: "select", editoptions: {value: fnGetGridSelectComm('AUTH_CD') }, formatter:'select'},
+		   		</c:when>
+		   		<c:otherwise>
+		   		  {name:'AUTH_CD', index:'AUTH_CD', width:80, align:'left', editable:false, edittype: "select", editoptions: {value: fnGetGridSelectComm('AUTH_CD') }, formatter:'select'},
+		   		</c:otherwise>
+		   	</c:choose>				      
+			      
 			      {name:'USE_YN', index:'USE_YN', width:80, align:'center', editable:true, hidden:true},
 			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'center', editable:false, hidden:true},
 			      {name:'DONA_NM', index:'DONA_NM', width:80, align:'center', editable:false, hidden:true}

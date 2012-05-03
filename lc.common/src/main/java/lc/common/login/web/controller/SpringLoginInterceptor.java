@@ -6,6 +6,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lc.common.LcConstants;
 import lc.common.login.domain.UserInfo;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -47,6 +48,9 @@ public class SpringLoginInterceptor extends HandlerInterceptorAdapter {
 	        } else{
 	        	System.out.println("ok--------------");
 	        	request.setAttribute("userNm", user.getUSER_NM());
+	        	if(LcConstants.SUPER_AUTH_CD.equals(user.getAUTH_CD())){
+	        		request.setAttribute("SUPER", "Y");
+	        	}
 	            return true;
 	        }
     	}catch(Exception e){

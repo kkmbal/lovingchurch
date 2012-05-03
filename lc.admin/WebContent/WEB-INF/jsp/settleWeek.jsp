@@ -159,7 +159,7 @@
 				});
 				
 				//수입관리에서 링크되어 왔을 경우.
-				<c:if test="${param.calYmd != ''}">
+				<c:if test="${!empty param.calYmd}">
 					$("#DT").val(formatDate('${param.calYmd}', "yyyy-MM-dd"));
 					$("#tabs-2-link").trigger("click");
 					$("#search").trigger("click");

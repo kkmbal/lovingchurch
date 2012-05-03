@@ -233,7 +233,10 @@
 					$("#frm1").submit();
 				});	
 				
-				//fnSubmitAjax('memberService.listAllMember.lc', 'CAL_YMD', fnResult);
+				$("#sumDetl").click(function(){
+					var calYmd = $("#DT1").val();
+					location.href = "${pageContext.request.contextPath}/settleWeek.do?calYmd="+calYmd;
+				});
 				
 		});
 		
@@ -292,8 +295,8 @@
 					<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
 						<colgroup>
 							<col width="50"/>
+							<col width="150"/>
 							<col width="*"/>
-							<col width="100"/>
 						</colgroup>
 						<thead>
 							<tr>
@@ -304,7 +307,7 @@
 							<tr>
 								<td class="searchBody">날짜</td>
 								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT1" id="DT1">  </td>
-								<td class="searchBody" align="center"> <button id="search1">검색</button></td>
+								<td class="searchBody" align="left"> <button id="search1">검색</button></td>
 							</tr>
 						</tbody>
 						<tfoot>
@@ -337,7 +340,7 @@
 							<tr>
 								<td class="searchBody"> <a href="#"><img src="${pageContext.request.contextPath}/img/excel.gif" id="excel" title="수입내역"></a> </td>
 								<td class="searchBody" align="center">&nbsp;</td>
-								<td class="searchBody" align="right"> <button id="save1">저장</button></td>
+								<td class="searchBody" align="right"> <button id="sumDetl">결산상세</button> <button id="save1">저장</button></td>
 							</tr>
 						</tbody> 
 						<tfoot>
@@ -354,8 +357,8 @@
 					<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
 						<colgroup>
 							<col width="50"/>
+							<col width="500"/>
 							<col width="*"/>
-							<col width="100"/>
 						</colgroup>
 						<thead>
 							<tr>
@@ -366,7 +369,7 @@
 							<tr>
 								<td class="searchBody">날짜</td>
 								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT3" id="DT3">&nbsp;&nbsp;성명 <input name="userNm" name="userNm" id="userNm"> &nbsp;&nbsp;헌금 <select style="width:100" id="cmbDona"></select> </td>
-								<td class="searchBody" align="center"> <button id="search3">검색</button></td>
+								<td class="searchBody" align="left"> <button id="search3">검색</button></td>
 							</tr>
 						</tbody>
 						<tfoot>
@@ -415,8 +418,8 @@
 					<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
 						<colgroup>
 							<col width="50"/>
+							<col width="150"/>
 							<col width="*"/>
-							<col width="100"/>
 						</colgroup>
 						<thead>
 							<tr>
@@ -427,7 +430,7 @@
 							<tr>
 								<td class="searchBody">날짜</td>
 								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT2" id="DT2"></td>
-								<td class="searchBody" align="center"><button id="search2">검색</button></td>
+								<td class="searchBody" align="left"><button id="search2">검색</button></td>
 							</tr>
 						</tbody>
 						<tfoot>

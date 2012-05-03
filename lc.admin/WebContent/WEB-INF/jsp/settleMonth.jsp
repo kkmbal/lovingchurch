@@ -257,8 +257,8 @@
 					<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
 						<colgroup>
 							<col width="100"/>
-							<col width="*"/>
 							<col width="100"/>
+							<col width="*"/>
 						</colgroup>
 						<thead>
 							<tr>
@@ -269,7 +269,7 @@
 							<tr>
 								<td class="searchBody">년 <select style="width:100" id="cmbYear"></select> </td>
 								<td class="searchBody"> </td>
-								<td class="searchBody" align="center"><button id="search3">검색</button></td>
+								<td class="searchBody" align="left"><button id="search3">검색</button></td>
 							</tr>
 						</tbody>
 						<tfoot>
@@ -293,8 +293,8 @@
 						<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
 							<colgroup>
 								<col width="50"/>
+								<col width="150"/>
 								<col width="*"/>
-								<col width="100"/>
 							</colgroup>
 							<thead>
 								<tr>
@@ -305,7 +305,7 @@
 								<tr>
 									<td class="searchBody">년월</td>
 									<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT" id="DT"></td>
-									<td class="searchBody" align="center"><button id="search">검색</button></td>
+									<td class="searchBody" align="left"><button id="search">검색</button></td>
 								</tr>
 							</tbody>
 							<tfoot>

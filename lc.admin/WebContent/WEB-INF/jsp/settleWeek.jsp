@@ -157,6 +157,13 @@
 					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
 					$("#frm1").submit();
 				});
+				
+				//수입관리에서 링크되어 왔을 경우.
+				<c:if test="${param.calYmd != ''}">
+					$("#DT").val(formatDate('${param.calYmd}', "yyyy-MM-dd"));
+					$("#tabs-2-link").trigger("click");
+					$("#search").trigger("click");
+				</c:if>				
 		});
 		
 		function fnResult(data){
@@ -224,8 +231,8 @@
 					<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
 						<colgroup>
 							<col width="100"/>
-							<col width="*"/>
 							<col width="100"/>
+							<col width="*"/>
 						</colgroup>
 						<thead>
 							<tr>
@@ -236,7 +243,7 @@
 							<tr>
 								<td class="searchBody">년 <select style="width:100" id="cmbYear"></select> </td>
 								<td class="searchBody">월 <select style="width:100" id="cmbMon"></select></td>
-								<td class="searchBody" align="center"><button id="search3">검색</button></td>
+								<td class="searchBody" align="left"><button id="search3">검색</button></td>
 							</tr>
 						</tbody>
 						<tfoot>
@@ -258,8 +265,8 @@
 					<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
 						<colgroup>
 							<col width="50"/>
+							<col width="150"/>
 							<col width="*"/>
-							<col width="100"/>
 						</colgroup>
 						<thead>
 							<tr>
@@ -270,7 +277,7 @@
 							<tr>
 								<td class="searchBody">날짜</td>
 								<td class="searchBody"><input type="text" style="width:80px;" readonly name="DT" id="DT"></td>
-								<td class="searchBody" align="center"><button id="search">검색</button></td>
+								<td class="searchBody" align="left"><button id="search">검색</button></td>
 							</tr>
 						</tbody>
 						<tfoot>

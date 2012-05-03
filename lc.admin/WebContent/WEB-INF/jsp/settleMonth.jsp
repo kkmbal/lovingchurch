@@ -377,11 +377,11 @@
 							<tr height="26">
 								<td class="boardHead">전달이월계</td>
 								<td class="boardBody">
-									<input type="text" style="width:100%;" name="prevEnd" id="prevEnd">
+									<input type="text" style="width:100%;" name="prevEnd" id="prevEnd" readonly>
 								</td>
 								<td class="boardHead"> </td>
 								<td class="boardBody">
-									<input type="text" style="width:100%;" name="nextEnd" id="nextEnd">
+									<input type="text" style="width:100%;" name="nextEnd" id="nextEnd" readonly>
 								</td>
 							</tr>
 							<tr>
@@ -390,11 +390,11 @@
 							<tr height="26">
 								<td class="boardHead">합계</td>
 								<td class="boardBody">
-									<input type="text" style="width:100%;" name="thisInSum" id="thisInSum">
+									<input type="text" style="width:100%;" name="thisInSum" id="thisInSum" readonly>
 								</td>
 								<td class="boardHead">합계</td>
 								<td class="boardBody">
-									<input type="text" style="width:100%;" name="thisOutSum" id="thisOutSum">
+									<input type="text" style="width:100%;" name="thisOutSum" id="thisOutSum" readonly>
 								</td>
 							</tr>
 							<tr>

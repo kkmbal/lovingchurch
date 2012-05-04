@@ -1281,6 +1281,7 @@ function checkCheck(rowid, gid){
 		return false;
 	};
 	
+	//금액 필터링
 	$.fn.fnSaveGrid2 = function(save_url_str, etc_data){
 		if(etc_data == "undefined" || etc_data == undefined) etc_data = {};
 		
@@ -1311,7 +1312,7 @@ function checkCheck(rowid, gid){
 			//alert(JSON.stringify(new_ret))
 			arr[arr.length] = new_ret;
 		}
-		return false;
+		
 		for(var i=0;i<delarr.length;i++){
 			arr[arr.length] = delarr[i];
 		}

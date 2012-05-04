@@ -1281,6 +1281,89 @@ function checkCheck(rowid, gid){
 		return false;
 	};
 	
+	$.fn.fnSaveGrid2 = function(save_url_str, etc_data){
+		if(etc_data == "undefined" || etc_data == undefined) etc_data = {};
+		
+		$(this).jqGrid('setGridParam',{postData: null}); 
+		
+		//unfocusing 처리
+		if(!$(this).fnDelInputTag()) return false;
+		
+		var arr_s = $(this).jqGrid('getGridParam','selarrrow');
+		var arr = [];
+		for(var i=0;i<arr_s.length;i++){
+			var idx = arr_s[i];
+			var ret = $(this).jqGrid('getRowData', idx);
+			if(idx.indexOf('new') != -1){
+				ret.oper = "insert";
+			}else{
+				ret.oper = "update";
+			}
+			ret.id = idx;
+			var new_ret = {};
+			$.each(ret, function(n, v){
+				if(n.indexOf('DONA_CD') != -1){
+					if(v != '0') new_ret[n] = v;
+				}else{
+					new_ret[n] = v;
+				}
+			});
+			//alert(JSON.stringify(new_ret))
+			arr[arr.length] = new_ret;
+		}
+		return false;
+		for(var i=0;i<delarr.length;i++){
+			arr[arr.length] = delarr[i];
+		}
+		
+		if(arr.length == 0) {
+			alert("선택된 ROW가 없습니다.");
+			return false;
+		}
+		if(!confirm("저장하시겠습니까?")){
+			return false;
+		}		
+		
+		$(this).jqGrid('setGridParam',{
+			url:save_url_str,
+			postData: {
+				savedata:arr,
+				userdata: etc_data,
+				deldata:delarr
+			}
+		}).trigger("reloadGrid");
+
+		//$("#result_msg").html('저장되었습니다.');
+		
+		var this_id = $(this);
+		setTimeout(function(){
+			if(errorMsg == ""){
+				var return_data = $(this_id).jqGrid('getGridParam', 'userData');
+				if(return_data != null && return_data.resultMsg != null){
+					if(return_data.resultMsg != ""){
+						alert(return_data.resultMsg);
+					}
+				}else{		
+					alert('저장되었습니다.');
+				}			
+			}
+		}, 300);
+
+		
+		delarr = [];
+		errorMsg = '';
+		
+		//url 이 계속 save로 남아 있을 경우 페이징처리시 에러발생하는 경우를 막기위함.
+		var init_url = init_default_url[$(this).attr("id")];
+		if(init_url){
+			$(this).jqGrid('setGridParam',{
+				url:init_url
+			});
+		}
+		
+		return false;
+	};	
+	
 	/**
 	 *  Grid 저장시 input tag 삭제처리 + 신규row 삭제함수
 	 *  

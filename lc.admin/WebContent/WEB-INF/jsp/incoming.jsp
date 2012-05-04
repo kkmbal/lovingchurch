@@ -173,7 +173,7 @@
 				$("#save1").click( function() {
 					var search_data = {};
 					search_data.CAL_YMD = $("#DT1").val().replace(/-/gi,"");
-					$("#list1").fnSaveGrid("inoutService.saveDonation.lc", search_data);
+					$("#list1").fnSaveGrid2("inoutService.saveDonation.lc", search_data);
 					return false;
 				});				
 			 

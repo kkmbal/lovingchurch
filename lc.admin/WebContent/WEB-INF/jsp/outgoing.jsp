@@ -23,6 +23,7 @@
 				    caption: '지출관리',
 				    sortname: 'INOUT_ITEM_CD',
 				    height:400,
+				    rowNum:20,
 				    footerrow:true,
 				    userDataOnFooter:true,	
 		  			 loadComplete:function(data){

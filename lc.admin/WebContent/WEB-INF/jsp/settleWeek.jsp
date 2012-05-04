@@ -147,6 +147,9 @@
 				
 				//마감
 				$("#end").click( function() {
+					if(!confirm("마감하시겠습니까?")){
+						return false;
+					}
 					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
 		 			 fnSubmitAjax('settleService.saveWeekEndYn.lc', 'CAL_YMD', fnEndResult);
 		 			 

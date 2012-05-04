@@ -177,6 +177,9 @@
 			
 			//마감
 			$("#end").click( function() {
+				if(!confirm("마감하시겠습니까?")){
+					return false;
+				}				
 				//$("#CAL_YM").val($("#DT").val().replace(/-/gi,"").substring(0, 6));
 				$("#CAL_YM").val($("#DT").val().replace(/-/gi,""));
 	 			 fnSubmitAjax('settleService.saveMonthEndYn.lc', 'CAL_YM', fnEndResult);

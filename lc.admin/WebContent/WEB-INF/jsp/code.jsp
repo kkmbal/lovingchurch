@@ -67,6 +67,7 @@
 				return false;
 			});
 			  
+			<c:if test="${SUPER=='Y'}">
 			//Grid 행추가
 			$("#add1").click( function() {
 				var initdata = {};
@@ -131,6 +132,7 @@
 				$("#list2").fnSaveGrid("gridCommonCodeService.saveDetailCode.lc", search_data);
 				return false;
 			});	
+			</c:if>
 		});
 	</script>
 </head>
@@ -184,6 +186,7 @@
 			<div id="pager1"></div>	
 			
 			<!-- 버튼 박스 -->
+			<c:if test="${SUPER=='Y'}">
 			<table class="form-layout" border="0" cellspacing="0" cellpadding="0">
 				<colgroup>
 					<col width="30%"/>
@@ -207,7 +210,8 @@
 						<td class="searchHline" colspan="3"></td>
 					</tr>
 				</tfoot>
-			</table>			
+			</table>
+			</c:if>			
 			
 			<br>			
 			
@@ -216,6 +220,7 @@
 			<table id="list2"><tr><td/></tr></table>
 			
 			<!-- 버튼 박스 -->
+			<c:if test="${SUPER=='Y'}">
 			<table class="form-layout" border="0" cellspacing="0" cellpadding="0">
 				<colgroup>
 					<col width="30%"/>
@@ -239,7 +244,8 @@
 						<td class="searchHline" colspan="3"></td>
 					</tr>
 				</tfoot>
-			</table>					
+			</table>
+			</c:if>					
 			
 			<!-- 각 화면 내용 들어갈 부분 --> 
 								

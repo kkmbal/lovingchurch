@@ -22,7 +22,7 @@
 			
 			 $("#list1").jqGrid({
 			    url:"inoutService.listDonation.lc",
-			    colNames:['성명', '주일','십일조','감사','선교','건축','생일','부활절','추수감사','구제','성탄감사','신년감사','CAL_YMD','USER_KEY'],
+			    colNames:['성명', '주일','십일조','감사','선교','건축','생일','부활절','추수감사','구제','성탄감사','신년감사','창립감사','CAL_YMD','USER_KEY'],
 			    colModel :[ 
 			      {name:'USER_NM', index:'USER_NM', width:90, align:'left', editable:false},
 			      {name:'DONA_CD_01', index:'DONA_CD_01', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:",",defaultValue: '0'}, editrules:{number:true}}, 
@@ -36,6 +36,7 @@
 			      {name:'DONA_CD_09', index:'DONA_CD_09', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}, hidden:true},
 			      {name:'DONA_CD_10', index:'DONA_CD_10', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}, hidden:true},
 			      {name:'DONA_CD_11', index:'DONA_CD_11', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}, hidden:true},
+			      {name:'DONA_CD_12', index:'DONA_CD_12', width:80, align:'right', editable:true, formatter: 'currency',formatoptions:{thousandsSeparator:","}, editrules:{number:true}, hidden:true},
 			      {name:'CAL_YMD', index:'CAL_YMD', width:80, align:'right', editable:false, hidden:true},
 			      {name:'USER_KEY', index:'USER_KEY', width:80, align:'right', editable:false, hidden:true}
 			    ],
@@ -61,6 +62,7 @@
 	  					var DONA_CD_09_sum = $("#list1").jqGrid('getCol', 'DONA_CD_09', false, 'sum');
 	  					var DONA_CD_10_sum = $("#list1").jqGrid('getCol', 'DONA_CD_10', false, 'sum');
 	  					var DONA_CD_11_sum = $("#list1").jqGrid('getCol', 'DONA_CD_11', false, 'sum');
+	  					var DONA_CD_12_sum = $("#list1").jqGrid('getCol', 'DONA_CD_12', false, 'sum');
 						
 						$("#list1").jqGrid('footerData', 'set', { USER_NM: '합계', DONA_CD_01: DONA_CD_01_sum, 
 																				   DONA_CD_02: DONA_CD_02_sum,
@@ -72,7 +74,8 @@
 																				   DONA_CD_08: DONA_CD_08_sum,
 																				   DONA_CD_09: DONA_CD_09_sum,
 																				   DONA_CD_10: DONA_CD_10_sum,
-																				   DONA_CD_11: DONA_CD_11_sum
+																				   DONA_CD_11: DONA_CD_11_sum,
+																				   DONA_CD_12: DONA_CD_12_sum
 																				   });
 	  				 }
 	  			 }			    

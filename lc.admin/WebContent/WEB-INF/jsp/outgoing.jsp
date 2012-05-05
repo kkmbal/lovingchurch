@@ -65,7 +65,12 @@
 					search_data.CAL_YMD = $("#DT").val().replace(/-/gi,"");
 					$("#list").fnSaveGrid("inoutService.saveOut.lc", search_data);
 					return false;
-				});				 
+				});		
+				
+				$("#sumDetl").click(function(){
+					var calYmd = $("#DT").val();
+					location.href = "${pageContext.request.contextPath}/settleWeek.do?calYmd="+calYmd;
+				});				
 		});
 	</script>
 </head>
@@ -136,7 +141,7 @@
 					<tr>
 						<td class="searchBody"> </td>
 						<td class="searchBody" align="center">&nbsp;</td>
-						<td class="searchBody" align="right"><button id="add">행추가</button> <button id="delete">행삭제</button> <button id="save">저장</button></td>
+						<td class="searchBody" align="right"><button id="sumDetl">결산상세</button> <button id="add">행추가</button> <button id="delete">행삭제</button> <button id="save">저장</button></td>
 					</tr>
 				</tbody> 
 				<tfoot>

@@ -389,7 +389,7 @@
 			SELECT NEXT_AMT, END_YN, CAL_YM
 			FROM MON_SUM
 			WHERE CAL_YM = (	SELECT MAX(CAL_YM) 
-									FROM WEEK_SUM
+									FROM MON_SUM
 									WHERE CAL_YM < #{CAL_YM} )
 			]]>		
 	</select>	
@@ -408,24 +408,38 @@
 		     ,CRE_ID
 		     ,CRE_DATE
 		    ) 
-			SELECT SUBSTR(CAL_YMD, 1, 6)
-				  ,PREV_AMT
-				  ,IN_AMT
-				  ,OUT_AMT
-				  ,NEXT_AMT
-				  ,#{END_YN}
+			SELECT A.CAL_YM
+			      ,IFNULL(B.NEXT_AMT,0)
+			      ,IFNULL(C.IN_AMT,0)
+			      ,IFNULL(C.OUT_AMT,0)
+			      ,(IFNULL(B.NEXT_AMT,0) + IFNULL(C.IN_AMT,0) - IFNULL(C.OUT_AMT,0))
+			      ,#{END_YN}
 				  ,#{UPD_ID}
 				  ,NOW()
 				  ,#{CRE_ID}
-				  ,NOW()				  
-			FROM WEEK_SUM
-			WHERE CAL_YMD = (	SELECT MAX(CAL_YMD) 
-									FROM WEEK_SUM
-									WHERE SUBSTR(CAL_YMD, 1, 6) = #{CAL_YM} )
+				  ,NOW()			      
+			FROM ( SELECT #{CAL_YM} CAL_YM ) A LEFT OUTER JOIN 
+			     ( SELECT #{CAL_YM} CAL_YM
+						       ,NEXT_AMT
+						FROM MON_SUM
+						WHERE CAL_YM = (	SELECT MAX(CAL_YM) 
+												FROM MON_SUM
+												WHERE CAL_YM < #{CAL_YM} )												
+			      ) B ON A.CAL_YM = B.CAL_YM
+					LEFT OUTER JOIN (
+						SELECT #{CAL_YM} CAL_YM
+						      ,SUM(IN_AMT) IN_AMT
+						      ,SUM(OUT_AMT) OUT_AMT
+						FROM WEEK_SUM
+						WHERE SUBSTR(CAL_YMD,1,6) > (	SELECT MAX(CAL_YM)
+										   FROM MON_SUM
+										   WHERE CAL_YM < #{CAL_YM} )
+						AND SUBSTR(CAL_YMD,1,6) <= #{CAL_YM}
+				 ) C ON A.CAL_YM = C.CAL_YM
 			]]>		
 	</insert>	
 	
-	<select id="getWeekSumLast" parameterType="hashmap" resultType="hashmap" >
+	<select id="__getWeekSumLast" parameterType="hashmap" resultType="hashmap" >
 		    <![CDATA[
 			SELECT CAL_YMD
 				  ,PREV_AMT
@@ -438,6 +452,18 @@
 			WHERE CAL_YMD = (	SELECT MAX(CAL_YMD) 
 									FROM WEEK_SUM
 									WHERE SUBSTR(CAL_YMD, 1, 6) = #{CAL_YM} )
+			]]>		
+	</select>	
+	
+	<select id="getWeekSumLast" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT SUM(IN_AMT) IN_AMT
+			      ,SUM(OUT_AMT) OUT_AMT
+			FROM WEEK_SUM
+			WHERE SUBSTR(CAL_YMD,1,6) > (	SELECT MAX(CAL_YM)
+							   FROM MON_SUM
+							   WHERE CAL_YM < #{CAL_YM} )
+			AND SUBSTR(CAL_YMD,1,6) <= #{CAL_YM}
 			]]>		
 	</select>	
 	

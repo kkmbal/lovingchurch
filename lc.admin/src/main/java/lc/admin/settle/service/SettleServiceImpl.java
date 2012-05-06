@@ -357,12 +357,15 @@ public class SettleServiceImpl implements SettleService {
 		
 		//WEEK_SUM에서 조회
 		if(monSum == null){
+			Map nextAmtMon = settleMapper.getNextAmtMonth(map);
 			Map weekSum = settleMapper.getWeekSumLast(map);
 			
 			if(weekSum != null){
 				thisIn = Integer.parseInt(weekSum.get("IN_AMT").toString());
 				thisOut = Integer.parseInt(weekSum.get("OUT_AMT").toString());
-				prevEnd = Integer.parseInt(weekSum.get("PREV_AMT").toString());
+			}
+			if(nextAmtMon != null){
+				prevEnd = Integer.parseInt(nextAmtMon.get("NEXT_AMT").toString());
 			}
 			
 			thisInSum = thisIn + prevEnd;

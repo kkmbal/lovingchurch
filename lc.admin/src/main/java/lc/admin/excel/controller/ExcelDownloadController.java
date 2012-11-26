@@ -279,40 +279,65 @@ public class ExcelDownloadController {
     	String sum = null;
     	
     	JExcelExportInfo export = new JExcelExportInfo();
+    	long AMT1 = 0;
+    	long AMT2 = 0;
+    	long AMT3 = 0;
+    	long AMT4 = 0;
+    	long AMT5 = 0;
+    	long AMT6 = 0;
+    	long AMT7 = 0;
+    	long SUMM = 0;
+    	
+    	for(Map map : yearSumExcel){
+    		if(map.get("AMT1") != null){
+    			map.put("S_AMT1", StringUtil.commaMask(map.get("AMT1").toString()));
+    			AMT1 += Long.parseLong(map.get("AMT1").toString());
+    		}
+    		if(map.get("AMT2") != null){
+    			map.put("S_AMT2", StringUtil.commaMask(map.get("AMT2").toString()));
+    			AMT2 += Long.parseLong(map.get("AMT2").toString());
+    		}
+    		if(map.get("AMT3") != null){
+    			map.put("S_AMT3", StringUtil.commaMask(map.get("AMT3").toString()));
+    			AMT3 += Long.parseLong(map.get("AMT3").toString());
+    		}
+    		if(map.get("AMT4") != null){
+    			map.put("S_AMT4", StringUtil.commaMask(map.get("AMT4").toString()));
+    			AMT4 += Long.parseLong(map.get("AMT4").toString());
+    		}
+    		if(map.get("AMT5") != null){
+    			map.put("S_AMT5", StringUtil.commaMask(map.get("AMT5").toString()));
+    			AMT5 += Long.parseLong(map.get("AMT5").toString());
+    		}
+    		if(map.get("AMT6") != null){
+    			map.put("S_AMT6", StringUtil.commaMask(map.get("AMT6").toString()));
+    			AMT6 += Long.parseLong(map.get("AMT6").toString());
+    		}
+    		if(map.get("AMT7") != null){
+    			map.put("S_AMT7", StringUtil.commaMask(map.get("AMT7").toString()));
+    			AMT7 += Long.parseLong(map.get("AMT7").toString());
+    		}
+    		if(map.get("SUMM") != null){
+    			map.put("S_SUMM", StringUtil.commaMask(map.get("SUMM").toString()));
+    			SUMM += Long.parseLong(map.get("SUMM").toString());
+    		}
+    	}    	
     	
     	// #DATA타입
     	export.addData(5, 1, "<"+YEAR+"년 수입예산>");
-    	export.addData(5, 6, "전년이월금 : ");
-    	export.addData(5, 7, "합계 : ");
+    	export.addData(2, 6, StringUtil.commaMask(AMT1));
+    	export.addData(3, 6, StringUtil.commaMask(AMT2));
+    	export.addData(4, 6, StringUtil.commaMask(AMT3));
+    	export.addData(5, 6, StringUtil.commaMask(AMT4));
+    	export.addData(6, 6, StringUtil.commaMask(AMT5));
+    	export.addData(7, 6, StringUtil.commaMask(AMT6));
+    	export.addData(8, 6, StringUtil.commaMask(AMT7));
+    	export.addData(9, 6, StringUtil.commaMask(SUMM));
+    	export.addData(5, 8, "전년이월금 : ");
+    	export.addData(5, 9, "합계 : "+StringUtil.commaMask(SUMM));
     	
     	// #LIST타입
-    	for(Map map : yearSumExcel){
-    		if(map.get("AMT1") != null){
-    			map.put("AMT1", StringUtil.commaMask(map.get("AMT1").toString()));
-    		}
-    		if(map.get("AMT2") != null){
-    			map.put("AMT2", StringUtil.commaMask(map.get("AMT2").toString()));
-    		}
-    		if(map.get("AMT3") != null){
-    			map.put("AMT3", StringUtil.commaMask(map.get("AMT3").toString()));
-    		}
-    		if(map.get("AMT4") != null){
-    			map.put("AMT4", StringUtil.commaMask(map.get("AMT4").toString()));
-    		}
-    		if(map.get("AMT5") != null){
-    			map.put("AMT5", StringUtil.commaMask(map.get("AMT5").toString()));
-    		}
-    		if(map.get("AMT6") != null){
-    			map.put("AMT6", StringUtil.commaMask(map.get("AMT6").toString()));
-    		}
-    		if(map.get("AMT7") != null){
-    			map.put("AMT7", StringUtil.commaMask(map.get("AMT7").toString()));
-    		}
-    		if(map.get("SUMM") != null){
-    			map.put("SUMM", StringUtil.commaMask(map.get("SUMM").toString()));
-    		}
-    	}
-    	export.addList(1, 4, yearSumExcel, new String[]{"CAL_YMD", "AMT1", "AMT2", "AMT3", "AMT4", "AMT5", "AMT6", "AMT7", "SUMM"});
+    	export.addList(1, 4, yearSumExcel, new String[]{"CAL_YMD", "S_AMT1", "S_AMT2", "S_AMT3", "S_AMT4", "S_AMT5", "S_AMT6", "S_AMT7", "S_SUMM"});
     	export.setFileName("in_year_list");
     	
     	Map modelMap = new HashMap();

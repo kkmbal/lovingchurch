@@ -44,4 +44,10 @@ public interface SettleService {
 	//월마감처리
 	public Map saveMonthEndYn(HashMap map) throws Exception;
 	//******************************************************************
+	//수입예산
+	public GridOutVO listInYear(GridInVO giVO) throws Exception;
+	//지출예산
+	public GridOutVO listOutYear(GridInVO giVO) throws Exception;
+	//예산결산
+	public GridOutVO listYearSum(GridInVO giVO) throws Exception;
 }

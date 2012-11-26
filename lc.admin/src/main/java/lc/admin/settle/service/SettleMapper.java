@@ -47,6 +47,12 @@ public interface SettleMapper {
 	public void deleteMonSum(Map map)  throws Exception;
 	public void updateMonthEndYn(Map map)  throws Exception;
 	//******************************************************************
+	//수입예산
+	public List<Map> listInYear(HashMap map)  throws Exception;
+	//지출예산
+	public List<Map> listOutYear(HashMap map)  throws Exception;
+	//예산결산
+	public List<Map> listYearSum(HashMap map)  throws Exception;
 	
 
 	

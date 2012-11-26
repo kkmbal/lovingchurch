@@ -481,5 +481,61 @@ public class SettleServiceImpl implements SettleService {
 		result.put("SUCCESS", "마감되었습니다.");
 		result.put("END_YN", "Y"); //마감여부
 		return result;
+	}
+
+
+	//수입예산
+	@Override
+	public GridOutVO listInYear(GridInVO giVO) throws Exception {
+		Map<String, String> userdata = giVO.getUserdata();
+		
+		List<Map> list = settleMapper.listInYear(new HashMap(userdata));
+		
+		GridOutVO gridOutVO = new GridOutVO();
+		if(list != null && list.size() > 0){
+			List<Map<String, String>> listRow = new ArrayList<Map<String, String>>();
+			for(Map<String, String> vo : list){
+				listRow.add(vo);
+			}
+			gridOutVO.setRows(listRow);
+		}
+		return gridOutVO;
+	}
+
+	//지출예산
+	@Override
+	public GridOutVO listOutYear(GridInVO giVO) throws Exception {
+		Map<String, String> userdata = giVO.getUserdata();
+		
+		List<Map> list = settleMapper.listOutYear(new HashMap(userdata));
+		
+		GridOutVO gridOutVO = new GridOutVO();
+		if(list != null && list.size() > 0){
+			List<Map<String, String>> listRow = new ArrayList<Map<String, String>>();
+			for(Map<String, String> vo : list){
+				listRow.add(vo);
+			}
+			gridOutVO.setRows(listRow);
+		}
+		return gridOutVO;
+	}
+
+
+	//예산결산
+	@Override
+	public GridOutVO listYearSum(GridInVO giVO) throws Exception {
+		Map<String, String> userdata = giVO.getUserdata();
+		
+		List<Map> list = settleMapper.listYearSum(new HashMap(userdata));
+		
+		GridOutVO gridOutVO = new GridOutVO();
+		if(list != null && list.size() > 0){
+			List<Map<String, String>> listRow = new ArrayList<Map<String, String>>();
+			for(Map<String, String> vo : list){
+				listRow.add(vo);
+			}
+			gridOutVO.setRows(listRow);
+		}
+		return gridOutVO;
 	}	
 }

@@ -482,5 +482,63 @@
 		       ,UPD_DATE = NOW()
 		    WHERE CAL_YM = #{CAL_YM}
 			]]>		
-	</update>		
+	</update>
+	
+	<select id="listInYear" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT CONCAT(SUBSTR(A.CAL_YMD, 5, 2), '월') CAL_YMD
+				    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '01' THEN A.INOUT_AMT ELSE 0 END) AMT1
+				    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '02' THEN A.INOUT_AMT ELSE 0 END) AMT2
+				    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '03' THEN A.INOUT_AMT ELSE 0 END) AMT3
+				    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '04' THEN A.INOUT_AMT ELSE 0 END) AMT4
+				    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '05' THEN A.INOUT_AMT ELSE 0 END) AMT5
+				    ,SUM(CASE WHEN A.INOUT_ITEM_CD IN ('07','08','10','11') THEN A.INOUT_AMT ELSE 0 END) AMT6
+				    ,SUM(CASE WHEN A.INOUT_ITEM_CD NOT IN ('01','02','03','04','05','07','08','10','11') THEN A.INOUT_AMT ELSE 0 END) AMT7
+				    ,SUM(A.INOUT_AMT) SUMM
+			FROM WEEK_INOUT A,
+			     (
+					SELECT CD_VAL, CD_NM
+					FROM CODE
+					WHERE HICD_VAL = 'DONA_CD'  
+					AND USE_YN = 'Y'   
+				  ) B
+			WHERE A.CAL_YMD LIKE CONCAT(#{YEAR}, '%')
+			AND   A.INOUT_CD = '01'
+			AND   A.INOUT_ITEM_CD = B.CD_VAL
+			GROUP BY SUBSTR(A.CAL_YMD, 5, 2)		
+			]]>		
+	</select>
+	
+	<select id="listOutYear" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT B.CD_VAL, MIN(CD_NM) CD_NM, SUM(A.INOUT_AMT)  INOUT_AMT
+			FROM WEEK_INOUT A,
+			     (
+					SELECT CD_VAL, CD_NM
+					FROM CODE
+					WHERE HICD_VAL = 'OUT_CD'
+					AND USE_YN = 'Y'     
+				  ) B
+			WHERE A.CAL_YMD LIKE CONCAT(#{YEAR}, '%')
+			AND   A.INOUT_CD = '02'
+			AND   A.INOUT_ITEM_CD = B.CD_VAL
+			GROUP BY B.CD_VAL
+			]]>		
+	</select>
+	
+	<select id="listYearSum" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT CAL_YMD
+				  ,PREV_AMT
+				  ,IN_AMT
+				  ,OUT_AMT
+				  ,NEXT_AMT
+				  ,WS_NM
+				  ,END_YN
+			FROM WEEK_SUM
+			WHERE CAL_YMD = (	SELECT MAX(CAL_YMD) 
+									FROM WEEK_SUM
+									WHERE SUBSTR(CAL_YMD, 1, 6) = #{CAL_YM} )
+			]]>		
+	</select>					
 </mapper>

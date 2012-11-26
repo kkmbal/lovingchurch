@@ -26,7 +26,7 @@
 		<li class="first" style="width:195px;"></li>
 		<li><a href="<c:url value='settleWeek.do'/>" id="submenu21">주간</a></li>
 		<li><a href="<c:url value='settleMonth.do'/>" id="submenu21">월간</a></li>
-<!--		<li class="end"><a href="<c:url value='settleYear.do'/>" id="submenu22">년간</a></li>-->
+		<li class="end"><a href="<c:url value='settleYear.do'/>" id="submenu22">년간</a></li>
 	</ul>
 	<ul id="subArea3" class="submenu">
 		<li class="first" style="width:345px;"></li>

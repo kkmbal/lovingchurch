@@ -528,17 +528,184 @@
 	
 	<select id="listYearSum" parameterType="hashmap" resultType="hashmap" >
 		    <![CDATA[
-			SELECT CAL_YMD
-				  ,PREV_AMT
-				  ,IN_AMT
-				  ,OUT_AMT
-				  ,NEXT_AMT
-				  ,WS_NM
-				  ,END_YN
-			FROM WEEK_SUM
-			WHERE CAL_YMD = (	SELECT MAX(CAL_YMD) 
-									FROM WEEK_SUM
-									WHERE SUBSTR(CAL_YMD, 1, 6) = #{CAL_YM} )
+			SELECT A.CAL_YEAR PREV_CAL_YEAR
+			       , IFNULL(A.SUM1_AMT,0) PREV_SUM1_AMT
+			       , IFNULL(A.SUM2_AMT,0) PREV_SUM2_AMT
+			       , IFNULL(A.SUM3_AMT,0) PREV_SUM3_AMT
+			       , IFNULL(A.SUM4_AMT,0) PREV_SUM4_AMT
+			       , IFNULL(A.SUM5_AMT,0) PREV_SUM5_AMT
+			       , IFNULL(A.SUM6_AMT,0) PREV_SUM6_AMT
+			       , IFNULL(A.SUM7_AMT,0) PREV_SUM7_AMT
+			       , IFNULL(B.SUM1_AMT,0) SUM1_AMT
+			       , IFNULL(B.SUM2_AMT,0) SUM2_AMT
+			       , IFNULL(B.SUM3_AMT,0) SUM3_AMT
+			       , IFNULL(B.SUM4_AMT,0) SUM4_AMT
+			       , IFNULL(B.SUM5_AMT,0) SUM5_AMT
+			       , IFNULL(B.SUM6_AMT,0) SUM6_AMT
+			       , IFNULL(B.SUM7_AMT,0) SUM7_AMT      
+			       , IFNULL(A.EXP_SUM1_AMT,0) EXP_SUM1_AMT
+			       , IFNULL(A.EXP_SUM2_AMT,0) EXP_SUM2_AMT
+			       , IFNULL(A.EXP_SUM2_AMT,0) EXP_SUM2_AMT
+			       , IFNULL(A.EXP_SUM3_AMT,0) EXP_SUM3_AMT
+			       , IFNULL(A.EXP_SUM4_AMT,0) EXP_SUM4_AMT
+			       , IFNULL(A.EXP_SUM5_AMT,0) EXP_SUM5_AMT
+			       , IFNULL(A.EXP_SUM6_AMT,0) EXP_SUM6_AMT
+			       , IFNULL(A.EXP_SUM7_AMT,0) EXP_SUM7_AMT
+			       ,A.REMARK1, A.REMARK2, A.REMARK3, A.REMARK4, A.REMARK5, A.REMARK6, A.REMARK7
+			FROM YEAR_SUM A, (
+						SELECT SUBSTR(A.CAL_YMD, 1, 4) CAL_YEAR
+							    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '01' THEN A.INOUT_AMT ELSE 0 END) SUM1_AMT
+							    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '02' THEN A.INOUT_AMT ELSE 0 END) SUM2_AMT
+							    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '03' THEN A.INOUT_AMT ELSE 0 END) SUM3_AMT
+							    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '04' THEN A.INOUT_AMT ELSE 0 END) SUM4_AMT
+							    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '05' THEN A.INOUT_AMT ELSE 0 END) SUM5_AMT
+							    ,SUM(CASE WHEN A.INOUT_ITEM_CD IN ('07','08','10','11') THEN A.INOUT_AMT ELSE 0 END) SUM6_AMT
+							    ,SUM(CASE WHEN A.INOUT_ITEM_CD NOT IN ('01','02','03','04','05','07','08','10','11') THEN A.INOUT_AMT ELSE 0 END) SUM7_AMT
+						FROM WEEK_INOUT A,
+						     (
+								SELECT CD_VAL, CD_NM
+								FROM CODE
+								WHERE HICD_VAL = 'DONA_CD'  
+								AND USE_YN = 'Y'   
+							  ) B
+						WHERE A.CAL_YMD LIKE CONCAT(#{YEAR}, '%')
+						AND   A.INOUT_CD = '01'
+						AND   A.INOUT_ITEM_CD = B.CD_VAL
+						GROUP BY SUBSTR(A.CAL_YMD, 1, 4)
+			     ) B
+			WHERE A.CAL_YEAR = #{YEAR}-1
+			AND   A.CAL_YEAR + 1 = B.CAL_YEAR
 			]]>		
-	</select>					
+	</select>	
+	
+	<select id="getYearSum" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT CAL_YEAR
+				  ,IFNULL(SUM1_AMT,0) SUM1_AMT
+				  ,IFNULL(SUM2_AMT,0) SUM2_AMT
+				  ,IFNULL(SUM3_AMT,0) SUM3_AMT
+				  ,IFNULL(SUM4_AMT,0) SUM4_AMT
+				  ,IFNULL(SUM5_AMT,0) SUM5_AMT
+				  ,IFNULL(SUM6_AMT,0) SUM6_AMT
+				  ,IFNULL(SUM7_AMT,0) SUM7_AMT
+				  ,IFNULL(EXP_SUM1_AMT,0) EXP_SUM1_AMT 
+				  ,IFNULL(EXP_SUM2_AMT,0) EXP_SUM2_AMT 
+				  ,IFNULL(EXP_SUM3_AMT,0) EXP_SUM3_AMT 
+				  ,IFNULL(EXP_SUM4_AMT,0) EXP_SUM4_AMT 
+				  ,IFNULL(EXP_SUM5_AMT,0) EXP_SUM5_AMT 
+				  ,IFNULL(EXP_SUM6_AMT,0) EXP_SUM6_AMT 
+				  ,IFNULL(EXP_SUM7_AMT,0) EXP_SUM7_AMT 
+				  ,REMARK1
+				  ,REMARK2
+				  ,REMARK3
+				  ,REMARK4
+				  ,REMARK5
+				  ,REMARK6
+				  ,REMARK7
+				  ,END_YN
+			FROM YEAR_SUM
+			WHERE CAL_YEAR = #{YEAR}
+			]]>		
+	</select>	
+
+	<insert id="insertYearSum" parameterType="hashmap" >
+		    <![CDATA[
+				INSERT INTO YEAR_SUM(
+					CAL_YEAR,
+					SUM1_AMT,
+					SUM2_AMT,
+					SUM3_AMT,
+					SUM4_AMT,
+					SUM5_AMT,
+					SUM6_AMT,
+					SUM7_AMT,
+					EXP_SUM1_AMT,
+					EXP_SUM2_AMT,
+					EXP_SUM3_AMT,
+					EXP_SUM4_AMT,
+					EXP_SUM5_AMT,
+					EXP_SUM6_AMT,
+					EXP_SUM7_AMT,
+					REMARK1,
+					REMARK2,
+					REMARK3,
+					REMARK4,
+					REMARK5,
+					REMARK6,
+					REMARK7,
+					END_YN,
+					UPD_ID,
+					UPD_DATE	,
+					CRE_ID		,
+					CRE_DATE	
+					) 
+					SELECT SUBSTR(A.CAL_YMD, 1, 4) CAL_YEAR
+						    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '01' THEN A.INOUT_AMT ELSE 0 END) SUM1_AMT
+						    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '02' THEN A.INOUT_AMT ELSE 0 END) SUM2_AMT
+						    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '03' THEN A.INOUT_AMT ELSE 0 END) SUM3_AMT
+						    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '04' THEN A.INOUT_AMT ELSE 0 END) SUM4_AMT
+						    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '05' THEN A.INOUT_AMT ELSE 0 END) SUM5_AMT
+						    ,SUM(CASE WHEN A.INOUT_ITEM_CD IN ('07','08','10','11') THEN A.INOUT_AMT ELSE 0 END) SUM6_AMT
+						    ,SUM(CASE WHEN A.INOUT_ITEM_CD NOT IN ('01','02','03','04','05','07','08','10','11') THEN A.INOUT_AMT ELSE 0 END) SUM7_AMT
+						    ,#{EXP_SUM1_AMT} EXP_SUM1_AMT
+						    ,#{EXP_SUM2_AMT} EXP_SUM2_AMT
+						    ,#{EXP_SUM3_AMT} EXP_SUM3_AMT
+						    ,#{EXP_SUM4_AMT} EXP_SUM4_AMT
+						    ,#{EXP_SUM5_AMT} EXP_SUM5_AMT
+						    ,#{EXP_SUM6_AMT} EXP_SUM6_AMT
+						    ,#{EXP_SUM7_AMT} EXP_SUM7_AMT
+						    ,#{REMARK1} REMARK1
+						    ,#{REMARK2} REMARK2
+						    ,#{REMARK3} REMARK3
+						    ,#{REMARK4} REMARK4
+						    ,#{REMARK5} REMARK5
+						    ,#{REMARK6} REMARK6
+						    ,#{REMARK7} REMARK7
+						,#{END_YN}
+						,#{UPD_ID}
+						,NOW()
+						,#{CRE_ID}
+						,NOW()
+					FROM WEEK_INOUT A,
+					     (
+							SELECT CD_VAL, CD_NM
+							FROM CODE
+							WHERE HICD_VAL = 'DONA_CD'  
+							AND USE_YN = 'Y'   
+						  ) B
+					WHERE A.CAL_YMD LIKE CONCAT(#{YEAR}, '%')
+					AND   A.INOUT_CD = '01'
+					AND   A.INOUT_ITEM_CD = B.CD_VAL
+					GROUP BY SUBSTR(A.CAL_YMD, 1, 4)
+
+
+			]]>		
+	</insert>
+
+	<delete id="deleteYearSum" parameterType="hashmap" >
+		    <![CDATA[
+		    DELETE FROM YEAR_SUM
+			WHERE A.CAL_YEAR = #{YEAR}
+			]]>		
+	</delete>
+
+	<update id="updateYearEndYn" parameterType="hashmap" >
+		    <![CDATA[
+		    UPDATE YEAR_SUM
+		    SET END_YN = #{END_YN}
+		       ,UPD_ID = #{UPD_ID}
+		       ,UPD_DATE = NOW()
+		    WHERE CAL_YEAR = #{YEAR}
+			]]>		
+	</update>
+	
+	<select id="getNextAmtYear" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
+			SELECT END_YN, CAL_YEAR
+			FROM YEAR_SUM
+			WHERE CAL_YEAR = (	SELECT MAX(CAL_YEAR) 
+									FROM YEAR_SUM
+									WHERE CAL_YEAR < #{YEAR} )
+			]]>		
+	</select>						
 </mapper>

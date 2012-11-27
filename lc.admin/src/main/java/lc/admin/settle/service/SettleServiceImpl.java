@@ -526,13 +526,7 @@ public class SettleServiceImpl implements SettleService {
 	public Map listYearSum(HashMap map) throws Exception {
 		Map<String, String> result = new HashMap<String, String>();
 		
-		int thisIn = 0;  //금주수입계
-		int thisOut = 0; //금주지출계
-		int prevEnd = 0; //전주이월계
-		int thisInSum = 0; //수입합계
-		int thisOutSum = 0; //지출합계
-		int thisEnd = 0; //금주마감
-		int prevThisSum = 0; //전주+금주
+
 		
 		//올해
 		Map yearSum = settleMapper.getYearSum(map);

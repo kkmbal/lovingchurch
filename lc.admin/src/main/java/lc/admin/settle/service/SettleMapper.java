@@ -52,7 +52,13 @@ public interface SettleMapper {
 	//지출예산
 	public List<Map> listOutYear(HashMap map)  throws Exception;
 	//예산결산
-	public List<Map> listYearSum(HashMap map)  throws Exception;
+	public Map listYearSum(HashMap map)  throws Exception;
+	
+	public Map getYearSum(HashMap map);
+	public void insertYearSum(HashMap map);
+	public void deleteYearSum(HashMap map);
+	public Map getNextAmtYear(HashMap map);
+	public void updateYearEndYn(HashMap map);
 	
 
 	

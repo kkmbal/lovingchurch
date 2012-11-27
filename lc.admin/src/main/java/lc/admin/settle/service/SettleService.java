@@ -49,5 +49,9 @@ public interface SettleService {
 	//지출예산
 	public GridOutVO listOutYear(GridInVO giVO) throws Exception;
 	//예산결산
-	public GridOutVO listYearSum(GridInVO giVO) throws Exception;
+	public Map listYearSum(HashMap map) throws Exception;
+	public Map listYearSumExcel(HashMap map) throws Exception;
+	
+	public Map saveYearSum(HashMap map) throws Exception;
+	public Map saveYearEndYn(HashMap map) throws Exception;
 }

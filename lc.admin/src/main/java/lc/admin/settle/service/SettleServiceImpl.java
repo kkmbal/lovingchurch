@@ -523,19 +523,207 @@ public class SettleServiceImpl implements SettleService {
 
 	//예산결산
 	@Override
-	public GridOutVO listYearSum(GridInVO giVO) throws Exception {
-		Map<String, String> userdata = giVO.getUserdata();
+	public Map listYearSum(HashMap map) throws Exception {
+		Map<String, String> result = new HashMap<String, String>();
 		
-		List<Map> list = settleMapper.listYearSum(new HashMap(userdata));
+		int thisIn = 0;  //금주수입계
+		int thisOut = 0; //금주지출계
+		int prevEnd = 0; //전주이월계
+		int thisInSum = 0; //수입합계
+		int thisOutSum = 0; //지출합계
+		int thisEnd = 0; //금주마감
+		int prevThisSum = 0; //전주+금주
 		
-		GridOutVO gridOutVO = new GridOutVO();
-		if(list != null && list.size() > 0){
-			List<Map<String, String>> listRow = new ArrayList<Map<String, String>>();
-			for(Map<String, String> vo : list){
-				listRow.add(vo);
-			}
-			gridOutVO.setRows(listRow);
+		//올해
+		Map yearSum = settleMapper.getYearSum(map);
+		String year = (String)map.get("YEAR");
+		
+		//지난해
+		HashMap prevMap = new HashMap();
+		prevMap.put("YEAR", String.valueOf(Integer.parseInt(year) - 1));
+		Map prevYearSum = settleMapper.getYearSum(prevMap);
+		
+		//WEEK_SUM에서 조회
+		if(yearSum == null){
+			Map listYearSum = settleMapper.listYearSum(map);
+
+			result.put("PREV_SUM1_AMT", StringUtil.commaMask(listYearSum.get("PREV_SUM1_AMT").toString())); //작년주정현금
+			result.put("SUM1_AMT", StringUtil.commaMask(listYearSum.get("SUM1_AMT").toString())); //올해주정현금
+			result.put("PREV_EXP_SUM1_AMT", StringUtil.commaMask(listYearSum.get("EXP_SUM1_AMT").toString())); //작년책정예산-주정헌금
+			result.put("EXP_SUM1_AMT", "0"); //올해책정예산-주정헌금
+			result.put("REMARK1", (listYearSum.get("REMARK1").toString())); //비고-주정현금
+	    	
+			result.put("PREV_SUM2_AMT", StringUtil.commaMask(listYearSum.get("PREV_SUM2_AMT").toString())); //작년십일조현금
+			result.put("SUM2_AMT", StringUtil.commaMask(listYearSum.get("SUM2_AMT").toString())); //올해십일조현금
+			result.put("PREV_EXP_SUM2_AMT", StringUtil.commaMask(listYearSum.get("EXP_SUM2_AMT").toString())); //작년책정예산-십일조헌금
+			result.put("EXP_SUM2_AMT", "0"); //올해책정예산-십일조헌금
+			result.put("REMARK2", (listYearSum.get("REMARK2").toString())); //비고-십일조현금
+	    	
+	    	result.put("PREV_SUM3_AMT", StringUtil.commaMask(listYearSum.get("PREV_SUM3_AMT").toString())); //작년감사현금
+	    	result.put("SUM3_AMT", StringUtil.commaMask(listYearSum.get("SUM3_AMT").toString())); //올해감사현금
+	    	result.put("PREV_EXP_SUM3_AMT", StringUtil.commaMask(listYearSum.get("EXP_SUM3_AMT").toString())); //작년책정예산-감사헌금
+	    	result.put("EXP_SUM3_AMT", "0"); //올해책정예산-감사헌금
+	    	result.put("REMARK3", (listYearSum.get("REMARK3").toString())); //비고-감사현금
+	    	
+	    	result.put("PREV_SUM4_AMT", StringUtil.commaMask(listYearSum.get("PREV_SUM4_AMT").toString())); //작년선교현금
+	    	result.put("SUM4_AMT", StringUtil.commaMask(listYearSum.get("SUM4_AMT").toString())); //올해선교현금
+	    	result.put("PREV_EXP_SUM4_AMT", StringUtil.commaMask(listYearSum.get("EXP_SUM4_AMT").toString())); //작년책정예산-선교헌금
+	    	result.put("EXP_SUM4_AMT", "0"); //올해책정예산-선교헌금
+	    	result.put("REMARK4", (listYearSum.get("REMARK4").toString())); //비고-주정현금
+	    	
+	    	result.put("PREV_SUM5_AMT", StringUtil.commaMask(listYearSum.get("PREV_SUM5_AMT").toString())); //작년건축현금
+	    	result.put("SUM5_AMT", StringUtil.commaMask(listYearSum.get("SUM5_AMT").toString())); //올해건축현금
+	    	result.put("PREV_EXP_SUM5_AMT", StringUtil.commaMask(listYearSum.get("EXP_SUM5_AMT").toString())); //작년책정예산-건축헌금
+	    	result.put("EXP_SUM5_AMT", "0"); //올해책정예산-건축헌금
+	    	result.put("REMARK5", (listYearSum.get("REMARK5").toString())); //비고-건축현금
+	    	
+	    	result.put("PREV_SUM6_AMT", StringUtil.commaMask(listYearSum.get("PREV_SUM6_AMT").toString())); //작년절기현금
+	    	result.put("SUM6_AMT", StringUtil.commaMask(listYearSum.get("SUM6_AMT").toString())); //올해절기현금
+	    	result.put("PREV_EXP_SUM6_AMT", StringUtil.commaMask(listYearSum.get("EXP_SUM6_AMT").toString())); //작년책정예산-절기헌금
+	    	result.put("EXP_SUM6_AMT", "0"); //올해책정예산-절기헌금
+	    	result.put("REMARK6", (listYearSum.get("REMARK6").toString().toString())); //비고-절기현금
+	    	
+	    	result.put("PREV_SUM7_AMT", StringUtil.commaMask(listYearSum.get("PREV_SUM7_AMT").toString())); //작년기타현금
+	    	result.put("SUM7_AMT", StringUtil.commaMask(listYearSum.get("SUM7_AMT").toString())); //올해기타현금
+	    	result.put("PREV_EXP_SUM7_AMT", StringUtil.commaMask(listYearSum.get("EXP_SUM7_AMT").toString())); //작년책정예산-기타헌금
+	    	result.put("EXP_SUM7_AMT", "0"); //올해책정예산-기타헌금
+	    	result.put("REMARK7", (listYearSum.get("REMARK7").toString())); //비고-기타현금			
+			
+			result.put("END_YN", "N"); //마감여부
+		}else{
+			result.put("PREV_SUM1_AMT", StringUtil.commaMask(prevYearSum.get("SUM1_AMT").toString())); //작년주정현금
+			result.put("SUM1_AMT", StringUtil.commaMask(yearSum.get("SUM1_AMT").toString())); //올해주정현금
+			result.put("PREV_EXP_SUM1_AMT", StringUtil.commaMask(prevYearSum.get("EXP_SUM1_AMT").toString())); //작년책정예산-주정헌금
+			result.put("EXP_SUM1_AMT", StringUtil.commaMask(yearSum.get("EXP_SUM1_AMT").toString())); //올해책정예산-주정헌금
+			result.put("REMARK1", (prevYearSum.get("REMARK1").toString())); //비고-주정현금
+	    	
+			result.put("PREV_SUM2_AMT", StringUtil.commaMask(prevYearSum.get("SUM2_AMT").toString())); //작년십일조현금
+			result.put("SUM2_AMT", StringUtil.commaMask(yearSum.get("SUM2_AMT").toString())); //올해십일조현금
+			result.put("PREV_EXP_SUM2_AMT", StringUtil.commaMask(prevYearSum.get("EXP_SUM2_AMT").toString())); //작년책정예산-십일조헌금
+			result.put("EXP_SUM2_AMT", StringUtil.commaMask(yearSum.get("EXP_SUM2_AMT").toString())); //올해책정예산-십일조헌금
+			result.put("REMARK2", (prevYearSum.get("REMARK2").toString())); //비고-십일조현금
+	    	
+	    	result.put("PREV_SUM3_AMT", StringUtil.commaMask(prevYearSum.get("SUM3_AMT").toString())); //작년감사현금
+	    	result.put("SUM3_AMT", StringUtil.commaMask(yearSum.get("SUM3_AMT").toString())); //올해감사현금
+	    	result.put("PREV_EXP_SUM3_AMT", StringUtil.commaMask(prevYearSum.get("EXP_SUM3_AMT").toString())); //작년책정예산-감사헌금
+	    	result.put("EXP_SUM3_AMT", StringUtil.commaMask(yearSum.get("EXP_SUM3_AMT").toString())); //올해책정예산-감사헌금
+	    	result.put("REMARK3", (prevYearSum.get("REMARK3").toString())); //비고-감사현금
+	    	
+	    	result.put("PREV_SUM4_AMT", StringUtil.commaMask(prevYearSum.get("SUM4_AMT").toString())); //작년선교현금
+	    	result.put("SUM4_AMT", StringUtil.commaMask(yearSum.get("SUM4_AMT").toString())); //올해선교현금
+	    	result.put("PREV_EXP_SUM4_AMT", StringUtil.commaMask(prevYearSum.get("EXP_SUM4_AMT").toString())); //작년책정예산-선교헌금
+	    	result.put("EXP_SUM4_AMT", StringUtil.commaMask(yearSum.get("EXP_SUM4_AMT").toString())); //올해책정예산-선교헌금
+	    	result.put("REMARK4", (prevYearSum.get("REMARK4").toString())); //비고-주정현금
+	    	
+	    	result.put("PREV_SUM5_AMT", StringUtil.commaMask(prevYearSum.get("SUM5_AMT").toString())); //작년건축현금
+	    	result.put("SUM5_AMT", StringUtil.commaMask(yearSum.get("SUM5_AMT").toString())); //올해건축현금
+	    	result.put("PREV_EXP_SUM5_AMT", StringUtil.commaMask(prevYearSum.get("EXP_SUM5_AMT").toString())); //작년책정예산-건축헌금
+	    	result.put("EXP_SUM5_AMT", StringUtil.commaMask(yearSum.get("EXP_SUM5_AMT").toString())); //올해책정예산-건축헌금
+	    	result.put("REMARK5", (prevYearSum.get("REMARK5").toString())); //비고-건축현금
+	    	
+	    	result.put("PREV_SUM6_AMT", StringUtil.commaMask(prevYearSum.get("SUM6_AMT").toString())); //작년절기현금
+	    	result.put("SUM6_AMT", StringUtil.commaMask(yearSum.get("SUM6_AMT").toString())); //올해절기현금
+	    	result.put("PREV_EXP_SUM6_AMT", StringUtil.commaMask(prevYearSum.get("EXP_SUM6_AMT").toString())); //작년책정예산-절기헌금
+	    	result.put("EXP_SUM6_AMT", StringUtil.commaMask(yearSum.get("EXP_SUM6_AMT").toString())); //올해책정예산-절기헌금
+	    	result.put("REMARK6", (prevYearSum.get("REMARK6").toString())); //비고-절기현금
+	    	
+	    	result.put("PREV_SUM7_AMT", StringUtil.commaMask(prevYearSum.get("SUM7_AMT").toString())); //작년기타현금
+	    	result.put("SUM7_AMT", StringUtil.commaMask(yearSum.get("SUM7_AMT").toString())); //올해기타현금
+	    	result.put("PREV_EXP_SUM7_AMT", StringUtil.commaMask(prevYearSum.get("EXP_SUM7_AMT").toString())); //작년책정예산-기타헌금
+	    	result.put("EXP_SUM7_AMT", StringUtil.commaMask(yearSum.get("EXP_SUM7_AMT").toString())); //올해책정예산-기타헌금
+	    	result.put("REMARK7", (prevYearSum.get("REMARK7").toString())); //비고-기타현금
+			
+			result.put("END_YN", (String)yearSum.get("END_YN")); //마감여부
 		}
-		return gridOutVO;
+		
+		long PREV_SUM_AMT = Long.parseLong(result.get("PREV_SUM1_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_SUM2_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_SUM3_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_SUM4_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_SUM5_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_SUM6_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_SUM7_AMT").toString().replaceAll(",", ""));
+    	long SUM_AMT = Long.parseLong(result.get("SUM1_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("SUM2_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("SUM3_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("SUM4_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("SUM5_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("SUM6_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("SUM7_AMT").toString().replaceAll(",", ""));
+    	long PREV_EXP_SUM_AMT = Long.parseLong(result.get("PREV_EXP_SUM1_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_EXP_SUM2_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_EXP_SUM3_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_EXP_SUM4_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_EXP_SUM5_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_EXP_SUM6_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("PREV_EXP_SUM7_AMT").toString().replaceAll(",", ""));
+    	long EXP_SUM_AMT = Long.parseLong(result.get("EXP_SUM1_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("EXP_SUM2_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("EXP_SUM3_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("EXP_SUM4_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("EXP_SUM5_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("EXP_SUM6_AMT").toString().replaceAll(",", "")) + Long.parseLong(result.get("EXP_SUM7_AMT").toString().replaceAll(",", ""));
+    	
+    	result.put("PREV_SUM_AMT", StringUtil.commaMask(PREV_SUM_AMT)); //작년합계
+    	result.put("SUM_AMT", StringUtil.commaMask(SUM_AMT)); //올해합계
+    	result.put("PREV_EXP_SUM_AMT", StringUtil.commaMask(PREV_EXP_SUM_AMT)); //작년책정예산-합계
+    	result.put("EXP_SUM_AMT", StringUtil.commaMask(EXP_SUM_AMT)); //올해책정예산-합계
+ 
+		
+		return result;
+	}
+
+	//년간결산저장
+	public Map saveYearSum(HashMap map) throws Exception{
+		UserInfo UserInfo = lcSessionContext.getUserInfo();
+		Map result = new HashMap();
+		
+		//년간결산 존재유무 조회
+		Map yearSum = settleMapper.getYearSum(map);
+		
+		map.put("CRE_ID", UserInfo.getUSER_ID());
+		map.put("UPD_ID", UserInfo.getUSER_ID());
+		map.put("END_YN", "N");		
+		
+		if(yearSum == null){
+			//insert
+			settleMapper.insertYearSum(map);
+		}else{
+			String endYn = (String)yearSum.get("END_YN");
+			if("Y".equals(endYn)){
+				result.put("SUCCESS", "이미 마감처리되었습니다.");
+				return result;
+			}else{
+				//delete
+				settleMapper.deleteYearSum(map);
+				
+				//insert
+				settleMapper.insertYearSum(map);
+			}
+		}
+		
+		result.put("SUCCESS", "저장되었습니다.");
+		return result;
+	}
+	
+	//월마감처리
+	public Map saveYearEndYn(HashMap map) throws Exception{
+		UserInfo UserInfo = lcSessionContext.getUserInfo();
+		Map result = new HashMap();
+		
+		//전년마감처리여부 조회
+		Map nextAmt = settleMapper.getNextAmtYear(map);
+		if(nextAmt != null){
+			String endYn = (String)nextAmt.get("END_YN");
+			String calYear = (String)nextAmt.get("CAL_YEAR");
+			if(!"Y".equals(endYn)){
+				result.put("SUCCESS", "마감처리 되지 않은 달이 있습니다.("+calYear+")"); 
+				return result;
+			}
+		}
+		
+		//년간결산 존재유무 조회
+		Map yearSum = settleMapper.getYearSum(map);
+		if(yearSum == null){
+			result.put("SUCCESS", "저장을 먼저 하세요."); 
+			return result;
+		}else{
+			String endYn = (String)yearSum.get("END_YN");
+			if("Y".equals(endYn)){
+				result.put("SUCCESS", "이미 마감처리되었습니다."); 
+				return result;
+			}
+			
+			map.put("UPD_ID", UserInfo.getUSER_ID());
+			map.put("END_YN", "Y"); //마감여부
+			
+			settleMapper.updateYearEndYn(map);
+		}
+		
+		result.put("SUCCESS", "마감되었습니다.");
+		result.put("END_YN", "Y"); //마감여부
+		return result;
+	}	
+	
+	@Override
+	public Map listYearSumExcel(HashMap map) throws Exception {
+		return listYearSum(map);
 	}	
 }

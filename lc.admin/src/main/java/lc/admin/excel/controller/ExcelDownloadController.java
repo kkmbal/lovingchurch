@@ -359,24 +359,28 @@ public class ExcelDownloadController {
     	//지출연간리스트
     	List<Map> yearSumExcel = settleMapper.listOutYear(param);
     	
-    	String sum = null;
+    	long sum = 0;
     	
     	JExcelExportInfo export = new JExcelExportInfo();
     	
-    	// #DATA타입
-    	export.addData(3, 1, "<"+YEAR+"년 지출결산>");
-    	export.addData(3, 6, "합계 : ");
-    	
-    	// #LIST타입
     	int idx = 1;
     	for(Map map : yearSumExcel){
     		if(map.get("INOUT_AMT") != null){
-    			map.put("INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
+    			map.put("S_INOUT_AMT", StringUtil.commaMask(map.get("INOUT_AMT").toString()));
+    			sum += Long.parseLong(map.get("INOUT_AMT").toString());
     		}
     		map.put("idx", idx+"");
     		idx++;
     	}
-    	export.addList(1, 4, yearSumExcel, new String[]{"CD_NM", "DESC", "INOUT_AMT"});
+    	
+    	
+    	
+    	// #DATA타입
+    	export.addData(3, 1, "<"+YEAR+"년 지출결산>");
+    	export.addData(3, 6, "합계 : "+StringUtil.commaMask(sum));
+    	
+    	// #LIST타입
+    	export.addList(1, 4, yearSumExcel, new String[]{"idx", "CD_NM", "DESC", "S_INOUT_AMT"});
     	export.setFileName("out_year_list");
     	
     	Map modelMap = new HashMap();
@@ -384,7 +388,82 @@ public class ExcelDownloadController {
     	return new ModelAndView(new FileDownView(), modelMap);
     }     
     
-    
+    //예산결산 엑셀
+    @RequestMapping("/excel_year_sum.do")
+    public ModelAndView excelYearSum(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+    	
+    	String YEAR = request.getParameter("YEAR"); //조회날짜
+    	if(YEAR == null || "".equals(YEAR)) return null;
+    	
+    	int prevYear = Integer.parseInt(YEAR)-1;
+    	
+    	HashMap param = new HashMap<String, String>();
+    	param.put("YEAR", YEAR); //현재날짜
+    	
+    	//지출연간리스트
+    	Map sumMap = settleService.listYearSumExcel(param);
+    	
+    	long sum = 0;
+    	
+    	JExcelExportInfo export = new JExcelExportInfo();
+    	
+    	// #DATA타입
+    	export.addData(2, 1, prevYear+"년 수입결산 / "+YEAR+"년 수입예산");
+    	export.addData(2, 5, (sumMap.get("PREV_SUM1_AMT").toString())); //작년주정현금
+    	export.addData(3, 5, (sumMap.get("SUM1_AMT").toString())); //올해주정현금
+    	export.addData(5, 5, (sumMap.get("PREV_EXP_SUM1_AMT").toString())); //작년책정예산-주정헌금
+    	export.addData(6, 5, (sumMap.get("EXP_SUM1_AMT").toString())); //올해책정예산-주정헌금
+    	export.addData(7, 5, (sumMap.get("REMARK1").toString())); //비고-주정현금
+    	
+    	export.addData(2, 6, (sumMap.get("PREV_SUM2_AMT").toString())); //작년십일조현금
+    	export.addData(3, 6, (sumMap.get("SUM2_AMT").toString())); //올해십일조현금
+    	export.addData(5, 6, (sumMap.get("PREV_EXP_SUM2_AMT").toString())); //작년책정예산-십일조헌금
+    	export.addData(6, 6, (sumMap.get("EXP_SUM2_AMT").toString())); //올해책정예산-십일조헌금
+    	export.addData(7, 6, (sumMap.get("REMARK2").toString())); //비고-십일조현금
+    	
+    	export.addData(2, 7, (sumMap.get("PREV_SUM3_AMT").toString())); //작년감사현금
+    	export.addData(3, 7, (sumMap.get("SUM3_AMT").toString())); //올해감사현금
+    	export.addData(5, 7, (sumMap.get("PREV_EXP_SUM3_AMT").toString())); //작년책정예산-감사헌금
+    	export.addData(6, 7, (sumMap.get("EXP_SUM3_AMT").toString())); //올해책정예산-감사헌금
+    	export.addData(7, 7, (sumMap.get("REMARK3").toString())); //비고-감사현금
+    	
+    	export.addData(2, 8, (sumMap.get("PREV_SUM4_AMT").toString())); //작년선교현금
+    	export.addData(3, 8, (sumMap.get("SUM4_AMT").toString())); //올해선교현금
+    	export.addData(5, 8, (sumMap.get("PREV_EXP_SUM4_AMT").toString())); //작년책정예산-선교헌금
+    	export.addData(6, 8, (sumMap.get("EXP_SUM4_AMT").toString())); //올해책정예산-선교헌금
+    	export.addData(7, 8, (sumMap.get("REMARK4").toString())); //비고-주정현금
+    	
+    	export.addData(2, 9, (sumMap.get("PREV_SUM5_AMT").toString())); //작년건축현금
+    	export.addData(3, 9, (sumMap.get("SUM5_AMT").toString())); //올해건축현금
+    	export.addData(5, 9, (sumMap.get("PREV_EXP_SUM5_AMT").toString())); //작년책정예산-건축헌금
+    	export.addData(6, 9, (sumMap.get("EXP_SUM5_AMT").toString())); //올해책정예산-건축헌금
+    	export.addData(7, 9, (sumMap.get("REMARK5").toString())); //비고-건축현금
+    	
+    	export.addData(2, 10, (sumMap.get("PREV_SUM6_AMT").toString())); //작년절기현금
+    	export.addData(3, 10, (sumMap.get("SUM6_AMT").toString())); //올해절기현금
+    	export.addData(5, 10, (sumMap.get("PREV_EXP_SUM6_AMT").toString())); //작년책정예산-절기헌금
+    	export.addData(6, 10, (sumMap.get("EXP_SUM6_AMT").toString())); //올해책정예산-절기헌금
+    	export.addData(7, 10, (sumMap.get("REMARK6").toString())); //비고-절기현금
+    	
+    	export.addData(2, 11, (sumMap.get("PREV_SUM7_AMT").toString())); //작년기타현금
+    	export.addData(3, 11, (sumMap.get("SUM7_AMT").toString())); //올해기타현금
+    	export.addData(5, 11, (sumMap.get("PREV_EXP_SUM7_AMT").toString())); //작년책정예산-기타헌금
+    	export.addData(6, 11, (sumMap.get("EXP_SUM7_AMT").toString())); //올해책정예산-기타헌금
+    	export.addData(7, 11, (sumMap.get("REMARK7").toString())); //비고-기타현금
+    	
+   
+    	export.addData(2, 12, sumMap.get("PREV_SUM_AMT").toString()); //작년합계
+    	export.addData(3, 12, sumMap.get("SUM_AMT").toString()); //올해합계
+    	export.addData(5, 12, sumMap.get("PREV_EXP_SUM_AMT").toString()); //작년책정예산-합계
+    	export.addData(6, 12, sumMap.get("EXP_SUM_AMT").toString()); //올해책정예산-합계
+    	
+    	export.setFileName("sum_year_list");
+    	
+    	Map modelMap = new HashMap();
+    	modelMap.put("export", export);
+    	return new ModelAndView(new FileDownView(), modelMap);
+    }     
     
     public static void main(String[] args){
     	//String CAL_YM = "201203";

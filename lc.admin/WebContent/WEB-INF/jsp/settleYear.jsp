@@ -76,41 +76,8 @@
 		 
 		// $("#list1").jqGrid('setGridWidth', $("#list1_parent").innerWidth()/2-2);
 		 $("#list2").jqGrid('setGridWidth', $("#list1_parent").innerWidth()/2-2);
-		 $("#list3").jqGrid('setGridWidth', $("#list1_parent").innerWidth()/2-2);
 		 
-		 $("#list3").jqGrid({
-			    url:"settleService.listYearSum.lc",
-			    colNames:['헌금내용', '년결산', '년결산', '년예산', '년예산','비고'],
-			    colModel :[ 
-			      {name:'INOUT', index:'INOUT', width:130, align:'left', editable:false},
-			      {name:'PREV_YEAR_SUM', index:'PREV_YEAR_SUM', width:130, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
-			      {name:'YEAR_SUM', index:'YEAR_SUM', width:130, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
-			      {name:'YEAR_COST', index:'YEAR_COST', width:130, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
-			      {name:'NEXT_YEAR_COST', index:'NEXT_YEAR_COST', width:130, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
-			      {name:'DESC', index:'DESC', width:250, align:'center', editable:true}
-			    ],
-			    caption: '예산결산',
-			    multiselect:false,
-			    sortname: 'CAL_YM',
-			    height:400,
-			    rowNum:20,
-			    footerrow:true,
-			    userDataOnFooter:true,			    
-			    beforeRequest : function(){
-		         	//초기값 필요할때.
-	  			},
-	  			 loadComplete:function(data){
-	  				 if(data != null){
-	  					 //합계
-						var S_PREV_YEAR_SUM = $("#list3").jqGrid('getCol', 'PREV_YEAR_SUM', false, 'sum');
-						var S_YEAR_SUM = $("#list3").jqGrid('getCol', 'YEAR_SUM', false, 'sum');
-						var S_YEAR_COST = $("#list3").jqGrid('getCol', 'YEAR_COST', false, 'sum');
-						var S_NEXT_YEAR_COST = $("#list3").jqGrid('getCol', 'NEXT_YEAR_COST', false, 'sum');
-						
-						$("#list3").jqGrid('footerData', 'set', { INOUT: '합계', PREV_YEAR_SUM: S_PREV_YEAR_SUM, YEAR_SUM: S_YEAR_SUM, YEAR_COST:S_YEAR_COST, NEXT_YEAR_COST:S_NEXT_YEAR_COST});
-	  				 }
-	  			 }	  			
-			});		 
+			 
 		 
 			//Grid 검색
 			$("#search1").click(function(){
@@ -126,13 +93,18 @@
 				return false;
 			});			 
 			$("#search3").click(function(){
-				var search_data = {};
-				search_data.YEAR = $("#cmbYear3").val();
-				$("#list3").fnSelGrid("settleService.listYearSum.lc", search_data);
+				$("#CAL_YM").val($("#cmbYear3").val());
+				fnSubmitAjax("settleService.listYearSum.lc", 'CAL_YM', fnResult);
 				return false;
 			});			 
 		 
-							
+			//저장
+			$("#save").click( function() {
+				$("#CAL_YM").val($("#cmbYear3").val());
+	 			 fnSubmitAjax('settleService.saveYearSum.lc', 'CAL_YM', fnEndResult);
+	 			 
+				return false;
+			});							
 			
 			//마감
 			$("#end").click( function() {
@@ -140,8 +112,8 @@
 					return false;
 				}				
 				//$("#CAL_YM").val($("#DT").val().replace(/-/gi,"").substring(0, 6));
-				$("#CAL_YM").val($("#DT").val().replace(/-/gi,""));
-	 			 fnSubmitAjax('settleService.saveMonthEndYn.lc', 'CAL_YM', fnEndResult);
+				$("#CAL_YM").val($("#cmbYear3").val());
+	 			 fnSubmitAjax('settleService.saveYearEndYn.lc', 'CAL_YM', fnEndResult);
 	 			 
 				return false;
 			});	
@@ -164,26 +136,70 @@
 	});
 	
 	function fnResult(data){
-		$("#prevThisSum").val(data.prevThisSum); //전주+금주
-		$("#thisOut1").val(data.thisOut); //금주지출
-		$("#thisEnd").val(data.thisEnd); //금주마감
-		$("#thisIn").val(data.thisIn); //금주수입계
-		$("#thisOut2").val(data.thisOut); //금주지출계
-		$("#prevEnd").val(data.prevEnd); //전주이월계
-		$("#nextEnd").val(data.nextEnd); //다음주이월계
-		$("#thisInSum").val(data.thisInSum); //금주수입합계
-		$("#thisOutSum").val(data.thisOutSum); //금주지출합계
+		$("#PREV_SUM1_AMT").val(data.PREV_SUM1_AMT); 
+		$("#SUM1_AMT").val(data.SUM1_AMT); 
+		$("#PREV_EXP_SUM1_AMT").val(data.PREV_EXP_SUM1_AMT);  
+		$("#EXP_SUM1_AMT").val(data.EXP_SUM1_AMT); 
+		$("#REMARK1").val(data.REMARK1);  
+
+		$("#PREV_SUM2_AMT").val(data.PREV_SUM2_AMT); 
+		$("#SUM2_AMT").val(data.SUM2_AMT); 
+		$("#PREV_EXP_SUM2_AMT").val(data.PREV_EXP_SUM2_AMT);  
+		$("#EXP_SUM2_AMT").val(data.EXP_SUM2_AMT); 
+		$("#REMARK2").val(data.REMARK2);  
+		
+
+		$("#PREV_SUM3_AMT").val(data.PREV_SUM3_AMT); 
+		$("#SUM3_AMT").val(data.SUM3_AMT); 
+		$("#PREV_EXP_SUM3_AMT").val(data.PREV_EXP_SUM3_AMT);  
+		$("#EXP_SUM3_AMT").val(data.EXP_SUM3_AMT); 
+		$("#REMARK3").val(data.REMARK3);  
+		
+
+		$("#PREV_SUM4_AMT").val(data.PREV_SUM4_AMT); 
+		$("#SUM4_AMT").val(data.SUM4_AMT); 
+		$("#PREV_EXP_SUM4_AMT").val(data.PREV_EXP_SUM4_AMT);  
+		$("#EXP_SUM4_AMT").val(data.EXP_SUM4_AMT); 
+		$("#REMARK4").val(data.REMARK4);  
+		
+
+		$("#PREV_SUM5_AMT").val(data.PREV_SUM5_AMT); 
+		$("#SUM5_AMT").val(data.SUM5_AMT); 
+		$("#PREV_EXP_SUM5_AMT").val(data.PREV_EXP_SUM5_AMT);  
+		$("#EXP_SUM5_AMT").val(data.EXP_SUM5_AMT); 
+		$("#REMARK5").val(data.REMARK5);  
+		
+
+		$("#PREV_SUM6_AMT").val(data.PREV_SUM6_AMT); 
+		$("#SUM6_AMT").val(data.SUM6_AMT); 
+		$("#PREV_EXP_SUM6_AMT").val(data.PREV_EXP_SUM6_AMT);  
+		$("#EXP_SUM6_AMT").val(data.EXP_SUM6_AMT); 
+		$("#REMARK6").val(data.REMARK6);  
+		
+
+		$("#PREV_SUM7_AMT").val(data.PREV_SUM7_AMT); 
+		$("#SUM7_AMT").val(data.SUM7_AMT); 
+		$("#PREV_EXP_SUM7_AMT").val(data.PREV_EXP_SUM7_AMT);  
+		$("#EXP_SUM7_AMT").val(data.EXP_SUM7_AMT); 
+		$("#REMARK7").val(data.REMARK7);  
+		
+
+		$("#PREV_SUM_AMT").val(data.PREV_SUM_AMT); 
+		$("#SUM_AMT").val(data.SUM_AMT); 
+		$("#PREV_EXP_SUM_AMT").val(data.PREV_EXP_SUM_AMT);  
+		$("#EXP_SUM_AMT").val(data.EXP_SUM_AMT); 
+		//$("#REMARK1").val(data.REMARK1);  
 		
 		if(data.END_YN == 'Y'){
 			$("#save").hide();
 			$("#end").hide();
-			$("#excel").show();
+			$("#excel3").show();
 		}else{
 			$("#save").show();
 			$("#end").show();
-			$("#excel").hide();
+			$("#excel3").hide();
 		}
-		$("#excel").show();
+		$("#excel3").show();
 	}
 	
 	function fnEndResult(data){
@@ -191,11 +207,11 @@
 		if(data.END_YN == 'Y'){
 			$("#save").hide();
 			$("#end").hide();
-			$("#excel").show();
+			$("#excel3").show();
 		}
-		$("#excel").show();
+		$("#excel3").show();
 		
-		$("#search").trigger("click");
+		$("#search3").trigger("click");
 	}
 	</script>
 </head>
@@ -376,9 +392,134 @@
 						</tfoot>
 					</table>
 								    
-			        <p id="list3_parent"></p>
-					<table id="list3"><tr><td/></tr></table>
-					<div id="pager3"></div>		
+						<!-- form -->
+						<form name="frm2" id="frm2" method="post">
+								
+						<table border="0" cellpadding=0 cellspacing=0  width="100%">
+							<colgroup>
+								<col width="16%"/>
+								<col width="16%"/>
+								<col width="16%"/>
+								<col width="16%"/>
+								<col width="16%"/>
+								<col width="17%"/>
+							</colgroup>
+							<thead>
+								<tr>
+									<td height="1" class="boardHline" colspan="6"></td>
+								</tr>
+							</thead>
+							<tbody>
+							<tr height="26">
+								<td colspan="6" class="boardHead"><input type="text" style="width:50px;" name="prevYear1" id="prevYear1" readonly>년 수입결산 / <input type="text" style="width:50px;" name="thisYear1" id="thisYear1" readonly>년 수입예산</td>
+							</tr>
+							<tr>
+								<td height=1 class="boardSline" colspan="4"></td>
+							</tr>
+							<tr height="26">
+								<td class="boardHead">헌금내용/구분</td>
+								<td class="boardHead"><input type="text" style="width:50px;" name="prevYear2" id="prevYear2" readonly>년 결산</td>
+								<td class="boardHead"><input type="text" style="width:50px;" name="thisYear2" id="thisYear2" readonly>년 결산</td>
+								<td class="boardHead"><input type="text" style="width:50px;" name="thisYear3" id="thisYear3" readonly>년 예산</td>
+								<td class="boardHead"><input type="text" style="width:50px;" name="nextYear1" id="nextYear1" readonly>년 예산</td>
+								<td class="boardHead">비고</td>
+							</tr>
+							<tr>
+								<td height=1 class="boardSline" colspan="4"></td>	
+							</tr>
+							<tr height="26">
+								<td class="boardHead">주정헌금</td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM1_AMT" id="PREV_SUM1_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="SUM1_AMT" id="SUM1_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM1_AMT" id="PREV_EXP_SUM1_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM1_AMT" id="EXP_SUM1_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK1" id="REMARK1"></td>
+							</tr>
+							<tr>
+								<td height=1 class="boardSline" colspan="4"></td>
+							</tr>							
+							<tr height="26">
+								<td class="boardHead">십일조헌금</td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM2_AMT" id="PREV_SUM2_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="SUM2_AMT" id="SUM2_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM2_AMT" id="PREV_EXP_SUM2_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM2_AMT" id="EXP_SUM2_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK2" id="REMARK2"></td>
+							</tr>
+							<tr>
+								<td height=1 class="boardSline" colspan="4"></td>
+							</tr>
+							<tr height="26">
+								<td class="boardHead">감사헌금</td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM3_AMT" id="PREV_SUM3_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="SUM3_AMT" id="SUM3_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM3_AMT" id="PREV_EXP_SUM3_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM3_AMT" id="EXP_SUM3_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK3" id="REMARK3"></td>
+							</tr>
+							<tr>
+								<td height=1 class="boardSline" colspan="4"></td>
+							</tr>				
+							<tr height="26">
+								<td class="boardHead">선교헌금</td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM4_AMT" id="PREV_SUM4_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="SUM4_AMT" id="SUM4_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM4_AMT" id="PREV_EXP_SUM4_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM4_AMT" id="EXP_SUM4_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK4" id="REMARK4"></td>
+							</tr>
+							<tr>
+								<td height=1 class="boardSline" colspan="4"></td>
+							</tr>
+							<tr height="26">
+								<td class="boardHead">건축헌금</td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM5_AMT" id="PREV_SUM5_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="SUM5_AMT" id="SUM5_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM5_AMT" id="PREV_EXP_SUM5_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM5_AMT" id="EXP_SUM5_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK5" id="REMARK5"></td>
+							</tr>
+							<tr>
+								<td height=1 class="boardSline" colspan="4"></td>
+							</tr>
+							<tr height="26">
+								<td class="boardHead">절기헌금</td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM6_AMT" id="PREV_SUM6_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="SUM6_AMT" id="SUM6_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM6_AMT" id="PREV_EXP_SUM6_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM6_AMT" id="EXP_SUM6_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK6" id="REMARK6"></td>
+							</tr>
+							<tr>
+								<td height=1 class="boardSline" colspan="4"></td>
+							</tr>
+							<tr height="26">
+								<td class="boardHead">기타</td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM7_AMT" id="PREV_SUM7_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="SUM7_AMT" id="SUM7_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM7_AMT" id="PREV_EXP_SUM7_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM7_AMT" id="EXP_SUM7_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK7" id="REMARK7"></td>
+							</tr>
+							<tr>
+								<td height=1 class="boardSline" colspan="4"></td>
+							</tr>
+							<tr height="26">
+								<td class="boardHead">합계</td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM_AMT" id="PREV_SUM_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="SUM_AMT" id="SUM_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM_AMT" id="PREV_EXP_SUM_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM_AMT" id="EXP_SUM_AMT" readonly></td>
+								<td class="boardBody"></td>
+							</tr>
+							<tr>
+								<td height=1 class="boardSline" colspan="4"></td>
+							</tr>
+							
+							
+							</tbody>
+						</table>		
+						</form>	
 						
 						<!-- 버튼 박스 -->
 						<table class="form-layout" border="0" cellspacing="0" cellpadding="0">

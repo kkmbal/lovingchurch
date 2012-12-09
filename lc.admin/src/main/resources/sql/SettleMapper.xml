@@ -503,10 +503,13 @@
 					AND USE_YN = 'Y'   
 				  ) B
 			WHERE A.CAL_YMD LIKE CONCAT(#{YEAR}, '%')
+			]]>		
+			<if test="YEAR == null or YEAR == ''">
+			AND   1 = 0			
+			</if>
 			AND   A.INOUT_CD = '01'
 			AND   A.INOUT_ITEM_CD = B.CD_VAL
 			GROUP BY SUBSTR(A.CAL_YMD, 5, 2)		
-			]]>		
 	</select>
 	
 	<select id="listOutYear" parameterType="hashmap" resultType="hashmap" >
@@ -520,10 +523,13 @@
 					AND USE_YN = 'Y'     
 				  ) B
 			WHERE A.CAL_YMD LIKE CONCAT(#{YEAR}, '%')
+			]]>		
+			<if test="YEAR == null or YEAR == ''">
+			AND   1 = 0			
+			</if>
 			AND   A.INOUT_CD = '02'
 			AND   A.INOUT_ITEM_CD = B.CD_VAL
 			GROUP BY B.CD_VAL
-			]]>		
 	</select>
 	
 	<select id="listYearSum" parameterType="hashmap" resultType="hashmap" >
@@ -551,8 +557,14 @@
 			       , IFNULL(A.EXP_SUM5_AMT,0) EXP_SUM5_AMT
 			       , IFNULL(A.EXP_SUM6_AMT,0) EXP_SUM6_AMT
 			       , IFNULL(A.EXP_SUM7_AMT,0) EXP_SUM7_AMT
-			       ,A.REMARK1, A.REMARK2, A.REMARK3, A.REMARK4, A.REMARK5, A.REMARK6, A.REMARK7
-			FROM YEAR_SUM A, (
+			       , IFNULL(A.REMARK1,"") REMARK1
+			       , IFNULL(A.REMARK2,"") REMARK2
+			       , IFNULL(A.REMARK3,"") REMARK3
+			       , IFNULL(A.REMARK4,"") REMARK4
+			       , IFNULL(A.REMARK5,"") REMARK5
+			       , IFNULL(A.REMARK6,"") REMARK6
+			       , IFNULL(A.REMARK7,"") REMARK7
+			FROM YEAR_SUM A LEFT OUTER JOIN (
 						SELECT SUBSTR(A.CAL_YMD, 1, 4) CAL_YEAR
 							    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '01' THEN A.INOUT_AMT ELSE 0 END) SUM1_AMT
 							    ,SUM(CASE WHEN A.INOUT_ITEM_CD = '02' THEN A.INOUT_AMT ELSE 0 END) SUM2_AMT
@@ -572,9 +584,8 @@
 						AND   A.INOUT_CD = '01'
 						AND   A.INOUT_ITEM_CD = B.CD_VAL
 						GROUP BY SUBSTR(A.CAL_YMD, 1, 4)
-			     ) B
-			WHERE A.CAL_YEAR = #{YEAR}-1
-			AND   A.CAL_YEAR + 1 = B.CAL_YEAR
+			     ) B ON  A.CAL_YEAR + 1 = B.CAL_YEAR
+			 WHERE A.CAL_YEAR = #{YEAR}-1
 			]]>		
 	</select>	
 	
@@ -685,7 +696,7 @@
 	<delete id="deleteYearSum" parameterType="hashmap" >
 		    <![CDATA[
 		    DELETE FROM YEAR_SUM
-			WHERE A.CAL_YEAR = #{YEAR}
+			WHERE CAL_YEAR = #{YEAR}
 			]]>		
 	</delete>
 

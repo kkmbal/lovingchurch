@@ -46,7 +46,7 @@
 			<include name="**/*.jar" />
 			<exclude name="**/${common.jar}" />
 		</fileset>
-		<fileset dir="D:/util/java/apache-tomcat-6.0.29/lib">
+		<fileset dir="C:/Java/apache-tomcat-7.0.29/lib">
 		<!-- fileset dir="D:/apache-tomcat-6.0.29/lib" -->
 			<include name="**/*.jar" />
 		</fileset>

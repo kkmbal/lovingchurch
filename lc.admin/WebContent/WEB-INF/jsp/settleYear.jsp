@@ -101,7 +101,16 @@
 			//저장
 			$("#save").click( function() {
 				$("#CAL_YM").val($("#cmbYear3").val());
-	 			 fnSubmitAjax('settleService.saveYearSum.lc', 'CAL_YM', fnEndResult);
+				if($("#CAL_YM").val() == ""){
+					alert("년도를 선택하세요.");
+					return false;
+				}
+				if(!confirm("저장하시겠습니까?")){
+					return false;
+				}				
+				
+				$("#CAL_YM2").val($("#CAL_YM").val());
+	 			 fnSubmitAjax('settleService.saveYearSum.lc', 'frm2', fnEndResult);
 	 			 
 				return false;
 			});							
@@ -136,6 +145,17 @@
 	});
 	
 	function fnResult(data){
+		var y1 = $("#cmbYear3").val();
+		var y2 = parseInt(y1)+1;
+		var y3 = parseInt(y1)+2;
+		$("#thisYear1").val(y1);		
+		$("#nextYear1").val(y2);		
+		$("#thisYear2").val(y1);		
+		$("#nextYear2").val(y2);		
+		$("#nextYear3").val(y2);		
+		$("#nextYear4").val(y3);		
+		
+		
 		$("#PREV_SUM1_AMT").val(data.PREV_SUM1_AMT); 
 		$("#SUM1_AMT").val(data.SUM1_AMT); 
 		$("#PREV_EXP_SUM1_AMT").val(data.PREV_EXP_SUM1_AMT);  
@@ -394,6 +414,7 @@
 								    
 						<!-- form -->
 						<form name="frm2" id="frm2" method="post">
+						<input type="hidden" name="YEAR" id="CAL_YM2">
 								
 						<table border="0" cellpadding=0 cellspacing=0  width="100%">
 							<colgroup>
@@ -411,17 +432,17 @@
 							</thead>
 							<tbody>
 							<tr height="26">
-								<td colspan="6" class="boardHead"><input type="text" style="width:50px;" name="prevYear1" id="prevYear1" readonly>년 수입결산 / <input type="text" style="width:50px;" name="thisYear1" id="thisYear1" readonly>년 수입예산</td>
+								<td colspan="6" class="boardHead"><input type="text" style="width:50px;" name="thisYear1" id="thisYear1" readonly>년 수입결산 / <input type="text" style="width:50px;" name="nextYear1" id="nextYear1" readonly>년 수입예산</td>
 							</tr>
 							<tr>
 								<td height=1 class="boardSline" colspan="4"></td>
 							</tr>
 							<tr height="26">
 								<td class="boardHead">헌금내용/구분</td>
-								<td class="boardHead"><input type="text" style="width:50px;" name="prevYear2" id="prevYear2" readonly>년 결산</td>
 								<td class="boardHead"><input type="text" style="width:50px;" name="thisYear2" id="thisYear2" readonly>년 결산</td>
-								<td class="boardHead"><input type="text" style="width:50px;" name="thisYear3" id="thisYear3" readonly>년 예산</td>
-								<td class="boardHead"><input type="text" style="width:50px;" name="nextYear1" id="nextYear1" readonly>년 예산</td>
+								<td class="boardHead"><input type="text" style="width:50px;" name="nextYear2" id="nextYear2" readonly>년 결산</td>
+								<td class="boardHead"><input type="text" style="width:50px;" name="nextYear3" id="nextYear3" readonly>년 예산</td>
+								<td class="boardHead"><input type="text" style="width:50px;" name="nextYear4" id="nextYear4" readonly>년 예산</td>
 								<td class="boardHead">비고</td>
 							</tr>
 							<tr>
@@ -432,7 +453,7 @@
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM1_AMT" id="PREV_SUM1_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="SUM1_AMT" id="SUM1_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM1_AMT" id="PREV_EXP_SUM1_AMT" readonly></td>
-								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM1_AMT" id="EXP_SUM1_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM1_AMT" id="EXP_SUM1_AMT"  ></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK1" id="REMARK1"></td>
 							</tr>
 							<tr>
@@ -443,7 +464,7 @@
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM2_AMT" id="PREV_SUM2_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="SUM2_AMT" id="SUM2_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM2_AMT" id="PREV_EXP_SUM2_AMT" readonly></td>
-								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM2_AMT" id="EXP_SUM2_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM2_AMT" id="EXP_SUM2_AMT"  ></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK2" id="REMARK2"></td>
 							</tr>
 							<tr>
@@ -454,7 +475,7 @@
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM3_AMT" id="PREV_SUM3_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="SUM3_AMT" id="SUM3_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM3_AMT" id="PREV_EXP_SUM3_AMT" readonly></td>
-								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM3_AMT" id="EXP_SUM3_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM3_AMT" id="EXP_SUM3_AMT"  ></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK3" id="REMARK3"></td>
 							</tr>
 							<tr>
@@ -465,7 +486,7 @@
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM4_AMT" id="PREV_SUM4_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="SUM4_AMT" id="SUM4_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM4_AMT" id="PREV_EXP_SUM4_AMT" readonly></td>
-								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM4_AMT" id="EXP_SUM4_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM4_AMT" id="EXP_SUM4_AMT"  ></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK4" id="REMARK4"></td>
 							</tr>
 							<tr>
@@ -476,7 +497,7 @@
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM5_AMT" id="PREV_SUM5_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="SUM5_AMT" id="SUM5_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM5_AMT" id="PREV_EXP_SUM5_AMT" readonly></td>
-								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM5_AMT" id="EXP_SUM5_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM5_AMT" id="EXP_SUM5_AMT"  ></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK5" id="REMARK5"></td>
 							</tr>
 							<tr>
@@ -487,7 +508,7 @@
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM6_AMT" id="PREV_SUM6_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="SUM6_AMT" id="SUM6_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM6_AMT" id="PREV_EXP_SUM6_AMT" readonly></td>
-								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM6_AMT" id="EXP_SUM6_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM6_AMT" id="EXP_SUM6_AMT"  ></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK6" id="REMARK6"></td>
 							</tr>
 							<tr>
@@ -498,7 +519,7 @@
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_SUM7_AMT" id="PREV_SUM7_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="SUM7_AMT" id="SUM7_AMT" readonly></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="PREV_EXP_SUM7_AMT" id="PREV_EXP_SUM7_AMT" readonly></td>
-								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM7_AMT" id="EXP_SUM7_AMT" readonly></td>
+								<td class="boardBody"><input type="text" style="width:100%;" name="EXP_SUM7_AMT" id="EXP_SUM7_AMT"  ></td>
 								<td class="boardBody"><input type="text" style="width:100%;" name="REMARK7" id="REMARK7"></td>
 							</tr>
 							<tr>

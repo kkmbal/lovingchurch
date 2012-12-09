@@ -121,7 +121,7 @@ public class JExcelUtil {
 				for(int i=0;i<sheet.getRows();i++){
 					Cell[] cells = sheet.getRow(i);
 					for(int j=0;j<cells.length;j++){
-						if("#DATA,#LIST,#LIST2".contains(cells[j].getContents())){
+						if("#DATA".equals(cells[j].getContents()) || "#LIST".equals(cells[j].getContents()) || "#LIST2".equals(cells[j].getContents())){
 							cell = sheet.getWritableCell(j, i);
 							if (cell.getType() == CellType.LABEL){ 
 				    			l = (Label) cell; 
@@ -132,6 +132,7 @@ public class JExcelUtil {
 				}	
 				
 			}		    
+			
 			
 		    copy.write();
 		    copy.close();

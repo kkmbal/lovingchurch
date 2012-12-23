@@ -514,6 +514,32 @@
 	
 	<select id="listOutYear" parameterType="hashmap" resultType="hashmap" >
 		    <![CDATA[
+			SELECT B.CD_VAL, MIN(C.CD_NM) CD_NM, SUM(A.INOUT_AMT)  INOUT_AMT
+			FROM WEEK_INOUT A,
+			     (
+					SELECT CD_VAL, CD_NM, ETC2_VAL
+					FROM CODE
+					WHERE HICD_VAL = 'OUT_CD'
+					AND USE_YN = 'Y'     
+				  ) B
+				  , (
+				   SELECT CD_VAL, CD_NM, ETC2_VAL
+					FROM CODE
+					WHERE HICD_VAL = 'YEAR_OUT_CD'
+					AND USE_YN = 'Y'
+				  ) C
+         WHERE A.CAL_YMD LIKE CONCAT(#{YEAR}, '%')
+			]]>		
+			<if test="YEAR == null or YEAR == ''">
+			AND   1 = 0			
+			</if>         
+			AND   A.INOUT_CD = '02'
+			AND   A.INOUT_ITEM_CD = B.CD_VAL
+			AND   B.ETC2_VAL = C.CD_VAL
+			GROUP BY C.CD_VAL
+	</select>
+	<select id="__listOutYear" parameterType="hashmap" resultType="hashmap" >
+		    <![CDATA[
 			SELECT B.CD_VAL, MIN(CD_NM) CD_NM, SUM(A.INOUT_AMT)  INOUT_AMT
 			FROM WEEK_INOUT A,
 			     (

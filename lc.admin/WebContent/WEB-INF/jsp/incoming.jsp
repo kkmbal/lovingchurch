@@ -1,7 +1,7 @@
 <%@page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE html>
 <html>
-<head>  
+<head> 
 	<%@ include file="/WEB-INF/jsp/inc/header.jsp" %>
 	<script type="text/javascript" >
 	    var mem = '';
@@ -267,21 +267,18 @@
 </head>
 
 <body>
+
+
+
+<!-- Layout container starts -->
+<div id="layoutBox">
+
 <%@ include file="/WEB-INF/jsp/inc/topmenu.jsp" %>
 
-<div class="bodyArea">
-<!--title-->
-<div class="titleArea">
-	<ul>
-		<li class="title">수입 관리</li>
-		<li class="directory"><img src="${pageContext.request.contextPath}/img/etc/icn_home.gif">	회계    >	수입관리</li>
-	</ul>
-</div>
-<!--title-->
-	
-<!--################ contentArea ##################-->
-	<div class="content" id="contentArea">
-			
+  <div id="mainContent">
+    <h1>수입관리</h1>
+  
+		<div class="content" id="contentArea1">
 			<!-- 각 화면 내용 들어갈 부분 --> 
 			<form name="frm1" id="frm1" method="post" action="excel_in_list.do">
 			<input type="hidden" name="CAL_YMD" id="CAL_YMD">
@@ -478,17 +475,26 @@
 					</table>
 				</div>
 												
-			</div>
+			</div>						
+			
 			<!-- 각 화면 내용 들어갈 부분 --> 
-								
-		    
-	</div>
-	<!--################ contentArea ##################-->
-	
-</div>	
-<footer>
+		</div>	
+
+
+   
+    <br />
+
+    
+
 <%@ include file="/WEB-INF/jsp/inc/footer.jsp" %>
-</footer>	
+  </div>
+
+  <div class="spacer">
+  </div>
+
+</div>
+<!-- Layout container ends -->
 
 </body>
 </html>
+

@@ -1,7 +1,7 @@
 <%@page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE html>
 <html>
-<head>  
+<head> 
 	<%@ include file="/WEB-INF/jsp/inc/header.jsp" %>
 	<script type="text/javascript" >
 		$(document).ready(function () {
@@ -73,24 +73,22 @@
 				});				
 		});
 	</script>
+
 </head>
 
 <body>
+
+
+
+<!-- Layout container starts -->
+<div id="layoutBox">
+
 <%@ include file="/WEB-INF/jsp/inc/topmenu.jsp" %>
 
-<div class="bodyArea">
-<!--title-->
-<div class="titleArea">
-	<ul>
-		<li class="title">지출 관리</li>
-		<li class="directory"><img src="${pageContext.request.contextPath}/img/etc/icn_home.gif">	회계   >	지출관리</li>
-	</ul>
-</div>
-<!--title-->
-	
-<!--################ contentArea ##################-->
-	<div class="content" id="contentArea">
-			
+  <div id="mainContent">
+    <h1>지출관리</h1>
+
+		<div class="content" id="contentArea">
 			<!-- 각 화면 내용 들어갈 부분 --> 
 			<form name="frm" id="frm">
 			<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
@@ -118,7 +116,7 @@
 				</tfoot>
 			</table>
 			</form>
-			<p></p>		<br>	
+			<p></p>	
 			
 			
 			<!-- 그리드 박스 -->
@@ -149,18 +147,26 @@
 						<td class="searchHline" colspan="3"></td>
 					</tr>
 				</tfoot>
-			</table>					
+			</table>						
 			
 			<!-- 각 화면 내용 들어갈 부분 --> 
-								
-		    
-	</div>
-	<!--################ contentArea ##################-->
-	
-</div>	
-<footer>
+		</div>	
+
+
+   
+    <br />
+
+    
+
 <%@ include file="/WEB-INF/jsp/inc/footer.jsp" %>
-</footer>	
+  </div>
+
+  <div class="spacer">
+  </div>
+
+</div>
+<!-- Layout container ends -->
 
 </body>
 </html>
+

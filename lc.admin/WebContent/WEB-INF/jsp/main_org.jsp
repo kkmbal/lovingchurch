@@ -1,7 +1,7 @@
 <%@page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE html>
 <html>
-<head> 
+<head>  
 	<%@ include file="/WEB-INF/jsp/inc/header.jsp" %>
 	<script type="text/javascript" >
 		$(document).ready(function () {
@@ -84,22 +84,23 @@
 				});			 
 		});
 	</script>
-
 </head>
 
 <body>
-
-
-
-<!-- Layout container starts -->
-<div id="layoutBox">
-
 <%@ include file="/WEB-INF/jsp/inc/topmenu.jsp" %>
 
-  <div id="mainContent">
-    <h1>교인</h1>
-  
-		<div class="content" id="contentArea">
+<div class="bodyArea">
+<!--title-->
+<div class="titleArea">
+	<ul>
+		<li class="title">교인 관리</li>
+		<li class="directory"><img src="${pageContext.request.contextPath}/img/etc/icn_home.gif">	>	교인관리</li>
+	</ul>
+</div>
+<!--title-->
+<!--################ contentArea ##################-->
+	<div class="content" id="contentArea">
+			
 			<!-- 각 화면 내용 들어갈 부분 --> 
 			<form name="frm" id="frm">
 			<table class="form-layout"  border="0" cellspacing="0" cellpadding="0">
@@ -127,8 +128,9 @@
 				</tfoot>
 			</table>
 			</form>
-			<p></p>	
-						
+			<p></p>		<br>	
+			
+			
 			<!-- 그리드 박스 -->
 			<table id="list"><tr><td/></tr></table>
 			<div id="pager"></div>		
@@ -160,22 +162,15 @@
 			</table>					
 			
 			<!-- 각 화면 내용 들어갈 부분 --> 
-		</div>	
-
-
-   
-    <br />
-
-    
-
+								
+		    
+	</div>
+	<!--################ contentArea ##################-->
+	
+</div>	
+<footer>
 <%@ include file="/WEB-INF/jsp/inc/footer.jsp" %>
-  </div>
-
-  <div class="spacer">
-  </div>
-
-</div>
-<!-- Layout container ends -->
+</footer>	
 
 </body>
 </html>

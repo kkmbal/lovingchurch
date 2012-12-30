@@ -1,27 +1,51 @@
 <%@page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE html>
 <html>
-<head>  
+<head> 
 	<%@ include file="/WEB-INF/jsp/inc/header.jsp" %>
 	<script type="text/javascript" >
-		$(document).ready(function () {
-			//실행일자
-			$("#DT").datepicker();		
-			$("#DT").val(formatDate(new Date(), "yyyy-MM-dd"));	
-			
-			fnMakeYearSelect("#cmbYear", "전체");
-			fnMakeMonthSelect("#cmbMon", "전체");
-			
-			$("#tabs").tabs();
-			
-			 $("#list1").jqGrid({
-			    url:"settleService.listIn.lc",
+	$(document).ready(function () {
+		//실행일자
+		$("#DT").datepicker();		
+		$("#DT").val(formatDate(new Date(), "yyyy-MM-dd"));	
+		
+		fnMakeYearSelect("#cmbYear", "전체");
+		fnMakeMonthSelect("#cmbMon", "전체");
+		
+		$("#tabs").tabs();
+		
+		 $("#list1").jqGrid({
+		    url:"settleService.listIn.lc",
+		    colNames:['항목', '금액'],
+		    colModel :[ 
+		      {name:'CD_NM', index:'CD_NM', width:100, align:'left', editable:false},
+		      {name:'INOUT_AMT', index:'INOUT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}}
+		    ],
+		    caption: '금주수입내역',
+		    multiselect:false,
+		    height:400,
+		    rowNum:0,
+		    footerrow:true,
+		    userDataOnFooter:true,	
+  			 loadComplete:function(data){
+  				 if(data != null){
+  					 //합계
+  					var INOUT_AMT_sum = $("#list1").jqGrid('getCol', 'INOUT_AMT', false, 'sum');
+					
+					$("#list1").jqGrid('footerData', 'set', { CD_NM: '합계', INOUT_AMT: INOUT_AMT_sum});
+  				 }
+  			 }				    
+		    
+		});	
+		 
+		 $("#list2").jqGrid({
+			    url:"settleService.listOut.lc",
 			    colNames:['항목', '금액'],
 			    colModel :[ 
 			      {name:'CD_NM', index:'CD_NM', width:100, align:'left', editable:false},
 			      {name:'INOUT_AMT', index:'INOUT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}}
 			    ],
-			    caption: '금주수입내역',
+			    caption: '금주지출내역',
 			    multiselect:false,
 			    height:400,
 			    rowNum:0,
@@ -30,200 +54,173 @@
 	  			 loadComplete:function(data){
 	  				 if(data != null){
 	  					 //합계
-	  					var INOUT_AMT_sum = $("#list1").jqGrid('getCol', 'INOUT_AMT', false, 'sum');
+	  					var INOUT_AMT_sum = $("#list2").jqGrid('getCol', 'INOUT_AMT', false, 'sum');
 						
-						$("#list1").jqGrid('footerData', 'set', { CD_NM: '합계', INOUT_AMT: INOUT_AMT_sum});
+						$("#list2").jqGrid('footerData', 'set', { CD_NM: '합계', INOUT_AMT: INOUT_AMT_sum});
 	  				 }
 	  			 }				    
-			    
 			});	
-			 
-			 $("#list2").jqGrid({
-				    url:"settleService.listOut.lc",
-				    colNames:['항목', '금액'],
-				    colModel :[ 
-				      {name:'CD_NM', index:'CD_NM', width:100, align:'left', editable:false},
-				      {name:'INOUT_AMT', index:'INOUT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}}
-				    ],
-				    caption: '금주지출내역',
-				    multiselect:false,
-				    height:400,
-				    rowNum:0,
-				    footerrow:true,
-				    userDataOnFooter:true,	
-		  			 loadComplete:function(data){
-		  				 if(data != null){
-		  					 //합계
-		  					var INOUT_AMT_sum = $("#list2").jqGrid('getCol', 'INOUT_AMT', false, 'sum');
-							
-							$("#list2").jqGrid('footerData', 'set', { CD_NM: '합계', INOUT_AMT: INOUT_AMT_sum});
-		  				 }
-		  			 }				    
-				});	
-			 
-			 $("#list1").jqGrid('setGridWidth', $("#list1_parent").innerWidth()/2-2);
-			 $("#list2").jqGrid('setGridWidth', $("#list1_parent").innerWidth()/2-2);
-			 
-			 $("#list3").jqGrid({
-				    url:"settleService.listWeekSum.lc",
-				    colNames:['날짜', '전주이월금', '금주수입계', '금주지출계', '금주마감잔액','마감여부'],
-				    colModel :[ 
-				      {name:'CAL_YMD', index:'CAL_YMD', width:100, align:'left', editable:false},
-				      {name:'PREV_AMT', index:'PREV_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
-				      {name:'IN_AMT', index:'IN_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
-				      {name:'OUT_AMT', index:'OUT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
-				      {name:'NEXT_AMT', index:'NEXT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
-				      {name:'END_YN', index:'END_YN', width:100, align:'center', editable:false}
-				    ],
-				    pager: '#pager3',
-				    caption: '주간결산목록',
-				    sortname: 'CAL_YMD',
-				    multiselect:false,
-				    height:400,
-				    rowNum:50,
-				    rowList:[10,50,100],
-				    footerrow:true,
-				    userDataOnFooter:true,
-				    ondblClickRow : function(rowid, iRow, iCol, e){
-				  		if(rowid != null) {
-				  			var ret = $(this).jqGrid('getRowData', rowid);
-							if(ret.CAL_YMD != ""){
-								$("#DT").val(ret.CAL_YMD);
-								$("#tabs-2-link").trigger("click");
-								$("#search").trigger("click");
-							}
-				  		}
-			  		},				    
-				    beforeRequest : function(){
-			         	//초기값 필요할때.
-			  			jQuery(this).jqGrid('setGridParam',{postData:{ userdata:{} }} );
-		  			},
-		  			 loadComplete:function(data){
-		  				 if(data != null){
-		  					 //합계
-							var inAmtSum = $("#list3").jqGrid('getCol', 'IN_AMT', false, 'sum');
-							var outAmtSum = $("#list3").jqGrid('getCol', 'OUT_AMT', false, 'sum');
-							
-							$("#list3").jqGrid('footerData', 'set', { CAL_YMD: '합계', IN_AMT: inAmtSum, OUT_AMT: outAmtSum });
-		  				 }
-		  			 }
-				});				 
-			 
-				//Grid 검색
-				$("#search3").click(function(){
-					var search_data = {};
-					search_data.YEAR = $("#cmbYear").val();
-					search_data.MON = $("#cmbMon").val();
-					$("#list3").fnSelGrid("settleService.listWeekSum.lc", search_data);
-					
-					return false;
-				});				 
-			 
-				//Grid+form 검색
-				$("#search").click(function(){
-					var search_data = {};
-					search_data.CAL_YMD = $("#DT").val().replace(/-/gi,"");
-					search_data.INOUT_CD = "01";
-					$("#list1").fnSelGrid("settleService.listIn.lc", search_data);
-					
-					search_data = {};
-					search_data.CAL_YMD = $("#DT").val().replace(/-/gi,"");
-					search_data.INOUT_CD = "02";
-					$("#list2").fnSelGrid("settleService.listOut.lc", search_data);
-					
-					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
-		 			 fnSubmitAjax('settleService.getWeekSum.lc', 'CAL_YMD', fnResult);
+		 
+		 $("#list1").jqGrid('setGridWidth', $("#list1_parent").innerWidth()/2-2);
+		 $("#list2").jqGrid('setGridWidth', $("#list1_parent").innerWidth()/2-2);
+		 
+		 $("#list3").jqGrid({
+			    url:"settleService.listWeekSum.lc",
+			    colNames:['날짜', '전주이월금', '금주수입계', '금주지출계', '금주마감잔액','마감여부'],
+			    colModel :[ 
+			      {name:'CAL_YMD', index:'CAL_YMD', width:100, align:'left', editable:false},
+			      {name:'PREV_AMT', index:'PREV_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
+			      {name:'IN_AMT', index:'IN_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
+			      {name:'OUT_AMT', index:'OUT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
+			      {name:'NEXT_AMT', index:'NEXT_AMT', width:100, align:'right', editable:false, formatter: 'currency',formatoptions:{thousandsSeparator:","}},
+			      {name:'END_YN', index:'END_YN', width:100, align:'center', editable:false}
+			    ],
+			    pager: '#pager3',
+			    caption: '주간결산목록',
+			    sortname: 'CAL_YMD',
+			    multiselect:false,
+			    height:400,
+			    rowNum:50,
+			    rowList:[10,50,100],
+			    footerrow:true,
+			    userDataOnFooter:true,
+			    ondblClickRow : function(rowid, iRow, iCol, e){
+			  		if(rowid != null) {
+			  			var ret = $(this).jqGrid('getRowData', rowid);
+						if(ret.CAL_YMD != ""){
+							$("#DT").val(ret.CAL_YMD);
+							$("#tabs-2-link").trigger("click");
+							$("#search").trigger("click");
+						}
+			  		}
+		  		},				    
+			    beforeRequest : function(){
+		         	//초기값 필요할때.
+		  			jQuery(this).jqGrid('setGridParam',{postData:{ userdata:{} }} );
+	  			},
+	  			 loadComplete:function(data){
+	  				 if(data != null){
+	  					 //합계
+						var inAmtSum = $("#list3").jqGrid('getCol', 'IN_AMT', false, 'sum');
+						var outAmtSum = $("#list3").jqGrid('getCol', 'OUT_AMT', false, 'sum');
+						
+						$("#list3").jqGrid('footerData', 'set', { CAL_YMD: '합계', IN_AMT: inAmtSum, OUT_AMT: outAmtSum });
+	  				 }
+	  			 }
+			});				 
+		 
+			//Grid 검색
+			$("#search3").click(function(){
+				var search_data = {};
+				search_data.YEAR = $("#cmbYear").val();
+				search_data.MON = $("#cmbMon").val();
+				$("#list3").fnSelGrid("settleService.listWeekSum.lc", search_data);
+				
+				return false;
+			});				 
+		 
+			//Grid+form 검색
+			$("#search").click(function(){
+				var search_data = {};
+				search_data.CAL_YMD = $("#DT").val().replace(/-/gi,"");
+				search_data.INOUT_CD = "01";
+				$("#list1").fnSelGrid("settleService.listIn.lc", search_data);
+				
+				search_data = {};
+				search_data.CAL_YMD = $("#DT").val().replace(/-/gi,"");
+				search_data.INOUT_CD = "02";
+				$("#list2").fnSelGrid("settleService.listOut.lc", search_data);
+				
+				$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
+	 			 fnSubmitAjax('settleService.getWeekSum.lc', 'CAL_YMD', fnResult);
 
-					return false;
-				});	
-				
-				//저장
-				$("#save").click( function() {
-					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
-		 			 fnSubmitAjax('settleService.saveWeekSum.lc', 'CAL_YMD', fnEndResult);
-		 			 
-					return false;
-				});					
-				
-				//마감
-				$("#end").click( function() {
-					if(!confirm("마감하시겠습니까?")){
-						return false;
-					}
-					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
-		 			 fnSubmitAjax('settleService.saveWeekEndYn.lc', 'CAL_YMD', fnEndResult);
-		 			 
-					return false;
-				});	
-				
-				$("#excel").click(function(){
-					$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
-					$("#frm1").submit();
-				});
-				
-				//수입관리에서 링크되어 왔을 경우.
-				<c:if test="${!empty param.calYmd}">
-					$("#DT").val(formatDate('${param.calYmd}', "yyyy-MM-dd"));
-					$("#tabs-2-link").trigger("click");
-					$("#search").trigger("click");
-				</c:if>				
-		});
-		
-		function fnResult(data){
-			$("#prevThisSum").val(data.prevThisSum); //전주+금주
-			$("#thisOut1").val(data.thisOut); //금주지출
-			$("#thisEnd").val(data.thisEnd); //금주마감
-			$("#thisIn").val(data.thisIn); //금주수입계
-			$("#thisOut2").val(data.thisOut); //금주지출계
-			$("#prevEnd").val(data.prevEnd); //전주이월계
-			$("#nextEnd").val(data.nextEnd); //다음주이월계
-			$("#thisInSum").val(data.thisInSum); //금주수입합계
-			$("#thisOutSum").val(data.thisOutSum); //금주지출합계
+				return false;
+			});	
 			
-			if(data.END_YN == 'Y'){
-				$("#save").hide();
-				$("#end").hide();
-				$("#excel").show();
-			}else{
-				$("#save").show();
-				$("#end").show();
-				$("#excel").hide();
-			}
+			//저장
+			$("#save").click( function() {
+				$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
+	 			 fnSubmitAjax('settleService.saveWeekSum.lc', 'CAL_YMD', fnEndResult);
+	 			 
+				return false;
+			});					
+			
+			//마감
+			$("#end").click( function() {
+				if(!confirm("마감하시겠습니까?")){
+					return false;
+				}
+				$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
+	 			 fnSubmitAjax('settleService.saveWeekEndYn.lc', 'CAL_YMD', fnEndResult);
+	 			 
+				return false;
+			});	
+			
+			$("#excel").click(function(){
+				$("#CAL_YMD").val($("#DT").val().replace(/-/gi,""));
+				$("#frm1").submit();
+			});
+			
+			//수입관리에서 링크되어 왔을 경우.
+			<c:if test="${!empty param.calYmd}">
+				$("#DT").val(formatDate('${param.calYmd}', "yyyy-MM-dd"));
+				$("#tabs-2-link").trigger("click");
+				$("#search").trigger("click");
+			</c:if>				
+	});
+	
+	function fnResult(data){
+		$("#prevThisSum").val(data.prevThisSum); //전주+금주
+		$("#thisOut1").val(data.thisOut); //금주지출
+		$("#thisEnd").val(data.thisEnd); //금주마감
+		$("#thisIn").val(data.thisIn); //금주수입계
+		$("#thisOut2").val(data.thisOut); //금주지출계
+		$("#prevEnd").val(data.prevEnd); //전주이월계
+		$("#nextEnd").val(data.nextEnd); //다음주이월계
+		$("#thisInSum").val(data.thisInSum); //금주수입합계
+		$("#thisOutSum").val(data.thisOutSum); //금주지출합계
+		
+		if(data.END_YN == 'Y'){
+			$("#save").hide();
+			$("#end").hide();
+			$("#excel").show();
+		}else{
+			$("#save").show();
+			$("#end").show();
+			$("#excel").hide();
+		}
+		$("#excel").show();
+	}
+	
+	function fnEndResult(data){
+		alert(data.SUCCESS);
+		if(data.END_YN == 'Y'){
+			$("#save").hide();
+			$("#end").hide();
 			$("#excel").show();
 		}
+		$("#excel").show();
 		
-		function fnEndResult(data){
-			alert(data.SUCCESS);
-			if(data.END_YN == 'Y'){
-				$("#save").hide();
-				$("#end").hide();
-				$("#excel").show();
-			}
-			$("#excel").show();
-			
-			$("#search").trigger("click");
-		}
+		$("#search").trigger("click");
+	}		
 	</script>
+
 </head>
 
 <body>
+
+
+
+<!-- Layout container starts -->
+<div id="layoutBox">
+
 <%@ include file="/WEB-INF/jsp/inc/topmenu.jsp" %>
 
-<div class="bodyArea">
-<!--title-->
-<div class="titleArea">
-	<ul>
-		<li class="title">주간결산 관리</li>
-		<li class="directory"><img src="${pageContext.request.contextPath}/img/etc/icn_home.gif">	결산    >	주간결산관리</li>
-	</ul>
-</div>
-<!--title-->
-	
-<!--################ contentArea ##################-->
-	<div class="content" id="contentArea">
-			
+  <div id="mainContent">
+    <h1>주간결산관리</h1>
+
+		<div class="content" id="contentArea">
 			<!-- 각 화면 내용 들어갈 부분 --> 
-			
 			<div id="tabs">
 				<ul>
 					<li><a href="#tabs-1" id="tabs-1-link">결산목록</a></li>
@@ -424,20 +421,27 @@
 					</table>			    
 			    
 			    </div>			
-			</div>
+			</div>						
 			
-			
-					
 			<!-- 각 화면 내용 들어갈 부분 --> 
-								
-		    
-	</div>
-	<!--################ contentArea ##################-->
-	
-</div>	
-<footer>
+		</div>	
+
+
+   
+    <br />
+
+    
+
 <%@ include file="/WEB-INF/jsp/inc/footer.jsp" %>
-</footer>	
+  </div>
+
+  <div class="spacer">
+  </div>
+
+</div>
+<!-- Layout container ends -->
 
 </body>
 </html>
+
+

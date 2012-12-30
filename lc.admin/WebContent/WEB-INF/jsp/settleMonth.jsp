@@ -1,7 +1,7 @@
 <%@page contentType="text/html;charset=utf-8"%>
 <!DOCTYPE html>
 <html>
-<head>  
+<head> 
 	<style>
 	.ui-datepicker-calendar{display:none}
 	</style>
@@ -228,28 +228,25 @@
 		$("#excel").show();
 		
 		$("#search").trigger("click");
-	}
+	}		
 	</script>
+
 </head>
 
 <body>
+
+
+
+<!-- Layout container starts -->
+<div id="layoutBox">
+
 <%@ include file="/WEB-INF/jsp/inc/topmenu.jsp" %>
 
-<div class="bodyArea">
-<!--title-->
-<div class="titleArea">
-	<ul>
-		<li class="title">월간결산 관리</li>
-		<li class="directory"><img src="${pageContext.request.contextPath}/img/etc/icn_home.gif">	결산    >	월간결산관리</li>
-	</ul>
-</div>
-<!--title-->
-	
-<!--################ contentArea ##################-->
-	<div class="content" id="contentArea">
-			
+  <div id="mainContent">
+    <h1>월간결산관리</h1>
+ 
+		<div class="content" id="contentArea">
 			<!-- 각 화면 내용 들어갈 부분 --> 
-			
 			<div id="tabs">
 				<ul>
 					<li><a href="#tabs-1" id="tabs-1-link">결산목록</a></li>
@@ -455,18 +452,26 @@
 						</table>	
 						
 					</div>
-				</div>												
+				</div>							
 			
 			<!-- 각 화면 내용 들어갈 부분 --> 
-								
-		    
-	</div>
-	<!--################ contentArea ##################-->
-	
-</div>	
-<footer>
+		</div>	
+
+
+   
+    <br />
+
+    
+
 <%@ include file="/WEB-INF/jsp/inc/footer.jsp" %>
-</footer>	
+  </div>
+
+  <div class="spacer">
+  </div>
+
+</div>
+<!-- Layout container ends -->
 
 </body>
 </html>
+

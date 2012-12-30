@@ -16,10 +16,13 @@
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 
-    <link href="${pageContext.request.contextPath}/css/design.css" rel="stylesheet" type="text/css" charset="utf-8" />
+    <%-- <link href="${pageContext.request.contextPath}/css/design.css" rel="stylesheet" type="text/css" charset="utf-8" /> --%>
 
 	<!-- 공통 CSS -->
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css" />
+	
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/drifting_screen.css" />
+	<%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/drifting_print.css" media="print" /> --%>	
 	
 	<!-- jquery ui themes -->
 <!--	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/js/jquery-ui-1.8.18.custom/css/smoothness/jquery-ui-1.8.18.custom.css" />-->

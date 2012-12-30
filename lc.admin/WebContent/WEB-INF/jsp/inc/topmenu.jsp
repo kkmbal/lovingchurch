@@ -1,35 +1,56 @@
 <%@page contentType="text/html;charset=utf-8"%>
-<div class="globalArea" id="globalArea">
-	<ul>
-		<li class="logo"> <li>
-		<li>
-			 │ <a href="<c:url value='logout.do'/>">로그아웃</a> │
-		</li>
-	</ul>
-</div>
-<div class="menuArea">
-	<ul>
-		<li><a href="<c:url value='main.do'/>" id="topmenu0">Member</a></li>
-		<li><a href="<c:url value='incoming.do'/>" id="topmenu1" onmouseover="Topmenu(1)">Account</a></li>
-		<li><a href="<c:url value='settleWeek.do'/>" id="topmenu2" onmouseover="Topmenu(2)">Settle</a></li>
-		<li><a href="<c:url value='code.do'/>" id="topmenu3" onmouseover="Topmenu(3)">Management</a></li>
-		<li class="end"><img src="${pageContext.request.contextPath}/img/etc/menuEnd.gif"></li>
-	</ul>
-</div>
-<div class="subArea">
-	<ul id="subArea1" class="submenu">
-		<li class="first" style="width:72px;"></li>
-		<li><a href="<c:url value='incoming.do'/>" id="submenu11">수입</a></li>
-		<li class="end"><a href="<c:url value='outgoing.do'/>" id="submenu12">지출</a></li>
-	</ul>
-	<ul id="subArea2" class="submenu">
-		<li class="first" style="width:195px;"></li>
-		<li><a href="<c:url value='settleWeek.do'/>" id="submenu21">주간</a></li>
-		<li><a href="<c:url value='settleMonth.do'/>" id="submenu21">월간</a></li>
-		<li class="end"><a href="<c:url value='settleYear.do'/>" id="submenu22">년간</a></li>
-	</ul>
-	<ul id="subArea3" class="submenu">
-		<li class="first" style="width:345px;"></li>
-		<li class="end"><a href="<c:url value='code.do'/>" id="submenu31">코드관리</a></li>
-	</ul>	
-</div>
+  <!-- HEADER: controls the header layout, images, title and subTitle. -->
+  <div id="headerBox">
+    <div id="headerLeftBox">
+      <span class="title">
+        	사랑하는 교회
+      </span>
+      <br />
+      <span class="subTitle">
+        	관리자
+      </span>
+    </div>
+    <div id="headerRightBox">
+      &nbsp;
+    </div>
+  </div>
+
+  <div id="menuBox">
+    <h1>
+      교인관리
+    </h1>
+    <div class="menuGroup">
+      <a href="<c:url value='main.do'/>"><img src="${pageContext.request.contextPath}/images/menu_icon.gif" /> 교인</a><span class="noDisplay"> | </span>
+    </div>
+
+    <h1>
+      수입/지출관리
+    </h1>
+    <div class="menuGroup">
+      <a href="<c:url value='incoming.do'/>"><img src="${pageContext.request.contextPath}/images/menu_icon.gif"  /> 수입</a><span class="noDisplay"> | </span>
+      <a href="<c:url value='outgoing.do'/>" title="vector and design work"><img src="${pageContext.request.contextPath}/images/menu_icon.gif"  /> 지출</a><span class="noDisplay"> | </span>
+    </div>
+
+    <h1>
+      결산관리
+    </h1>
+    <div class="menuGroup">
+      <a href="<c:url value='settleWeek.do'/>"><img src="${pageContext.request.contextPath}/images/menu_icon.gif"  /> 주간</a><span class="noDisplay"> | </span>
+      <a href="<c:url value='settleMonth.do'/>"><img src="${pageContext.request.contextPath}/images/menu_icon.gif"  /> 월간</a><span class="noDisplay"> | </span>
+      <a href="<c:url value='settleYear.do'/>"><img src="${pageContext.request.contextPath}/images/menu_icon.gif"  /> 년간</a><span class="noDisplay"> | </span>
+    </div>
+    	
+    <h1>
+      환경설정
+    </h1>
+    <div class="menuGroup">
+      <a href="<c:url value='code.do'/>"><img src="${pageContext.request.contextPath}/images/menu_icon.gif"  /> 코드관리</a><span class="noDisplay"> | </span>
+      <a href="<c:url value='logout.do'/>"><img src="${pageContext.request.contextPath}/images/menu_icon.gif"  /> 로그아웃</a><span class="noDisplay"> | </span>
+    </div>
+
+    <!-- MENU FOOTER: could include a site search field here -->
+    <div class="menuFooter">
+	  &nbsp;
+    </div>
+
+  </div>

@@ -11,7 +11,7 @@ catalina-jmx-remote.jar (톰캣사이트 extra 에서 다운로드)
     jmxremote.access  --> 내용 : admin readwrite
     jmxremote.passwd  --> 내용 : admin admin
   2)인증없이
-    CATALINA_OPTS=-Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+    set CATALINA_OPTS=-Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
     
 4. jconsole 접속
    remote url : service:jmx:rmi://127.0.0.1:9841/jndi/rmi://127.0.0.1:9840/jmxrmi
@@ -19,7 +19,7 @@ catalina-jmx-remote.jar (톰캣사이트 extra 에서 다운로드)
 ------- 표준방식 -----------------------------------------------
 1. catalina.bat 추가
        인증없이
-   CATALINA_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8992 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1
+   set CATALINA_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8992 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1
 
 2. jconsole 접속      
    remote url : service:jmx:rmi:///jndi/rmi://127.0.0.1:8992/jmxrmi

@@ -1,0 +1,48 @@
+[Tomcat 7.0 기준 - window]
+-------- server.xml 수정 ---------------------------------------
+1. server.xml 추가
+<Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener" rmiRegistryPortPlatform="9840" rmiServerPortPlatform="9841"/>
+2. tomcat lib 추가
+catalina-jmx-remote.jar (톰캣사이트 extra 에서 다운로드)
+3. catalina.bat 추가
+  1)인증할때
+    set CATALINA_OPTS=-Dcom.sun.management.jmxremote.password.file=D:\Java\apache-tomcat-7.0.29\conf\jmxremote.password -Dcom.sun.management.jmxremote.access.file=D:\Java\apache-tomcat-7.0.29\conf\jmxremote.access -Dcom.sun.management.jmxremote.ssl=false
+    
+    jmxremote.access  --> 내용 : admin readwrite
+    jmxremote.passwd  --> 내용 : admin admin
+  2)인증없이
+    CATALINA_OPTS=-Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+    
+4. jconsole 접속
+   remote url : service:jmx:rmi://127.0.0.1:9841/jndi/rmi://127.0.0.1:9840/jmxrmi
+---------------------------------------------------------------
+------- 표준방식 -----------------------------------------------
+1. catalina.bat 추가
+       인증없이
+   CATALINA_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8992 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1
+
+2. jconsole 접속      
+   remote url : service:jmx:rmi:///jndi/rmi://127.0.0.1:8992/jmxrmi
+---------------------------------------------------------------
+
+[JEUS]
+1.JEUSMain.xml 추가
+.....
+    <node>
+        <name>FWLD08572N01</name>
+        <engine-container>
+            <name>container1</name>
+			<command-option> 
+			-Djava.rmi.server.hostname=127.0.0.1
+			-Dcom.sun.management.jmxremote 
+			-Dcom.sun.management.jmxremote.port=8992 
+			-Dcom.sun.management.jmxremote.authenticate=false 
+			-Dcom.sun.management.jmxremote.ssl=false
+			</command-option>
+            <engine-command>
+.....     
+
+2.jconsole 접속
+  remote url : service:jmx:rmi:///jndi/rmi://127.0.0.1:8992/jmxrmi
+---------------------------------------------------------------
+  

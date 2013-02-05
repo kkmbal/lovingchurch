@@ -45,4 +45,43 @@ catalina-jmx-remote.jar (톰캣사이트 extra 에서 다운로드)
 2.jconsole 접속
   remote url : service:jmx:rmi:///jndi/rmi://127.0.0.1:8992/jmxrmi
 ---------------------------------------------------------------
-  
+
+안녕하세요.
+롯데멤버스 차세대구축 프로젝트에서 
+프레임워크 파트에 있는 크로센트 김영창 입니다.
+
+오늘 잠깐 회의때 말씀드렸던 제우스서버와 MBean 통신관련 문의사항 정리하여 보내드립니다.
+
+1. JMX MBean 을 통하여 JEUS Container 의 상태(running, stop 등) 구함.
+2. JMS MBean 을 통하여 JEUS Container 를 start/stop 시킴.
+3. Spring framework를 통하여 export 시킨 MBean(자체구현)을 invoke 하여 operation을 호출.
+
+위 요건을 구현해야 합니다.
+로컬에 윈도우용 제우스를 설치하고, 제우스 technet 사이트에서 샘플등을 참조해 보려고 했으나, 
+원하는 값을 찾기가 어렵습니다.
+위와 관련한 샘플이나 가이드를 꼭 주셨으면 합니다.
+
+감사합니다.
+
+------------------------------------------------------------
+테스트했던 샘플코드
+------------------------------------------------------------
+Hashtable<String, String> env = new Hashtable<String, String>();
+env.put(Context.INITIAL_CONTEXT_FACTORY, "jeus.jndi.JNSContextFactory");
+env.put(Context.PROVIDER_URL, "127.0.0.1");
+env.put(Context.SECURITY_PRINCIPAL, "administrator");
+env.put(Context.SECURITY_CREDENTIALS, "wpdntm1");  
+
+MBeanServerConnection connection = RemoteMBeanServerFactory.getMBeanServer(env);
+
+Set jeusSet = connection.queryMBeans(null, null);
+
+for (Iterator i = jeusSet.iterator(); i.hasNext();) {
+	ObjectName beanName = ((ObjectInstance) i.next()).getObjectName();
+	System.out.println("[JEUS Monitoring Service] " + beanName);
+}
+
+//위 결과에서 추출되는 JEUS MBean 들에서 Container의 상태확인이나 제어를 하려면 어떻게 해야하는 지요.
+//그리고, 위 결과를 보면 'JEUS:*' 타입만 추출되고, spring에서 노출시킨 MBean(형식:framexpert:name=traceLogControlMBean) 들은 나오지 않는 것
+//같습니다.
+------------------------------------------------------------
